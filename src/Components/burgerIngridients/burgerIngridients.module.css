@@ -1,0 +1,61 @@
+.myFlex{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+.tabArea{
+    composes: myFlex;
+    width:40vw;
+}
+
+.price{
+    composes: myFlex;
+    column-gap:10px;
+}
+
+.constructor{
+    composes: myFlex;
+    flex-flow: column nowrap;
+    width:47vw;
+    height:85vh;
+    margin:1vw;
+}
+
+.tab_tab__tYY6Z{
+    min-width: 12px;
+}
+.menu{
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #8484ac #2f2f37;
+}
+
+@media screen and (max-width: 1400px) and (min-width: 600px){
+    .constructor{
+        width:90vw;
+    }
+    .tabArea{
+        width:90vw;
+    }
+    .menu{
+        width:90vw;
+    }
+
+}
+@media screen and (max-width: 600px){
+    .tab_tab__tYY6Z {
+        min-width: 10px;
+        max-width: 50px;
+    }
+    .constructor{
+        width:90vw;
+    }
+    .tabArea{
+        width:100%;
+    }
+    .menu{
+        width:90vw;
+    }
+
+}

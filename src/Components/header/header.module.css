@@ -1,0 +1,49 @@
+.flexBlock{
+    display:flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.header{
+    composes: flexBlock;
+    background: #131316;
+    padding: 10px;
+    column-gap: 2vw;
+
+}
+
+.constructor{
+    composes: flexBlock;
+    justify-content: flex-end;
+    column-gap:10px;
+    flex: 1 1 auto;
+}
+
+.personalAccount{
+    composes: flexBlock;
+    justify-content: flex-start;
+    column-gap:10px;
+    flex: 1 1 auto;
+}
+
+.logo{
+    composes: flexBlock;
+    flex: 1 1 auto;
+}
+
+.orderList{
+    composes: flexBlock;
+    justify-content: flex-start;
+    margin: 0 0 0 3vw;
+    column-gap:10px;
+    flex: 1 1 auto;
+}
+
+.btnArea{
+    composes: flexBlock;
+    column-gap:10px;
+    flex: 2 2 auto;
+    justify-content: center;
+}
+

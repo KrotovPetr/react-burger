@@ -1,0 +1,66 @@
+.myFlex{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+.cardArea{
+    composes: myFlex;
+    justify-content: flex-start;
+    flex-flow: row wrap;
+}
+.card{
+    display: flex;
+    flex-flow: column nowrap;
+    position:relative;
+    justify-content: center;
+    align-items: center;
+    width:10vw;
+    height:fit-content;
+    margin:1vw;
+    padding: 1vw;
+    border-radius:10px;
+    row-gap:10px;
+
+}
+
+@media screen and (max-width: 1400px) and (min-width:1000px){
+    .card{
+        height: fit-content;
+        width:fit-content;
+        max-width: 15vw;
+    }
+    .cardArea{
+        justify-content: space-around;
+        width: 96%;
+
+    }
+
+}
+
+@media screen and (max-width: 1000px) and (min-width:600px){
+    .card{
+        height: fit-content;
+        width:fit-content;
+        max-width: 25vw;
+
+    }
+
+    .cardArea{
+        justify-content: space-around;
+        width: 96%;
+    }
+}
+
+@media screen and (max-width:600px ){
+    .card{
+        height: fit-content;
+        width:fit-content;
+        max-width: 35vw;
+
+    }
+    .cardArea{
+        justify-content: space-around;
+        width: fit-content;
+    }
+}
