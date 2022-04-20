@@ -1,0 +1,136 @@
+/*общий шаблон*/
+.myFlex{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/*общий контейнер*/
+.area{
+    composes: myFlex;
+    max-width: 600px;
+    height:90vh;
+    flex-flow: column nowrap;
+}
+
+/*зона заказа*/
+.orderArea{
+    composes: myFlex;
+    row-gap: 40px;
+    padding: 0 16px 0 16px;
+    flex-flow: column nowrap;
+}
+
+
+.order{
+    composes: myFlex;
+    flex-flow: column nowrap;
+    margin: 100px 0 0 0;
+    width:fit-content;
+    height: 60vh;
+    row-gap:10px;
+}
+
+/*цена*/
+.price{
+    composes: myFlex;
+    height: fit-content;
+    width: 100%;
+    justify-content: flex-end;
+    column-gap: 40px;
+}
+
+/*зона вывода цены*/
+.priceArea{
+    composes: myFlex;
+    column-gap: 8px;
+}
+
+/*для зоны центральных продуктов*/
+.middle{
+    composes: myFlex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    height: 60vh;
+    overflow: auto;
+    row-gap:16px;
+    scrollbar-width: thin;
+    scrollbar-color: #8484ac #2f2f37;
+}
+
+/*для дизайна скролл-бара*/
+.middle::-webkit-scrollbar{
+    width: 8px;
+}
+
+.middle::-webkit-scrollbar-track{
+    background: #2f2f37;
+}
+
+.middle::-webkit-scrollbar-thumb{
+    background: #8484ac;
+}
+
+/*блок позиции продукта*/
+.position{
+    composes: myFlex;
+    column-gap:20px;
+}
+
+/*обёртка для крайних элементов*/
+.edgeElement{
+    composes: myFlex;
+    padding: 0 0 0 32px;
+}
+
+/*обёртка для центральных элементов*/
+.middleElement{
+    composes: myFlex;
+    padding: 0 0 0 32px;
+    flex: 1 1 auto;
+    width:536px;
+}
+
+/*блок-ограничитель*/
+.test{
+    composes: myFlex;
+    height: fit-content;
+    margin: 0 10px 0 0;
+
+}
+
+/*для компонентов */
+.test > svg {
+    width:24px;
+    height: 24px;
+}
+
+/*В проекте*/
+/*@media screen and (max-width: 1400px){*/
+
+/*    .middle {*/
+/*        width: 98vw;*/
+/*    }*/
+
+/*    .area{*/
+/*        width:98vw;*/
+
+/*    }*/
+/*}*/
+/*В проекте*/
+/*@media screen and (max-width: 600px){*/
+/*    .middle {*/
+/*        width: 90vw;*/
+/*    }*/
+/*    .area{*/
+/*        width:90vw;*/
+
+/*    }*/
+/*    .constructor-element {*/
+/*        padding:0;*/
+/*        min-width: 95%;*/
+/*    }*/
+
+
+/*}*/
