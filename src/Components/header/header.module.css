@@ -1,0 +1,81 @@
+/*базовый сброс отступов*/
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/*общий шаблон для стилей flex-контейнеров*/
+.flexBlock{
+    display:flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/*общее поле заголовка*/
+.top{
+    composes: flexBlock;
+    background: #1c1c21;
+}
+
+/*контейнер с содержимым*/
+.header{
+    composes: flexBlock;
+    padding: 10px;
+    column-gap: 2vw;
+    width: 1280px;
+}
+
+
+/*зона левых кнопок*/
+.btnArea{
+    composes: flexBlock;
+    column-gap:8px;
+    margin: 0 0 0 16px;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    height:fit-content;
+}
+
+/*зона кнопок конструктора*/
+.constructor{
+    composes: flexBlock;
+    justify-content: flex-end;
+    flex: 1 1 auto;
+    column-gap: 8px;
+    height:fit-content;
+}
+
+/*зона кнопок заказа*/
+.orderList{
+    composes: flexBlock;
+    justify-content: flex-start;
+    flex: 1 1 auto;
+    column-gap: 8px;
+    padding:0 0 0 20px;
+    height:fit-content;
+}
+
+/*логотип*/
+.logo{
+    composes: flexBlock;
+    flex: 1 1 auto;
+    margin: 16px 0 0 16px;
+}
+
+/*зона перс. аккаунта*/
+.personalAccount{
+    composes: flexBlock;
+    justify-content: flex-end;
+    column-gap:10px;
+    flex: 1 1 auto;
+    margin: 0 20px 0 16px;
+}
+
+
+
+@media screen and (max-width: 600px){
+    .headerText{
+        display:none;
+    }
+}

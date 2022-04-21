@@ -1,0 +1,49 @@
+/*Общий блок для flex-контейнеров*/
+.myFlex{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/*разметка страницы*/
+.main{
+    composes:myFlex;
+    align-items: flex-start;
+    height:90vh;
+    width: fit-content;
+    column-gap: 40px;
+    max-width: 1280px;
+
+}
+
+/*блок ингридиентов*/
+.burgerIngredients{
+    justify-self: flex-start;
+    background: #8484ac;
+}
+
+/*блок с двумя блоками*/
+.page{
+    composes:myFlex;
+    flex-flow: column nowrap;
+    padding:0;
+    margin: 0 auto;
+    max-width: 1280px;
+}
+
+/*Текст в заголовке*/
+.app_text{
+    composes:myFlex;
+    margin: 40px 0 20px 0;
+    align-self: flex-start;
+}
+
+@media screen and (max-width: 1400px){
+    .main{
+        flex-flow: column nowrap;
+        height:fit-content;
+        row-gap: 5vw;
+        align-items: center;
+    }
+}

@@ -1,0 +1,79 @@
+/*шаблонный стиль*/
+.myFlex{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/*зона таба */
+.tabArea{
+    composes: myFlex;
+    width:40vw;
+}
+
+/*общий контейнер*/
+.constructor{
+    composes: myFlex;
+    flex-flow: column nowrap;
+    width:fit-content;
+    max-width: 600px;
+    max-height:90vh;
+    row-gap: 40px;
+}
+
+
+/*зона всех продуктов*/
+.menu{
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #8484ac #2f2f37;
+}
+
+/*цена*/
+.price{
+    composes: myFlex;
+    column-gap:10px;
+}
+
+
+/*список ингридиентов*/
+.cardList{
+    composes: myFlex;
+    padding:24px 0 40px 0;
+}
+
+/*декорация скролл-бара*/
+.menu::-webkit-scrollbar{
+    width: 8px;
+}
+
+/*декорация заднего фона скролла*/
+.menu::-webkit-scrollbar-track{
+    background: #2f2f37;
+}
+
+/*декорация ползунка*/
+.menu::-webkit-scrollbar-thumb{
+    background: #8484ac;
+}
+
+
+
+
+@media screen and (max-width: 600px){
+    .tab_tab__tYY6Z {
+        min-width: 10px;
+        max-width: 50px;
+    }
+    .constructor{
+        width:90vw;
+    }
+    .tabArea{
+        width:100%;
+    }
+    .menu{
+        width:90vw;
+    }
+
+}

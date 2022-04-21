@@ -1,0 +1,71 @@
+.myFlex{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+.cardArea{
+    composes: myFlex;
+    flex-flow: row wrap;
+    margin: 24px 0 0 16px;
+    column-gap: 24px;
+    row-gap: 32px;
+}
+.card{
+    display: flex;
+    flex-flow: column nowrap;
+    position:relative;
+    justify-content: center;
+    align-items: center;
+    width:fit-content;
+    height:fit-content;
+    row-gap:4px;
+    max-width: 272px;
+
+}
+
+
+.cardImage{
+    margin: 0 16px 0 16px;
+}
+
+@media screen and (max-width: 1400px) and (min-width:1000px){
+    .card{
+        height: fit-content;
+        width:fit-content;
+        max-width: 15vw;
+    }
+    .cardArea{
+        justify-content: space-around;
+        width: 96%;
+
+    }
+
+}
+
+@media screen and (max-width: 1000px) and (min-width:600px){
+    .card{
+        height: fit-content;
+        width:fit-content;
+        max-width: 25vw;
+
+    }
+
+    .cardArea{
+        justify-content: space-around;
+        width: 96%;
+    }
+}
+
+@media screen and (max-width:600px ){
+    .card{
+        height: fit-content;
+        width:fit-content;
+        max-width: 35vw;
+
+    }
+    .cardArea{
+        justify-content: space-around;
+        width: fit-content;
+    }
+}
