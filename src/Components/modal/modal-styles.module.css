@@ -1,0 +1,59 @@
+.flexModel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+
+
+.modalContentIngr{
+    composes: flexModel;
+    align-items: center;
+    justify-content: flex-start;
+    flex-flow: column nowrap;
+    width:720px;
+    height: 540px;
+    border-radius: 40px;
+    background: #1C1C21;
+    box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    z-index:2;
+    position: absolute;
+}
+
+.area{
+    composes: flexModel;
+    position: relative;
+    bottom: 50vh;
+}
+
+.modalContentOrd{
+    composes: flexModel;
+    position: absolute;
+    align-items: center;
+    justify-content: flex-start;
+    flex-flow: column nowrap;
+    width:720px;
+    height: 720px;
+    border-radius: 40px;
+    background: #1C1C21;
+    box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    z-index:2;
+}
+
+.topLevel{
+    composes: flexModel;
+    justify-content: space-between;
+    width:640px;
+    height:60px;
+    margin: 40px 40px 0 40px;
+}
+
+.logoDiv > svg{
+    width: 24px;
+    height: 24px;
+}
+
+.logoDiv{
+    cursor:pointer;
+}

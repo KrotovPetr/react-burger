@@ -1,0 +1,49 @@
+.flexModel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.main{
+    composes:flexModel;
+    flex-flow:column nowrap;
+}
+
+.done{
+    composes:flexModel;
+    width: 120px;
+    height:120px;
+    background: #241e36;
+    border-radius: 50%;
+}
+
+.doneMini{
+    composes:flexModel;
+    width: 100px;
+    height:100px;
+    background: #2b223d;
+    border-radius: 50%;
+}
+
+.doneDiv > svg{
+    width:40px;
+    height:40px;
+
+}
+
+.ident{
+    margin:32px 0 60px 0;
+}
+
+.descr{
+    composes:flexModel;
+    flex-flow: column nowrap;
+    row-gap: 8px;
+    margin:60px 0 0 0;
+}
+
+.headDig{
+    composes:flexModel;
+    margin: 16px 0 0 0;
+}
