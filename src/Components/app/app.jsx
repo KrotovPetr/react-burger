@@ -12,13 +12,16 @@ const App = () => {
     // получаем JSON
     const fetchData = () => {
         fetch(refURL)
-            .then((response) => response.json())
+            .then((result) => {
+                if (result.ok) {
+                    return result.json();
+                }
+                return Promise.reject(`Ошибка ${result.status}`);
+            })
             .then((result) => {
                 setState(result.data);
             })
-            .catch((e) => {
-                console.log(e);
-            });
+            .catch((e) => console.error(e));
     };
 
     return (

@@ -7,10 +7,10 @@ import ReactDOM, { createPortal } from 'react-dom';
 import Modal from '../modal/modal';
 import PropTypes from 'prop-types';
 import BurgerConstructor from '../burgerConstructor/burger-constructor';
+import IngredientDetails from '../ingredientDetails/ingredient-details';
 
 const BurgerIngridients = (props) => {
     const [current, setCurrent] = useState('one');
-    const refRoot = document.getElementById('modal-ingredient');
     const [data, setData] = useState(null);
     const [isActive, setActive] = useState(false);
     const turnOff = () => {
@@ -48,15 +48,12 @@ const BurgerIngridients = (props) => {
                 </Tab>
             </div>
             <section className={ingredientsBurger.menu}>
-                {createPortal(
-                    <Modal
-                        active={isActive}
-                        turnOff={turnOff}
-                        typeOfModal="ingredient"
-                        data={data}
-                    />,
-                    refRoot
+                {isActive && (
+                    <Modal turnOff={turnOff} title={'Детали ингредиента'}>
+                        <IngredientDetails data={data} />
+                    </Modal>
                 )}
+
                 <section>
                     <p className="text text_type_main-medium " id="bun">
                         Булки
@@ -101,8 +98,9 @@ const BurgerIngridients = (props) => {
     );
 };
 
+// Передаётся массив данных
 BurgerIngridients.propTypes = {
-    compList: PropTypes.array.isRequired,
+    compList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default BurgerIngridients;

@@ -4,12 +4,7 @@ import PropTypes from 'prop-types';
 
 const ModalOverlay = (props) => {
     return (
-        <div>
-            <div
-                className={overlayStyles.modalActive}
-                onClick={props.turnOff}
-            />
-        </div>
+        <div className={overlayStyles.modalActive} onClick={props.turnOff} />
     );
 };
 

@@ -50,14 +50,7 @@ const IngredientDetails = (props) => {
     );
 };
 
-IngredientList.propTypes = {
-    data: PropTypes.arrayOf(
-        PropTypes.shape({
-            carbohydrates: PropTypes.number.isRequired,
-            fat: PropTypes.number.isRequired,
-            proteins: PropTypes.number.isRequired,
-            calories: PropTypes.number.isRequired,
-        })
-    ),
+IngredientDetails.propTypes = {
+    data: PropTypes.object.isRequired,
 };
 export default IngredientDetails;

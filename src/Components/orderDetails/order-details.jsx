@@ -5,15 +5,15 @@ import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-component
 const OrderDetails = () => {
     return (
         <div className={orderStyles.main}>
-            <h1
+            <h2
                 className={
                     orderStyles.headDig + ' text text_type_digits-large'
                 }>
                 034536
-            </h1>
-            <h2 className={orderStyles.ident + ' text text_type_main-medium'}>
-                идентификатор заказа
             </h2>
+            <p className={orderStyles.ident + ' text text_type_main-medium'}>
+                идентификатор заказа
+            </p>
             <div className={orderStyles.done}>
                 <div className={orderStyles.doneMini}>
                     <div className={orderStyles.doneDiv}>
@@ -22,15 +22,15 @@ const OrderDetails = () => {
                 </div>
             </div>
             <div className={orderStyles.descr}>
-                <h3 className="text text_type_main-small">
+                <p className="text text_type_main-small">
                     Ваш заказ начали готовить
-                </h3>
-                <h3 className="text text_type_main-small text_color_inactive">
+                </p>
+                <p className="text text_type_main-small text_color_inactive">
                     Дождитесь готовности на орбитальной станции
-                </h3>
+                </p>
             </div>
         </div>
     );
 };
-
+//propTypes - нет
 export default OrderDetails;

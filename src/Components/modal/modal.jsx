@@ -5,51 +5,33 @@ import IngredientDetails from '../ingredientDetails/ingredient-details';
 import OrderDetails from '../orderDetails/order-details';
 import ModalOverlay from '../modalOverlay/modal-overlay';
 import PropTypes from 'prop-types';
+import { createPortal } from 'react-dom';
 
 const Modal = (props) => {
+    const refRoot = document.getElementById('modal');
+
     useEffect(() => {
-        document.addEventListener('keydown', (e) => {
-            switch (e.key) {
-                case 'Escape':
-                    props.turnOff();
-                    break;
+        const closeByEscape = (e) => {
+            if (e.key === 'Escape') {
+                props.turnOff();
             }
-        });
-        return () =>
-            document.removeEventListener('keydown', (e) => {
-                switch (e.key) {
-                    case 'Escape':
-                        props.turnOff();
-                        break;
-                }
-            });
-    });
+        };
+
+        document.addEventListener('keydown', closeByEscape);
+
+        return () => document.removeEventListener('keydown', closeByEscape);
+    }, []);
 
     return (
-        props.active && (
-            <div className={modalStyles.area}>
-                <ModalOverlay turnOff={props.turnOff} />
-                {props.typeOfModal === 'order' ? (
+        <div className={modalStyles.areaModal}>
+            {createPortal(
+                <div className={modalStyles.modalContainer}>
                     <div
-                        className={modalStyles.modalContentOrd}
-                        onClick={(e) => e.stopPropagation()}>
-                        <div className={modalStyles.topLevel}>
-                            <h1 className="text text_type_main-large" />
-                            <div
-                                className={modalStyles.logoDiv}
-                                onClick={props.turnOff}>
-                                <CloseIcon type="primary" />
-                            </div>
-                        </div>
-                        <OrderDetails />
-                    </div>
-                ) : (
-                    <div
-                        className={modalStyles.modalContentIngr}
+                        className={modalStyles.modalContent}
                         onClick={(e) => e.stopPropagation()}>
                         <div className={modalStyles.topLevel}>
                             <h1 className="text text_type_main-large">
-                                Детали ингридиента
+                                {props.title}
                             </h1>
                             <div
                                 className={modalStyles.logoDiv}
@@ -57,18 +39,22 @@ const Modal = (props) => {
                                 <CloseIcon type="primary" />
                             </div>
                         </div>
-                        <IngredientDetails data={props.data} />
+                        {props.children}
                     </div>
-                )}
-            </div>
-        )
+                    <ModalOverlay turnOff={props.turnOff} />
+                </div>,
+                refRoot
+            )}
+        </div>
     );
 };
 
+// Передаются функция выключения, заголовок, children
+
 Modal.propTypes = {
-    active: PropTypes.bool.isRequired,
     turnOff: PropTypes.func.isRequired,
-    typeOfModal: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    children: PropTypes.element.isRequired,
 };
 
 export default Modal;

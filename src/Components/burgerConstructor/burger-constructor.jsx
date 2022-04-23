@@ -6,13 +6,11 @@ import {
     CurrencyIcon,
     DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { createPortal } from 'react-dom';
 import Modal from '../modal/modal';
 import PropTypes from 'prop-types';
+import OrderDetails from '../orderDetails/order-details';
 
 const BurgerConstructor = (props) => {
-    const refRoot = document.getElementById('modal-order');
-    const myData = props.compList;
     const [isActive, setActive] = React.useState(false);
     const turnOff = () => {
         setActive(false);
@@ -30,21 +28,21 @@ const BurgerConstructor = (props) => {
                             isLocked={true}
                             text="Краторная булка N-200i (верх)"
                             price={200}
-                            thumbnail={myData.length > 0 ? myData[0].image : ''}
+                            thumbnail={
+                                props.compList.length > 0
+                                    ? props.compList[0].image
+                                    : ''
+                            }
                         />
                     </div>
 
                     {/*Блок формирования центральной части бургера*/}
                     <div className={constStyles.middle}>
-                        {createPortal(
-                            <Modal
-                                active={isActive}
-                                turnOff={turnOff}
-                                typeOfModal="order"
-                            />,
-                            refRoot
+                        {isActive && (
+                            <Modal turnOff={turnOff}>
+                                <OrderDetails />
+                            </Modal>
                         )}
-
                         {props.compList.map(
                             (cards, index) =>
                                 cards.type !== 'bun' && (
@@ -78,7 +76,11 @@ const BurgerConstructor = (props) => {
                             isLocked={true}
                             text="Краторная булка N-200i (низ)"
                             price={200}
-                            thumbnail={myData.length > 0 ? myData[0].image : ''}
+                            thumbnail={
+                                props.compList.length > 0
+                                    ? props.compList[0].image
+                                    : ''
+                            }
                         />
                     </div>
                 </div>
@@ -104,6 +106,8 @@ const BurgerConstructor = (props) => {
     );
 };
 
-BurgerConstructor.propTypes = { compList: PropTypes.array.isRequired };
+BurgerConstructor.propTypes = {
+    compList: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+};
 
 export default BurgerConstructor;

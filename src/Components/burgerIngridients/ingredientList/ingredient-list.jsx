@@ -48,9 +48,16 @@ const IngredientList = (props) => {
     );
 };
 
+// Передаются
+// typeOfMeal
+// compList
+// turnOn
+// setData
 IngredientList.propTypes = {
     typeOfMeal: PropTypes.string.isRequired,
+    compList: PropTypes.arrayOf(PropTypes.object).isRequired,
     turnOn: PropTypes.func.isRequired,
+    setData: PropTypes.func.isRequired,
 };
 
 export default IngredientList;
