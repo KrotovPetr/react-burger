@@ -22,30 +22,24 @@ const Modal = (props) => {
         return () => document.removeEventListener('keydown', closeByEscape);
     }, []);
 
-    return (
-        <div className={modalStyles.areaModal}>
-            {createPortal(
-                <div className={modalStyles.modalContainer}>
+    return createPortal(
+        <div className={modalStyles.modalContainer}>
+            <div
+                className={modalStyles.modalContent}
+                onClick={(e) => e.stopPropagation()}>
+                <div className={modalStyles.topLevel}>
+                    <h1 className="text text_type_main-large">{props.title}</h1>
                     <div
-                        className={modalStyles.modalContent}
-                        onClick={(e) => e.stopPropagation()}>
-                        <div className={modalStyles.topLevel}>
-                            <h1 className="text text_type_main-large">
-                                {props.title}
-                            </h1>
-                            <div
-                                className={modalStyles.logoDiv}
-                                onClick={props.turnOff}>
-                                <CloseIcon type="primary" />
-                            </div>
-                        </div>
-                        {props.children}
+                        className={modalStyles.logoDiv}
+                        onClick={props.turnOff}>
+                        <CloseIcon type="primary" />
                     </div>
-                    <ModalOverlay turnOff={props.turnOff} />
-                </div>,
-                refRoot
-            )}
-        </div>
+                </div>
+                {props.children}
+            </div>
+            <ModalOverlay turnOff={props.turnOff} />
+        </div>,
+        refRoot
     );
 };
 

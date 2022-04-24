@@ -19,14 +19,13 @@
 
 .modalContainer{
     composes: flexModel;
-    width: 100%;
+    width: fit-content;
     position:absolute;
-    bottom:16vh;
+    bottom:13%;
+    left:25%;
 }
 
-.areaModal{
-    composes: flexModel;
-}
+
 .topLevel{
     composes: flexModel;
     justify-content: space-between;
