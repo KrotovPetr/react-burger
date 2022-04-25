@@ -72,10 +72,13 @@
     background: #8484ac;
 }
 
+
+
 /*блок позиции продукта*/
 .position{
     composes: myFlex;
     column-gap:20px;
+
 }
 
 /*обёртка для крайних элементов*/
