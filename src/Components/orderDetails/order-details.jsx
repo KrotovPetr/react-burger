@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import orderStyles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
-const OrderDetails = () => {
+const OrderDetails = (props) => {
     return (
         <div className={orderStyles.main}>
             <h2
                 className={
                     orderStyles.headDig + ' text text_type_digits-large'
                 }>
-                034536
+                {props.data && props.data.number}
             </h2>
             <p className={orderStyles.ident + ' text text_type_main-medium'}>
                 идентификатор заказа
@@ -32,5 +33,9 @@ const OrderDetails = () => {
         </div>
     );
 };
-//propTypes - нет
+
+OrderDetails.propTypes = {
+    data: PropTypes.object,
+    name: PropTypes.string,
+};
 export default OrderDetails;

@@ -1,8 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import ingredientStyles from './ingredient-styles.module.css';
 import IngredientList from '../burgerIngridients/ingredientList/ingredient-list';
 import PropTypes from 'prop-types';
+import { AppContext } from '../../Services/appContext';
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 const IngredientDetails = (props) => {
+    const app = useContext(AppContext);
+    const createOrder = () => {
+        app.setOrder(props.data);
+    };
     return (
         <div className={ingredientStyles.main}>
             {/*блок с картинкой*/}
@@ -46,6 +52,9 @@ const IngredientDetails = (props) => {
                     </p>
                 </div>
             </div>
+            <Button onClick={createOrder} type="primary" size="small">
+                Добавить
+            </Button>
         </div>
     );
 };

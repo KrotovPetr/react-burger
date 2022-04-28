@@ -20,7 +20,7 @@ const IngredientList = (props) => {
                                     props.setData(cards);
                                     props.turnOn();
                                 }}>
-                                {cards.type !== 0 && (
+                                {cards['__v'] !== 0 && (
                                     <Counter
                                         count={cards['__v']}
                                         size="default"
