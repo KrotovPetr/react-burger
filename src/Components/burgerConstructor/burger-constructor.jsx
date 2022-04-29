@@ -7,36 +7,27 @@ import {
     DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
-import PropTypes from 'prop-types';
 import { AppContext } from '../../Services/appContext';
 import OrderDetails from '../orderDetails/order-details';
 
 const BurgerConstructor = () => {
     //подвязка к контексту
     const appData = useContext(AppContext);
-
+    const fetchURL = 'https://norma.nomoreparties.space/api/orders';
     //состояние под ответ
-    const [answer, setAnswer] = useState({});
-
+    const [orderInfo, setOrderInfo] = useState(null);
     //функция составления массива
     const getOrder = () => {
-        let commonArr = { ingredients: [] };
-        appData.compArr.length > 0 &&
-            appData.compArr.map((card) => {
-                commonArr.ingredients.push(card['_id']);
-            });
-        appData.bunsArr.map(() => {
-            commonArr.ingredients.push(appData.bunsArr[0]['_id']);
-            commonArr.ingredients.unshift(appData.bunsArr[0]['_id']);
-        });
+        const ingredients = [appData.buns, ...appData.compArr, appData.buns];
+        const ingredientIds = ingredients.map((ingredient) => ingredient._id);
 
         //запрос
-        fetch('https://norma.nomoreparties.space/api/orders', {
+        fetch(fetchURL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
             },
-            body: JSON.stringify(commonArr),
+            body: JSON.stringify({ ingredients: ingredientIds }),
         })
             .then((res) => {
                 if (res.ok) {
@@ -45,7 +36,7 @@ const BurgerConstructor = () => {
                     return Promise.reject(`Ошибка ${res.status}`);
                 }
             })
-            .then((data) => setAnswer(data))
+            .then((data) => setOrderInfo(data))
             .catch((e) => console.error(e));
 
         //включение модалки
@@ -70,23 +61,24 @@ const BurgerConstructor = () => {
             <div className={constStyles.orderArea}>
                 <div className={constStyles.order}>
                     <div className={constStyles.edgeElement}>
-                        {appData.bunsArr.length > 0 && (
+                        {appData.buns && (
                             <ConstructorElement
                                 type="top"
                                 isLocked={true}
-                                text={appData.bunsArr[0].name}
-                                price={appData.bunsArr[0].price}
-                                thumbnail={appData.bunsArr[0].image}
+                                text={appData.buns.name}
+                                price={appData.buns.price}
+                                thumbnail={appData.buns.image}
                             />
                         )}
                     </div>
                     {/*Блок формирования центральной части бургера*/}
                     <div className={constStyles.middle}>
-                        {isActive && answer && (
+                        {isActive && orderInfo && (
                             <Modal turnOff={turnOff}>
                                 <OrderDetails
-                                    name={answer.name}
-                                    data={answer.order}
+                                    data={
+                                        orderInfo ? orderInfo.order.number : 0
+                                    }
                                 />
                             </Modal>
                         )}
@@ -120,13 +112,13 @@ const BurgerConstructor = () => {
                     </div>
                     {/*Конец блока части формирования центральной части*/}
                     <div className={constStyles.edgeElement}>
-                        {appData.bunsArr.length > 0 && (
+                        {appData.buns && (
                             <ConstructorElement
                                 type="bottom"
                                 isLocked={true}
-                                text={appData.bunsArr[0].name}
-                                price={appData.bunsArr[0].price}
-                                thumbnail={appData.bunsArr[0].image}
+                                text={appData.buns.name}
+                                price={appData.buns.price}
+                                thumbnail={appData.buns.image}
                             />
                         )}
                     </div>
@@ -143,11 +135,8 @@ const BurgerConstructor = () => {
                         <Button
                             type="primary"
                             size="large"
-                            onClick={
-                                appData.bunsArr.length > 0
-                                    ? getOrder
-                                    : console.log('Булки не выбраны')
-                            }>
+                            onClick={getOrder}
+                            disabled={appData.buns === null}>
                             Оформить заказ
                         </Button>
                     </div>
@@ -158,10 +147,6 @@ const BurgerConstructor = () => {
     );
 };
 
-BurgerConstructor.propTypes = {
-    totalPrice: PropTypes.number,
-    bunsArr: PropTypes.array,
-    compArr: PropTypes.array,
-};
+//propTypes - нету
 
 export default BurgerConstructor;

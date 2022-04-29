@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import orderStyles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ const OrderDetails = (props) => {
                 className={
                     orderStyles.headDig + ' text text_type_digits-large'
                 }>
-                {props.data && props.data.number}
+                {props.data}
             </h2>
             <p className={orderStyles.ident + ' text text_type_main-medium'}>
                 идентификатор заказа
@@ -35,7 +35,6 @@ const OrderDetails = (props) => {
 };
 
 OrderDetails.propTypes = {
-    data: PropTypes.object,
-    name: PropTypes.string,
+    data: PropTypes.number,
 };
 export default OrderDetails;
