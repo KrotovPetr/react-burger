@@ -3,10 +3,8 @@ import ingredientsBurger from './burger-ingridients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientList from './ingredientList/ingredient-list';
 import appStyles from '../app/app.module.css';
-import ReactDOM, { createPortal } from 'react-dom';
 import Modal from '../modal/modal';
 import PropTypes from 'prop-types';
-import BurgerConstructor from '../burgerConstructor/burger-constructor';
 import IngredientDetails from '../ingredientDetails/ingredient-details';
 
 const BurgerIngridients = (props) => {
@@ -19,8 +17,6 @@ const BurgerIngridients = (props) => {
     const turnOn = () => {
         setActive(true);
     };
-
-    useEffect(() => {}, [data, isActive]);
 
     return (
         <div className={ingredientsBurger.constructor}>

@@ -18,6 +18,7 @@
 .orderArea{
     composes: myFlex;
     row-gap: 40px;
+    width: 600px;
     padding: 0 16px 0 16px;
     flex-flow: column nowrap;
 }
