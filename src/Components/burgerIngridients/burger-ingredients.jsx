@@ -11,6 +11,7 @@ const BurgerIngredients = () => {
     const { isActive, cardData } = useSelector(
         (store) => ({
             isActive: store.component.isActiv,
+
             cardData: store.component.cardData,
         }),
         shallowEqual

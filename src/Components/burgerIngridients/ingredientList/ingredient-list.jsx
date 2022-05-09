@@ -22,7 +22,7 @@ const IngredientList = (props) => {
         }),
         shallowEqual
     );
-    console.log(ingredients);
+
     return (
         <div className={cardStyle.cardArea}>
             {ingredients &&

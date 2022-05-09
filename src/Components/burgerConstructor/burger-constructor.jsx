@@ -98,7 +98,7 @@ const BurgerConstructor = () => {
 
                     {/*Блок формирования центральной части бургера*/}
                     <div className={constStyles.middle}>
-                        {isActive && isSuccess && (
+                        {isActive && isSuccess && orderInfo && (
                             <Modal title="">
                                 <OrderDetails />
                             </Modal>
