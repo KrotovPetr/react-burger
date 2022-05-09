@@ -16,6 +16,7 @@ import OrderDetails from '../orderDetails/order-details';
 
 //экшены
 import {
+    decreaseCounter,
     deleteElement,
     dragElement,
     getOrder,
@@ -40,6 +41,7 @@ const BurgerConstructor = () => {
         underDraggedElement,
         cart,
         isReady,
+        isSuccess,
     } = useSelector(
         (store) => ({
             ingredients: store.component.ingredients,
@@ -53,6 +55,7 @@ const BurgerConstructor = () => {
             underDraggedElement: store.component.underDraggedElement,
             cart: store.component.cart,
             isReady: store.component.isReady,
+            isSuccess: store.component.isSuccess,
         }),
         shallowEqual
     );
@@ -95,7 +98,7 @@ const BurgerConstructor = () => {
 
                     {/*Блок формирования центральной части бургера*/}
                     <div className={constStyles.middle}>
-                        {isActive && orderInfo && (
+                        {isActive && isSuccess && (
                             <Modal title="">
                                 <OrderDetails />
                             </Modal>
@@ -149,6 +152,12 @@ const BurgerConstructor = () => {
                                                             cards,
                                                             ingredients,
                                                             components.length
+                                                        )
+                                                    );
+                                                    dispatch(
+                                                        decreaseCounter(
+                                                            cards,
+                                                            ingredients
                                                         )
                                                     );
                                                 }}

@@ -11,22 +11,31 @@ export const CHANGE_COMPONENTS = 'CHANGE_COMPONENTS';
 export const SET_ON_DRAG = 'SET_ON_DRAG';
 export const SWAP_COMPONENTS = 'SWAP_COMPONENTS';
 export const CHANGE_SWAP = 'CHANGE_SWAP';
+export const FETCH_URL_REQUEST = 'FETCH_URL_REQUEST';
+export const FETCH_URL_ERROR = 'FETCH_URL_ERROR';
+export const FETCH_URL_SUCCESS = 'FETCH_URL_SUCCESS';
+export const REF_URL_REQUEST = 'REF_URL_REQUEST';
+export const REF_URL_ERROR = 'REF_URL_ERROR';
+export const REF_URL_SUCCESS = 'REF_URL_SUCCESS';
 
 //fetch - функция для получения данных
 export function fetchData(refURL) {
     return function (dispatch) {
+        dispatch({
+            type: REF_URL_REQUEST,
+        });
         fetch(refURL)
             .then((result) => {
                 if (result.ok) {
                     return result.json();
+                } else {
+                    dispatch({ type: REF_URL_ERROR });
+                    return Promise.reject(`Ошибка ${result.status}`);
                 }
-                return Promise.reject(`Ошибка ${result.status}`);
             })
             .then((result) => {
-                dispatch({
-                    type: SET_STATE,
-                    data: result.data,
-                });
+                console.log(result.data);
+                dispatch({ type: REF_URL_SUCCESS, data: result.data });
             })
             .catch((e) => console.error(e));
     };
@@ -58,10 +67,11 @@ export function clearInfo(ingredients) {
     };
 }
 
-//функция получения номера заказа
 export function getNumberOrder(array, fetchURL) {
     return function (dispatch) {
-        //запрос
+        dispatch({
+            type: FETCH_URL_REQUEST,
+        });
         fetch(fetchURL, {
             method: 'POST',
             headers: {
@@ -73,11 +83,12 @@ export function getNumberOrder(array, fetchURL) {
                 if (res.ok) {
                     return res.json();
                 } else {
+                    dispatch({ type: FETCH_URL_ERROR });
                     return Promise.reject(`Ошибка ${res.status}`);
                 }
             })
             .then((data) => {
-                dispatch({ type: SET_ORDER_DATA, data: data });
+                dispatch({ type: FETCH_URL_SUCCESS, data: data });
             })
             .catch((e) => console.error(e));
     };
@@ -126,7 +137,7 @@ export function decreaseCounter(changeElement, ingredients) {
     return function (dispatch) {
         let arr = ingredients.map((cards) => {
             if (cards['_id'] === changeElement['_id']) {
-                cards['__v'] = 0;
+                cards['__v']--;
             }
 
             return cards;
@@ -194,7 +205,6 @@ export function setDragOver(card) {
 
 export function deleteElement(index, changeElement, ingredients, length) {
     return function (dispatch) {
-        dispatch(decreaseCounter(changeElement, ingredients));
         dispatch({
             type: CHANGE_COMPONENTS,
             index: index,
