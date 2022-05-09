@@ -1,30 +1,29 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import ingredientStyles from './ingredient-styles.module.css';
-import IngredientList from '../burgerIngridients/ingredientList/ingredient-list';
-import PropTypes from 'prop-types';
-import { AppContext } from '../../Services/appContext';
-import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-const IngredientDetails = (props) => {
-    const app = useContext(AppContext);
-    const createOrder = () => {
-        app.setOrder(props.data);
-    };
+import { shallowEqual, useSelector } from 'react-redux';
+const IngredientDetails = () => {
+    const { cardData } = useSelector(
+        (store) => ({
+            cardData: store.component.cardData,
+        }),
+        shallowEqual
+    );
     return (
         <div className={ingredientStyles.main}>
             {/*блок с картинкой*/}
             <div className={ingredientStyles.imageDiv}>
-                <img src={props.data.image} alt={props.data.name} />
+                <img src={cardData.image} alt={cardData.name} />
             </div>
 
             {/*описание ингридиента*/}
-            <h2 className="text text_type_main-medium">{props.data.name}</h2>
+            <h2 className="text text_type_main-medium">{cardData.name}</h2>
             <div className={ingredientStyles.descriptionDiv}>
                 <div className={ingredientStyles.subDescription}>
                     <p className="text text_type_main-small text_color_inactive">
                         Калории,ккал
                     </p>
                     <p className="text text_type_main-default text_color_inactive">
-                        {props.data.calories}
+                        {cardData.calories}
                     </p>
                 </div>
                 <div className={ingredientStyles.subDescription}>
@@ -32,7 +31,7 @@ const IngredientDetails = (props) => {
                         Белки г
                     </p>
                     <p className="text text_type_main-default text_color_inactive">
-                        {props.data.proteins}
+                        {cardData.proteins}
                     </p>
                 </div>
                 <div className={ingredientStyles.subDescription}>
@@ -40,7 +39,7 @@ const IngredientDetails = (props) => {
                         Жиры, г
                     </p>
                     <p className="text text_type_main-default text_color_inactive">
-                        {props.data.fat}
+                        {cardData.fat}
                     </p>
                 </div>
                 <div className={ingredientStyles.subDescription}>
@@ -48,18 +47,12 @@ const IngredientDetails = (props) => {
                         Углеводы, г
                     </p>
                     <p className="text text_type_main-default text_color_inactive">
-                        {props.data.carbohydrates}
+                        {cardData.carbohydrates}
                     </p>
                 </div>
             </div>
-            <Button onClick={createOrder} type="primary" size="small">
-                Добавить
-            </Button>
         </div>
     );
 };
 
-IngredientDetails.propTypes = {
-    data: PropTypes.object.isRequired,
-};
 export default IngredientDetails;

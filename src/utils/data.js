@@ -1,4 +1,5 @@
 const Data = () => {
+    //уже не нужны, но пусть полежат
     const state = {
         cards: [
             {

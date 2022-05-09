@@ -26,6 +26,7 @@
 /*зона всех продуктов*/
 .menu{
     overflow-y: auto;
+    position:relative;
     scrollbar-width: thin;
     scrollbar-color: #8484ac #2f2f37;
 }

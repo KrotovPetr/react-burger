@@ -6,14 +6,28 @@ import OrderDetails from '../orderDetails/order-details';
 import ModalOverlay from '../modalOverlay/modal-overlay';
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import {
+    setActive,
+    clearInfo,
+    setData,
+} from '../../Services/actions/components';
 
 const Modal = (props) => {
     const refRoot = document.getElementById('modal');
-
+    const { orderInfo, ingredients } = useSelector(
+        (store) => ({
+            orderInfo: store.component.orderInfo,
+            ingredients: store.component.ingredients,
+        }),
+        shallowEqual
+    );
+    const dispatch = useDispatch();
     useEffect(() => {
         const closeByEscape = (e) => {
             if (e.key === 'Escape') {
-                props.turnOff();
+                orderInfo ? dispatch(clearInfo()) : dispatch(setData(null));
+                dispatch(setActive(false));
             }
         };
 
@@ -29,15 +43,21 @@ const Modal = (props) => {
                 onClick={(e) => e.stopPropagation()}>
                 <div className={modalStyles.topLevel}>
                     <h1 className="text text_type_main-large">{props.title}</h1>
+
                     <div
                         className={modalStyles.logoDiv}
-                        onClick={props.turnOff}>
+                        onClick={() => {
+                            orderInfo
+                                ? dispatch(clearInfo(ingredients))
+                                : dispatch(setData(null));
+                            dispatch(setActive(false));
+                        }}>
                         <CloseIcon type="primary" />
                     </div>
                 </div>
                 {props.children}
             </div>
-            <ModalOverlay turnOff={props.turnOff} />
+            <ModalOverlay />
         </div>,
         refRoot
     );
@@ -46,7 +66,6 @@ const Modal = (props) => {
 // Передаются функция выключения, заголовок, children
 
 Modal.propTypes = {
-    turnOff: PropTypes.func.isRequired,
     title: PropTypes.string,
     children: PropTypes.element.isRequired,
 };
