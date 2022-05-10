@@ -41,7 +41,7 @@ const BurgerConstructor = () => {
         underDraggedElement,
         cart,
         isReady,
-        isSuccess,
+        isOrderSuccess,
     } = useSelector(
         (store) => ({
             ingredients: store.component.ingredients,
@@ -55,7 +55,7 @@ const BurgerConstructor = () => {
             underDraggedElement: store.component.underDraggedElement,
             cart: store.component.cart,
             isReady: store.component.isReady,
-            isSuccess: store.component.isSuccess,
+            isOrderSuccess: store.orderData.isOrderSuccess,
         }),
         shallowEqual
     );
@@ -98,7 +98,7 @@ const BurgerConstructor = () => {
 
                     {/*Блок формирования центральной части бургера*/}
                     <div className={constStyles.middle}>
-                        {isActive && isSuccess && orderInfo && (
+                        {isActive && isOrderSuccess && orderInfo && (
                             <Modal title="">
                                 <OrderDetails />
                             </Modal>

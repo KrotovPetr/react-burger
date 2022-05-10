@@ -4,38 +4,40 @@ export const ADD_COMPONENT = 'ADD_COMPONENT';
 export const CHANGE_BUN = 'CHANGE_BUN';
 export const SET_DATA = 'SET_DATA';
 export const SET_ACTIVE = 'SET_ACTIVE';
-export const SET_ORDER_DATA = 'SET_ORDER_DATA';
 export const CLEAR_INFO = 'CLEAR_INFO';
 export const DRAG_ELEMENT = 'DRAG_ELEMENT';
 export const CHANGE_COMPONENTS = 'CHANGE_COMPONENTS';
 export const SET_ON_DRAG = 'SET_ON_DRAG';
 export const SWAP_COMPONENTS = 'SWAP_COMPONENTS';
 export const CHANGE_SWAP = 'CHANGE_SWAP';
-export const FETCH_URL_REQUEST = 'FETCH_URL_REQUEST';
-export const FETCH_URL_ERROR = 'FETCH_URL_ERROR';
-export const FETCH_URL_SUCCESS = 'FETCH_URL_SUCCESS';
-export const REF_URL_REQUEST = 'REF_URL_REQUEST';
-export const REF_URL_ERROR = 'REF_URL_ERROR';
-export const REF_URL_SUCCESS = 'REF_URL_SUCCESS';
+export const ORDER_URL_REQUEST = 'ORDER_URL_REQUEST';
+export const ORDER_URL_ERROR = 'ORDER_URL_ERROR';
+export const ORDER_URL_SUCCESS = 'ORDER_URL_SUCCESS';
+export const GET_INGREDIENTS_URL_REQUEST = 'GET_INGREDIENTS_URL_REQUEST';
+export const GET_INGREDIENTS_URL_ERROR = 'GET_INGREDIENTS_URL_ERROR';
+export const GET_INGREDIENTS_URL_SUCCESS = 'GET_INGREDIENTS_URL_SUCCESS';
+export const SET_ORDER_INFO = 'SET_ORDER_INFO';
 
 //fetch - функция для получения данных
 export function fetchData(refURL) {
     return function (dispatch) {
         dispatch({
-            type: REF_URL_REQUEST,
+            type: GET_INGREDIENTS_URL_REQUEST,
         });
         fetch(refURL)
             .then((result) => {
                 if (result.ok) {
                     return result.json();
                 } else {
-                    dispatch({ type: REF_URL_ERROR });
+                    dispatch({ type: GET_INGREDIENTS_URL_ERROR });
                     return Promise.reject(`Ошибка ${result.status}`);
                 }
             })
             .then((result) => {
-                console.log(result.data);
-                dispatch({ type: REF_URL_SUCCESS, data: result.data });
+                dispatch({
+                    type: GET_INGREDIENTS_URL_SUCCESS,
+                    data: result.data,
+                });
             })
             .catch((e) => console.error(e));
     };
@@ -70,7 +72,7 @@ export function clearInfo(ingredients) {
 export function getNumberOrder(array, fetchURL) {
     return function (dispatch) {
         dispatch({
-            type: FETCH_URL_REQUEST,
+            type: ORDER_URL_REQUEST,
         });
         fetch(fetchURL, {
             method: 'POST',
@@ -83,12 +85,13 @@ export function getNumberOrder(array, fetchURL) {
                 if (res.ok) {
                     return res.json();
                 } else {
-                    dispatch({ type: FETCH_URL_ERROR });
+                    dispatch({ type: ORDER_URL_ERROR });
                     return Promise.reject(`Ошибка ${res.status}`);
                 }
             })
             .then((data) => {
-                dispatch({ type: FETCH_URL_SUCCESS, data: data });
+                dispatch({ type: ORDER_URL_SUCCESS });
+                dispatch({ type: SET_ORDER_INFO, data: data });
             })
             .catch((e) => console.error(e));
     };

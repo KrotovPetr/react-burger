@@ -11,15 +11,14 @@ import {
     SET_ON_DRAG,
     SWAP_COMPONENTS,
     CHANGE_SWAP,
-    FETCH_URL_REQUEST,
-    FETCH_URL_ERROR,
-    FETCH_URL_SUCCESS,
-    REF_URL_REQUEST,
-    REF_URL_SUCCESS,
-    REF_URL_ERROR,
+    SET_ORDER_INFO,
+    GET_INGREDIENTS_URL_REQUEST,
+    GET_INGREDIENTS_URL_SUCCESS,
+    GET_INGREDIENTS_URL_ERROR,
 } from '../actions/components';
 
 import { combineReducers } from 'redux';
+import { orderReducer } from './orders';
 
 const initialState = {
     //список всех ингредиентов
@@ -62,13 +61,13 @@ const initialState = {
     isReady: true,
 
     //отправка запроса
-    isSend: false,
+    isIngredientSend: false,
 
     //успех запроса
-    isSuccess: false,
+    isIngredientSuccess: false,
 
     //ошибка в запросе
-    isError: false,
+    isIngredientError: false,
 };
 
 export const componentReducer = (state = initialState, action) => {
@@ -156,6 +155,13 @@ export const componentReducer = (state = initialState, action) => {
             };
         }
 
+        case SET_ORDER_INFO: {
+            return {
+                ...state,
+                orderInfo: action.data,
+            };
+        }
+
         //запись переносимого элемента
         case DRAG_ELEMENT: {
             return {
@@ -204,7 +210,7 @@ export const componentReducer = (state = initialState, action) => {
             };
         }
 
-        case FETCH_URL_REQUEST: {
+        case GET_INGREDIENTS_URL_REQUEST: {
             return {
                 ...state,
                 isError: false,
@@ -213,35 +219,7 @@ export const componentReducer = (state = initialState, action) => {
             };
         }
 
-        case FETCH_URL_SUCCESS: {
-            return {
-                ...state,
-                orderInfo: action.data,
-                isSend: false,
-                isError: false,
-                isSuccess: true,
-            };
-        }
-
-        case FETCH_URL_ERROR: {
-            return {
-                ...state,
-                isSend: false,
-                isError: true,
-                isSuccess: false,
-            };
-        }
-
-        case REF_URL_REQUEST: {
-            return {
-                ...state,
-                isError: false,
-                isSuccess: false,
-                isSend: true,
-            };
-        }
-
-        case REF_URL_SUCCESS: {
+        case GET_INGREDIENTS_URL_SUCCESS: {
             return {
                 ...state,
                 ingredients: action.data,
@@ -251,7 +229,7 @@ export const componentReducer = (state = initialState, action) => {
             };
         }
 
-        case REF_URL_ERROR: {
+        case GET_INGREDIENTS_URL_ERROR: {
             return {
                 ...state,
                 isSend: false,
@@ -268,4 +246,5 @@ export const componentReducer = (state = initialState, action) => {
 
 export const rootReducer = combineReducers({
     component: componentReducer,
+    orderData: orderReducer,
 });
