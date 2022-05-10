@@ -1,133 +1,191 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import constStyles from './burger-constructor.module.css';
+
+//импортироуемые компоненты
 import {
     Button,
     ConstructorElement,
     CurrencyIcon,
     DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+
+//модальное окно
 import Modal from '../modal/modal';
-import { AppContext } from '../../Services/appContext';
 import OrderDetails from '../orderDetails/order-details';
 
+//экшены
+import {
+    decreaseCounter,
+    deleteElement,
+    dragElement,
+    getOrder,
+    increaseCounter,
+    replaceElement,
+    setDragOver,
+} from '../../Services/actions/components';
+
 const BurgerConstructor = () => {
-    //подвязка к контексту
-    const appData = useContext(AppContext);
-    const fetchURL = 'https://norma.nomoreparties.space/api/orders';
-    //состояние под ответ
-    const [orderInfo, setOrderInfo] = useState(null);
-    //функция составления массива
-    const getOrder = () => {
-        const ingredients = [appData.buns, ...appData.compArr, appData.buns];
-        const ingredientIds = ingredients.map((ingredient) => ingredient._id);
+    const dispatch = useDispatch();
 
-        //запрос
-        fetch(fetchURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-            },
-            body: JSON.stringify({ ingredients: ingredientIds }),
-        })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    return Promise.reject(`Ошибка ${res.status}`);
-                }
-            })
-            .then((data) => setOrderInfo(data))
-            .catch((e) => console.error(e));
-
-        //включение модалки
-        turnOn();
-    };
-
-    //состояние модального окна
-    const [isActive, setActive] = useState(false);
-
-    //выключение модального окна
-    const turnOff = () => {
-        setActive(false);
-    };
-
-    //включение модального окна
-    const turnOn = () => {
-        setActive(true);
-    };
+    //данные из хранилища
+    const {
+        buns,
+        ingredients,
+        components,
+        fetchURL,
+        isActive,
+        orderInfo,
+        totalPrice,
+        draggedElement,
+        underDraggedElement,
+        cart,
+        isReady,
+        isOrderSuccess,
+    } = useSelector(
+        (store) => ({
+            ingredients: store.component.ingredients,
+            buns: store.component.order.buns,
+            components: store.component.order.components,
+            fetchURL: store.component.fetchURL,
+            isActive: store.component.isActiv,
+            orderInfo: store.component.orderInfo,
+            totalPrice: store.component.totalPrice,
+            draggedElement: store.component.draggedElement,
+            underDraggedElement: store.component.underDraggedElement,
+            cart: store.component.cart,
+            isReady: store.component.isReady,
+            isOrderSuccess: store.orderData.isOrderSuccess,
+        }),
+        shallowEqual
+    );
 
     return (
         <div className={constStyles.area}>
             <div className={constStyles.orderArea}>
-                <div className={constStyles.order}>
+                <div
+                    className={constStyles.order}
+                    onDrop={(e) => {
+                        e.preventDefault();
+                        if (cart === 'ingredients') {
+                            dispatch(
+                                increaseCounter(draggedElement, ingredients)
+                            );
+                        }
+                        dispatch(
+                            replaceElement(
+                                draggedElement,
+                                underDraggedElement,
+                                components,
+                                buns,
+                                cart,
+                                isReady
+                            )
+                        );
+                    }}
+                    onDragOver={(e) => e.preventDefault()}>
                     <div className={constStyles.edgeElement}>
-                        {appData.buns && (
+                        {buns && (
                             <ConstructorElement
                                 type="top"
                                 isLocked={true}
-                                text={appData.buns.name}
-                                price={appData.buns.price}
-                                thumbnail={appData.buns.image}
+                                text={buns.name}
+                                price={buns.price}
+                                thumbnail={buns.image}
                             />
                         )}
                     </div>
+
                     {/*Блок формирования центральной части бургера*/}
                     <div className={constStyles.middle}>
-                        {isActive && orderInfo && (
-                            <Modal turnOff={turnOff}>
-                                <OrderDetails
-                                    data={
-                                        orderInfo ? orderInfo.order.number : 0
-                                    }
-                                />
+                        {isActive && isOrderSuccess && orderInfo && (
+                            <Modal title="">
+                                <OrderDetails />
                             </Modal>
                         )}
-                        {appData.compArr.length > 0 &&
-                            appData.compArr.map(
-                                (cards) =>
-                                    cards.type !== 'bun' && (
+                        {components &&
+                            components.map((cards, index) => (
+                                <div
+                                    className={constStyles.position}
+                                    key={index}
+                                    draggable
+                                    onDrag={(e) => {
+                                        e.preventDefault();
+                                        dispatch(
+                                            dragElement(
+                                                cards,
+                                                'constructor',
+                                                false
+                                            )
+                                        );
+                                    }}
+                                    onDrop={(e) => {
+                                        e.preventDefault();
+                                        replaceElement(
+                                            draggedElement,
+                                            underDraggedElement,
+                                            components,
+                                            buns,
+                                            cart
+                                        );
+                                    }}
+                                    onDragOver={(e) => {
+                                        e.preventDefault();
+                                        dispatch(setDragOver(cards));
+                                    }}>
+                                    <div className={constStyles.test}>
+                                        <DragIcon type="primary" />
                                         <div
-                                            className={constStyles.position}
-                                            key={cards['_id']}>
-                                            <div className={constStyles.test}>
-                                                <DragIcon type="primary" />
-                                                <div
-                                                    className={
-                                                        constStyles.middleElement
-                                                    }>
-                                                    <ConstructorElement
-                                                        text={cards.name}
-                                                        price={cards.price}
-                                                        thumbnail={
-                                                            cards[
-                                                                'image_mobile'
-                                                            ]
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
+                                            className={
+                                                constStyles.middleElement
+                                            }>
+                                            <ConstructorElement
+                                                text={cards.name}
+                                                price={cards.price}
+                                                thumbnail={
+                                                    cards['image_mobile']
+                                                }
+                                                handleClose={(e) => {
+                                                    dispatch(
+                                                        deleteElement(
+                                                            index,
+                                                            cards,
+                                                            ingredients,
+                                                            components.length
+                                                        )
+                                                    );
+                                                    dispatch(
+                                                        decreaseCounter(
+                                                            cards,
+                                                            ingredients
+                                                        )
+                                                    );
+                                                }}
+                                            />
                                         </div>
-                                    )
-                            )}
+                                    </div>
+                                </div>
+                            ))}
                     </div>
                     {/*Конец блока части формирования центральной части*/}
                     <div className={constStyles.edgeElement}>
-                        {appData.buns && (
+                        {buns && (
                             <ConstructorElement
                                 type="bottom"
                                 isLocked={true}
-                                text={appData.buns.name}
-                                price={appData.buns.price}
-                                thumbnail={appData.buns.image}
+                                text={buns.name}
+                                price={buns.price}
+                                thumbnail={buns.image}
                             />
                         )}
                     </div>
                 </div>
+
                 {/*Блок цены*/}
                 <div className={constStyles.price}>
                     <div className={constStyles.priceArea}>
                         <p className="text text_type_digits-medium">
-                            {appData.totalPrice}
+                            {totalPrice}
                         </p>
                         <CurrencyIcon type="primary" />
                     </div>
@@ -135,8 +193,10 @@ const BurgerConstructor = () => {
                         <Button
                             type="primary"
                             size="large"
-                            onClick={getOrder}
-                            disabled={appData.buns === null}>
+                            onClick={(e) => {
+                                dispatch(getOrder(buns, components, fetchURL));
+                            }}
+                            disabled={buns === null}>
                             Оформить заказ
                         </Button>
                     </div>
