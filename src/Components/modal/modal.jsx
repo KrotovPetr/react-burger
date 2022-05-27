@@ -12,8 +12,10 @@ import {
     clearInfo,
     setData,
 } from '../../Services/actions/components';
+import { useHistory } from 'react-router-dom';
 
 const Modal = (props) => {
+    const history = useHistory();
     const refRoot = document.getElementById('modal');
     const { orderInfo, ingredients } = useSelector(
         (store) => ({
@@ -28,6 +30,9 @@ const Modal = (props) => {
             if (e.key === 'Escape') {
                 orderInfo ? dispatch(clearInfo()) : dispatch(setData(null));
                 dispatch(setActive(false));
+                history.replace({
+                    pathname: '/',
+                });
             }
         };
 
@@ -51,6 +56,9 @@ const Modal = (props) => {
                                 ? dispatch(clearInfo(ingredients))
                                 : dispatch(setData(null));
                             dispatch(setActive(false));
+                            history.replace({
+                                pathname: '/',
+                            });
                         }}>
                         <CloseIcon type="primary" />
                     </div>

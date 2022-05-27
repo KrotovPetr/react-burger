@@ -1,3 +1,5 @@
+import { getCookie } from './requestsActions';
+
 export const SET_STATE = 'SET_STATE';
 export const ADD_BUN = 'ADD_BUN';
 export const ADD_COMPONENT = 'ADD_COMPONENT';
@@ -46,6 +48,7 @@ export function fetchData(refURL) {
 //установка данных карты
 export function setData(card) {
     return function (dispatch) {
+        document.cookie = 'data=' + JSON.stringify(card) + '; path=/;';
         dispatch({ type: SET_DATA, data: card });
     };
 }
@@ -53,6 +56,13 @@ export function setData(card) {
 //изменение статуса активности модального окна
 export function setActive(data) {
     return function (dispatch) {
+        if (data === true) {
+            document.cookie = 'isActive=true; path=/;';
+        } else {
+            document.cookie = 'isActive=false; path=/; max-age=0';
+            document.cookie = 'data=' + null + '; path=/; max-age=0';
+        }
+
         dispatch({ type: SET_ACTIVE, value: data });
     };
 }
@@ -77,6 +87,7 @@ export function getNumberOrder(array, fetchURL) {
         fetch(fetchURL, {
             method: 'POST',
             headers: {
+                Authorization: 'Bearer ' + getCookie('accessToken'),
                 'Content-Type': 'application/json;charset=utf-8',
             },
             body: JSON.stringify({ ingredients: array }),
@@ -90,6 +101,7 @@ export function getNumberOrder(array, fetchURL) {
                 }
             })
             .then((data) => {
+                // console.log(data);
                 dispatch({ type: ORDER_URL_SUCCESS });
                 dispatch({ type: SET_ORDER_INFO, data: data });
             })

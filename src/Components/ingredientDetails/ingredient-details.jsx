@@ -8,6 +8,7 @@ const IngredientDetails = () => {
         }),
         shallowEqual
     );
+
     return (
         <div className={ingredientStyles.main}>
             {/*блок с картинкой*/}

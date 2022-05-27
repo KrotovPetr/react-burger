@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import constructBurger from '../burger-ingredients.module.css';
 import {
     Counter,
@@ -12,10 +12,12 @@ import {
     setActive,
     dragElement,
 } from '../../../Services/actions/components';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import { getCookie } from '../../../Services/actions/requestsActions';
 
 const IngredientList = (props) => {
     const dispatch = useDispatch();
-
+    const history = useHistory();
     const { ingredients } = useSelector(
         (store) => ({
             ingredients: store.component.ingredients,
@@ -23,6 +25,16 @@ const IngredientList = (props) => {
         shallowEqual
     );
 
+    useEffect(() => {
+        if (getCookie('isActive') !== undefined) {
+            dispatch(setActive(true));
+            dispatch(setData(JSON.parse(getCookie('data'))));
+        } else {
+            dispatch(setActive(false));
+        }
+    }, []);
+    // console.log(getCookie('isActive'));
+    const { url } = useRouteMatch();
     return (
         <div className={cardStyle.cardArea}>
             {ingredients &&
@@ -43,6 +55,10 @@ const IngredientList = (props) => {
                                     onClick={(e) => {
                                         dispatch(setData(cards));
                                         dispatch(setActive(true));
+                                        history.replace({
+                                            pathname:
+                                                '/ingredients/' + cards['_id'],
+                                        });
                                     }}>
                                     {cards['__v'] > 0 && (
                                         <Counter

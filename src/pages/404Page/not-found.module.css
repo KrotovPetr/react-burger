@@ -1,0 +1,32 @@
+.commonContainer{
+    display: flex;
+    width:100%;
+    height:90vh;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: column nowrap;
+}
+
+.formContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: column nowrap;
+    margin: 180px 0 0 0;
+    height: 70vh;
+    width: 480px;
+    row-gap: 24px;
+}
+
+
+.formContainer > .headerContainer > h1{
+    font-size: 200px;
+    color: #f2f2f3;
+    text-align: center;
+}
+
+.formContainer > .headerContainer > h2{
+    font-size: 40px;
+    color: #f2f2f3;
+    text-align: center;
+}

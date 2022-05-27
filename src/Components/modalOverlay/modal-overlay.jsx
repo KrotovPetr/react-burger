@@ -7,8 +7,10 @@ import {
     setActive,
     setData,
 } from '../../Services/actions/components';
+import { useHistory } from 'react-router-dom';
 
 const ModalOverlay = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const { orderInfo } = useSelector(
         (store) => ({
@@ -22,6 +24,9 @@ const ModalOverlay = () => {
             onClick={() => {
                 orderInfo ? dispatch(clearInfo()) : dispatch(setData(null));
                 dispatch(setActive(false));
+                history.replace({
+                    pathname: '/',
+                });
             }}
         />
     );

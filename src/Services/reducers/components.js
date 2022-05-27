@@ -19,6 +19,7 @@ import {
 
 import { combineReducers } from 'redux';
 import { orderReducer } from './orders';
+import { requestsReducer } from './requestsReducer';
 
 const initialState = {
     //список всех ингредиентов
@@ -247,4 +248,5 @@ export const componentReducer = (state = initialState, action) => {
 export const rootReducer = combineReducers({
     component: componentReducer,
     orderData: orderReducer,
+    requests: requestsReducer,
 });

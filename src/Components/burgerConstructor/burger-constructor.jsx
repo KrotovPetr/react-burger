@@ -24,10 +24,15 @@ import {
     replaceElement,
     setDragOver,
 } from '../../Services/actions/components';
+import {
+    getCookie,
+    profileRequest,
+} from '../../Services/actions/requestsActions';
+import { useHistory } from 'react-router-dom';
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();
-
+    const history = useHistory();
     //данные из хранилища
     const {
         buns,
@@ -42,6 +47,9 @@ const BurgerConstructor = () => {
         cart,
         isReady,
         isOrderSuccess,
+        profileRequestError,
+        profileURL,
+        tokenURL,
     } = useSelector(
         (store) => ({
             ingredients: store.component.ingredients,
@@ -56,9 +64,16 @@ const BurgerConstructor = () => {
             cart: store.component.cart,
             isReady: store.component.isReady,
             isOrderSuccess: store.orderData.isOrderSuccess,
+            profileURL: store.requests.profileURL,
+            tokenURL: store.requests.tokenURL,
+            profileRequestError: store.requests.profileRequestError,
         }),
         shallowEqual
     );
+
+    const isAuth = () => {
+        return getCookie('accessToken') !== undefined;
+    };
 
     return (
         <div className={constStyles.area}>
@@ -193,8 +208,22 @@ const BurgerConstructor = () => {
                         <Button
                             type="primary"
                             size="large"
-                            onClick={(e) => {
-                                dispatch(getOrder(buns, components, fetchURL));
+                            onClick={() => {
+                                if (isAuth()) {
+                                    dispatch(
+                                        profileRequest(profileURL, tokenURL)
+                                    );
+                                    if (profileRequestError) {
+                                        dispatch(
+                                            profileRequest(profileURL, tokenURL)
+                                        );
+                                    }
+                                    dispatch(
+                                        getOrder(buns, components, fetchURL)
+                                    );
+                                } else {
+                                    history.replace({ pathname: '/login' });
+                                }
                             }}
                             disabled={buns === null}>
                             Оформить заказ
