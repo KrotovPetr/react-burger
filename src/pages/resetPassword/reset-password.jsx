@@ -40,7 +40,7 @@ const ResetPassword = () => {
         return getCookie('forgot') === undefined;
     };
 
-    console.log(isAuth(), ' ', isForgot());
+    // console.log(isAuth(), ' ', isForgot());
     if (isAuth()) {
         return (
             <Redirect
@@ -49,7 +49,8 @@ const ResetPassword = () => {
                 }}
             />
         );
-    } else if (isForgot()) {
+    }
+    if (!isAuth() && isForgot()) {
         return (
             <Redirect
                 to={{
@@ -59,16 +60,13 @@ const ResetPassword = () => {
         );
     }
 
-    console.log(isForgot(), ' ', getCookie('accessToken'));
-    if (isForgot()) {
-        return (
-            <Redirect
-                to={{
-                    pathname: '/',
-                }}
-            />
-        );
-    }
+    // console.log(
+    //     isForgot(),
+    //     ' ',
+    //     getCookie('accessToken'),
+    //     ' ',
+    //     getCookie('forgot')
+    // );
 
     return (
         <div className={resetStyles.commonContainer}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import loginStyles from './login.module.css';
 import '../../commonStyles/styles.css';
 import {
@@ -9,6 +9,7 @@ import {
 import { Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    clearForgotCookie,
     enterRequest,
     getCookie,
 } from '../../Services/actions/requestsActions';
@@ -22,6 +23,11 @@ const Login = () => {
         enterURL: store.requests.enterURL,
         isLogout: store.requests.isLogout,
     }));
+
+    useEffect(() => {
+        dispatch(clearForgotCookie());
+    }, []);
+
     const isAuth = () => {
         return getCookie('accessToken') !== undefined;
     };

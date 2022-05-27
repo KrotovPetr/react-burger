@@ -90,7 +90,12 @@ export function registerRequest(email, password, name, registerURL) {
                     '=' +
                     encodeURIComponent(data.refreshToken) +
                     '; path=/;';
-                setCookie('password', password, 1200);
+                document.cookie =
+                    ' ' +
+                    encodeURIComponent('password') +
+                    '=' +
+                    encodeURIComponent(password) +
+                    '; path=/;';
                 dispatch({ type: REGIST_URL_SUCCESS });
             })
             .catch((e) => console.error(e));
@@ -184,8 +189,8 @@ export function resetRequest(password, token, resetURL) {
                 }
             })
             .then(() => {
+                // document.cookie = 'forgot=;max-age=-1';
                 dispatch({ type: RESET_URL_SUCCESS });
-                document.cookie = 'forgot=delete; max-age=0';
             })
             .catch((e) => console.error(e));
     };
@@ -254,22 +259,11 @@ function setNewToken(token, tokenURL) {
                 //         '  New token: ' +
                 //         data.accessToken.split(' ')[1]
                 // );
-                document.cookie = 'accessToken=delete; max-age=0';
-                document.cookie = 'refreshToken=delete; max-age=0';
-                document.cookie =
-                    ' ' +
-                    encodeURIComponent('accessToken') +
-                    '=' +
-                    encodeURIComponent(data.accessToken.split(' ')[1]) +
-                    '; path=/;';
-                document.cookie =
-                    ' ' +
-                    encodeURIComponent('refreshToken') +
-                    '=' +
-                    encodeURIComponent(data.refreshToken) +
-                    '; path=/;';
+                document.cookie = 'accessToken=;max-age=-1';
+                document.cookie = 'refreshToken=;max-age=-1';
+                document.cookie = 'password=;max-age=-1';
+                document.cookie = 'forgot=;max-age=-1';
                 dispatch({ type: REFRESH_URL_SUCCESS });
-                document.cookie = 'forgot=delete; max-age=0';
             })
             .catch((e) => console.error(e));
     };
@@ -364,5 +358,12 @@ export function getCookie(name) {
 export function setLogoutData(updateURL, name, email, password) {
     return function (dispatch) {
         dispatch({ type: SET_LOGOUT_DATA });
+    };
+}
+
+//функция на обновление данных
+export function clearForgotCookie() {
+    return function (dispatch) {
+        document.cookie = 'forgot=;max-age=-1';
     };
 }
