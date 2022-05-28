@@ -1,9 +1,6 @@
 import React from 'react';
 import nfStyles from './not-found.module.css';
-import {
-    Button,
-    Logo,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useHistory } from 'react-router-dom';
 const NotFoundPage = () => {
     const history = useHistory();

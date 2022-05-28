@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { getCookie } from '../../Services/actions/requestsActions';
+import { useSelector } from 'react-redux';
 
 const ProtectedRoute = ({ children, ...rest }) => {
+    const { isLogin } = useSelector((store) => ({
+        baseURL: store.requests.baseURL,
+        isLogin: store.requests.isLogin,
+    }));
+
     return (
         <Route
             {...rest}
+            // Получим текущий маршрут, с которого произойдёт переадресация
+            // для неавторизованного пользователя
             render={({ location }) =>
-                getCookie('accessToken') !== undefined ? (
+                isLogin ? (
                     children
                 ) : (
                     <Redirect

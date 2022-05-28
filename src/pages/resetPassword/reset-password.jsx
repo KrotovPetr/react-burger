@@ -7,22 +7,20 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import '../../commonStyles/styles.css';
 import { Redirect, useHistory } from 'react-router-dom';
-import {
-    getCookie,
-    resetRequest,
-} from '../../Services/actions/requestsActions';
+import { resetRequest } from '../../Services/actions/requestsActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { isForgot } from '../../utils/functions/isForgot';
 
 const ResetPassword = () => {
     const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
-    const { resetURL, resetRequestSuccess, resetRequestError } = useSelector(
-        (store) => ({
-            resetURL: store.requests.resetURL,
+    const { baseURL, resetRequestSuccess, resetRequestError, isLogin } =
+        useSelector((store) => ({
+            baseURL: store.requests.baseURL,
             resetRequestSuccess: store.requests.resetRequestSuccess,
             resetRequestError: store.requests.resetRequestError,
-        })
-    );
+            isLogin: store.requests.isLogin,
+        }));
 
     useEffect(() => {
         resetRequestSuccess &&
@@ -33,15 +31,7 @@ const ResetPassword = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const isAuth = () => {
-        return getCookie('accessToken') !== undefined;
-    };
-    const isForgot = () => {
-        return getCookie('forgot') === undefined;
-    };
-
-    // console.log(isAuth(), ' ', isForgot());
-    if (isAuth()) {
+    if (isLogin) {
         return (
             <Redirect
                 to={{
@@ -50,7 +40,7 @@ const ResetPassword = () => {
             />
         );
     }
-    if (!isAuth() && isForgot()) {
+    if (!isLogin && isForgot()) {
         return (
             <Redirect
                 to={{
@@ -60,6 +50,7 @@ const ResetPassword = () => {
         );
     }
 
+    // console.log(isAuth(), ' ', isForgot());
     // console.log(
     //     isForgot(),
     //     ' ',
@@ -70,34 +61,38 @@ const ResetPassword = () => {
 
     return (
         <div className={resetStyles.commonContainer}>
-            <div className={resetStyles.formContainer}>
+            <form
+                className={resetStyles.formContainer}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    dispatch(resetRequest(password, token, baseURL));
+                }}>
                 <h1 className="text text_type_main-medium">
                     Восстановление пароля
                 </h1>
-                <PasswordInput
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="input"
-                    value={password}
-                    name={'password'}
-                />
-                <Input
-                    type={'text'}
-                    placeholder={'Введите код из письма'}
-                    onChange={(e) => setToken(e.target.value)}
-                    className="input"
-                    value={token}
-                    name={'name'}
-                    error={false}
-                    errorText={'Ошибка'}
-                    size={'default'}
-                />
+                <label>
+                    <PasswordInput
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="input"
+                        value={password}
+                        name={'password'}
+                    />
+                </label>
+                <label>
+                    <Input
+                        type={'text'}
+                        placeholder={'Введите код из письма'}
+                        onChange={(e) => setToken(e.target.value)}
+                        className="input"
+                        value={token}
+                        name={'name'}
+                        error={false}
+                        errorText={'Ошибка'}
+                        size={'default'}
+                    />
+                </label>
                 <div className={resetStyles.buttonContainer}>
-                    <Button
-                        type="primary"
-                        size="medium"
-                        onClick={() => {
-                            dispatch(resetRequest(password, token, resetURL));
-                        }}>
+                    <Button type="primary" size="medium">
                         Сохранить
                     </Button>
                 </div>
@@ -110,7 +105,7 @@ const ResetPassword = () => {
                         Войти
                     </span>
                 </p>
-            </div>
+            </form>
         </div>
     );
 };

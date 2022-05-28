@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import HeaderStyles from './header.module.css';
 import {
     BurgerIcon,
@@ -17,7 +17,9 @@ const Header = () => {
                 <div className={HeaderStyles.btnArea}>
                     <div
                         className={HeaderStyles.constructor}
-                        onClick={(e) => history.replace({ pathname: '/' })}>
+                        onClick={() => {
+                            history.replace({ pathname: '/' });
+                        }}>
                         <BurgerIcon type="primary" />
                         <p
                             className={
@@ -46,8 +48,13 @@ const Header = () => {
                 </div>
 
                 {/*лого*/}
-                <Logo className={HeaderStyles.logo} />
-
+                <div
+                    className={HeaderStyles.logoDiv}
+                    onClick={() => {
+                        history.replace({ pathname: '/' });
+                    }}>
+                    <Logo className={HeaderStyles.logo} />
+                </div>
                 {/*зона правых кнопок*/}
                 <div
                     className={HeaderStyles.personalAccount}

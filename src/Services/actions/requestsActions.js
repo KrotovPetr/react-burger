@@ -1,3 +1,8 @@
+import { checkResponse } from '../../utils/functions/checkResponse';
+import { getCookie } from '../../utils/functions/cookieFunctions/getCookie';
+import { setCookie } from '../../utils/functions/cookieFunctions/setCookie';
+import { deleteCookie } from '../../utils/functions/cookieFunctions/deleteCookie';
+
 export const FORGOT_URL_REQUEST = 'FORGOT_URL_REQUEST';
 export const FORGOT_URL_ERROR = 'FORGOT_URL_ERROR';
 export const FORGOT_URL_SUCCESS = 'FORGOT_URL_SUCCESS';
@@ -23,42 +28,37 @@ export const REFRESH_URL_REQUEST = 'REFRESH_URL_REQUEST';
 export const REFRESH_URL_ERROR = 'REFRESH_URL_ERROR';
 export const REFRESH_URL_SUCCESS = 'REFRESH_URL_SUCCESS';
 export const SET_LOGOUT_DATA = 'SET_LOGOUT_DATA';
-
+export const IS_AUTH = 'IS_AUTH';
 //функция на сброс пароля
-export function forgotRequest(resetURL, data) {
+export function forgotRequest(baseURL, data) {
     return function (dispatch) {
         dispatch({
             type: FORGOT_URL_REQUEST,
         });
-        fetch(resetURL, {
+        fetch(baseURL + '/password-reset', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
             },
             body: JSON.stringify({ email: data }),
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    dispatch({ type: FORGOT_URL_ERROR });
-                    return Promise.reject(`Ошибка ${res.status}`);
-                }
-            })
+            .then(checkResponse)
             .then(() => {
-                setCookie('forgot', 'ok', 1200);
+                setCookie('forgot', 'ok');
                 dispatch({ type: FORGOT_URL_SUCCESS });
             })
-            .catch((e) => console.error(e));
+            .catch((e) => {
+                dispatch({ type: FORGOT_URL_ERROR });
+            });
     };
 }
 //функция на установления нового запроса
-export function registerRequest(email, password, name, registerURL) {
+export function registerRequest(email, password, name, baseURL) {
     return function (dispatch) {
         dispatch({
             type: REGIST_URL_REQUEST,
         });
-        fetch(registerURL, {
+        fetch(baseURL + '/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
@@ -69,57 +69,24 @@ export function registerRequest(email, password, name, registerURL) {
                 name: name,
             }),
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    dispatch({ type: REGIST_URL_ERROR });
-                    return Promise.reject(`Ошибка ${res.status}`);
-                }
-            })
+            .then(checkResponse)
             .then((data) => {
-                document.cookie =
-                    ' ' +
-                    encodeURIComponent('accessToken') +
-                    '=' +
-                    encodeURIComponent(data.accessToken.split(' ')[1]) +
-                    '; path=/;';
-                document.cookie =
-                    ' ' +
-                    encodeURIComponent('refreshToken') +
-                    '=' +
-                    encodeURIComponent(data.refreshToken) +
-                    '; path=/;';
-                document.cookie =
-                    ' ' +
-                    encodeURIComponent('password') +
-                    '=' +
-                    encodeURIComponent(password) +
-                    '; path=/;';
+                setCookie('accessToken', data.accessToken.split(' ')[1]);
+                setCookie('refreshToken', data.refreshToken);
+                setCookie('password', password);
                 dispatch({ type: REGIST_URL_SUCCESS });
             })
-            .catch((e) => console.error(e));
+            .catch(() => dispatch({ type: REGIST_URL_ERROR }));
     };
 }
 
-//вставка куков
-export function setCookie(name, value, duration) {
-    document.cookie =
-        ' ' +
-        encodeURIComponent(name) +
-        '=' +
-        encodeURIComponent(value) +
-        '; path=/; max-age=' +
-        duration;
-}
-
 //функция на установления нового запроса
-export function enterRequest(email, password, enterURL) {
+export function enterRequest(email, password, baseURL) {
     return function (dispatch) {
         dispatch({
             type: ENTER_URL_REQUEST,
         });
-        fetch(enterURL, {
+        fetch(baseURL + '/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
@@ -129,47 +96,27 @@ export function enterRequest(email, password, enterURL) {
                 password: password,
             }),
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    dispatch({ type: ENTER_URL_ERROR });
-                    return Promise.reject(`Ошибка ${res.status}`);
-                }
-            })
+            .then(checkResponse)
             .then((data) => {
-                document.cookie =
-                    ' ' +
-                    encodeURIComponent('accessToken') +
-                    '=' +
-                    encodeURIComponent(data.accessToken.split(' ')[1]) +
-                    '; path=/;';
-                document.cookie =
-                    ' ' +
-                    encodeURIComponent('refreshToken') +
-                    '=' +
-                    encodeURIComponent(data.refreshToken) +
-                    '; path=/;';
-                document.cookie =
-                    ' ' +
-                    encodeURIComponent('password') +
-                    '=' +
-                    encodeURIComponent(password) +
-                    '; path=/;';
-
+                setCookie('accessToken', data.accessToken.split(' ')[1]);
+                setCookie('refreshToken', data.refreshToken);
+                setCookie('password', password);
                 dispatch({ type: ENTER_URL_SUCCESS });
             })
-            .catch((e) => console.error(e));
+            .catch((e) => {
+                console.error(e);
+                dispatch({ type: ENTER_URL_ERROR });
+            });
     };
 }
 
 //функция на установления нового запроса
-export function resetRequest(password, token, resetURL) {
+export function resetRequest(password, token, baseURL) {
     return function (dispatch) {
         dispatch({
             type: RESET_URL_REQUEST,
         });
-        fetch(resetURL, {
+        fetch(baseURL + '/password-reset/reset', {
             method: 'POST',
 
             headers: {
@@ -180,61 +127,52 @@ export function resetRequest(password, token, resetURL) {
                 token: token,
             }),
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    dispatch({ type: RESET_URL_ERROR });
-                    return Promise.reject(`Ошибка ${res.status}`);
-                }
-            })
+            .then(checkResponse)
             .then(() => {
                 // document.cookie = 'forgot=;max-age=-1';
                 dispatch({ type: RESET_URL_SUCCESS });
             })
-            .catch((e) => console.error(e));
+            .catch(() => dispatch({ type: RESET_URL_ERROR }));
     };
 }
 
-export function profileRequest(profileURL, tokenURL) {
+export function profileRequest(baseURL) {
     return function (dispatch) {
         dispatch({
             type: PROFILE_URL_REQUEST,
         });
-        fetch(profileURL, {
+        fetch(baseURL + '/auth/user', {
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + getCookie('accessToken'),
                 'Content-Type': 'application/json;charset=utf-8',
             },
         })
-            .then((result) => {
-                if (result.ok) {
-                    return result.json();
-                } else {
-                    dispatch({ type: PROFILE_URL_ERROR });
-                    return Promise.reject(`Ошибка ${result.status}`);
-                }
-            })
+            .then(checkResponse)
             .then((result) => {
                 dispatch({
                     type: PROFILE_URL_SUCCESS,
                     data: result,
                 });
             })
-            .catch((e) => {
-                dispatch(setNewToken(getCookie('refreshToken'), tokenURL));
-                console.error(e);
+            .catch(() => {
+                dispatch({ type: PROFILE_URL_ERROR });
+                dispatch(
+                    setNewToken(
+                        getCookie('refreshToken'),
+                        baseURL + '/auth/token'
+                    )
+                );
             });
     };
 }
 
-function setNewToken(token, tokenURL) {
+function setNewToken(token, baseURL) {
     return function (dispatch) {
         dispatch({
             type: REFRESH_URL_REQUEST,
         });
-        fetch(tokenURL, {
+        fetch(baseURL + '/auth/token', {
             method: 'POST',
 
             headers: {
@@ -244,14 +182,7 @@ function setNewToken(token, tokenURL) {
                 token: token,
             }),
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    dispatch({ type: REFRESH_URL_ERROR });
-                    return Promise.reject(`Ошибка ${res.status}`);
-                }
-            })
+            .then(checkResponse)
             .then((data) => {
                 // console.log(
                 //     'Old token ' +
@@ -259,23 +190,24 @@ function setNewToken(token, tokenURL) {
                 //         '  New token: ' +
                 //         data.accessToken.split(' ')[1]
                 // );
-                document.cookie = 'accessToken=;max-age=-1';
-                document.cookie = 'refreshToken=;max-age=-1';
-                document.cookie = 'password=;max-age=-1';
-                document.cookie = 'forgot=;max-age=-1';
+                deleteCookie('accessToken');
+                deleteCookie('refreshToken');
+                deleteCookie('password');
+                deleteCookie('forgot');
+
                 dispatch({ type: REFRESH_URL_SUCCESS });
             })
-            .catch((e) => console.error(e));
+            .catch(() => dispatch({ type: REFRESH_URL_ERROR }));
     };
 }
 
 //функция на сброс пароля
-export function logoutRequest(logoutURL) {
+export function logoutRequest(baseURL) {
     return function (dispatch) {
         dispatch({
             type: LOGOUT_URL_REQUEST,
         });
-        fetch(logoutURL, {
+        fetch(baseURL + '/auth/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
@@ -284,37 +216,27 @@ export function logoutRequest(logoutURL) {
                 token: getCookie('refreshToken'),
             }),
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    dispatch({ type: LOGOUT_URL_ERROR });
-                    return Promise.reject(`Ошибка ${res.status}`);
-                }
-            })
+            .then(checkResponse)
             .then((data) => {
                 // console.log(data);
-                document.cookie = 'accessToken=;max-age=-1';
-                document.cookie = 'refreshToken=;max-age=-1';
-                document.cookie = 'password=;max-age=-1';
-                document.cookie = 'forgot=;max-age=-1';
-                // cookies.remove('accessToken');
-                // cookies.remove('refreshToken');
-                // cookies.remove('password');
-                // cookies.remove('forgot');
+                deleteCookie('accessToken');
+                deleteCookie('refreshToken');
+                deleteCookie('password');
+                deleteCookie('forgot');
+
                 dispatch({ type: LOGOUT_URL_SUCCESS });
             })
-            .catch((e) => console.error(e));
+            .catch(() => dispatch({ type: LOGOUT_URL_ERROR }));
     };
 }
 
 //функция на обновление данных
-export function updateRequest(updateURL, name, email, password) {
+export function updateRequest(baseURL, name, email, password) {
     return function (dispatch) {
         dispatch({
             type: UPDATE_URL_REQUEST,
         });
-        fetch(updateURL, {
+        fetch(baseURL + '/auth/user', {
             method: 'PATCH',
             headers: {
                 Authorization: 'Bearer ' + getCookie('accessToken'),
@@ -326,36 +248,17 @@ export function updateRequest(updateURL, name, email, password) {
                 password: password,
             }),
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    dispatch({ type: UPDATE_URL_ERROR });
-                    return Promise.reject(`Ошибка ${res.status}`);
-                }
-            })
+            .then(checkResponse)
             .then((data) => {
                 // console.log(data);
                 dispatch({ type: UPDATE_URL_SUCCESS, data: data });
             })
-            .catch((e) => console.error(e));
+            .catch(() => dispatch({ type: UPDATE_URL_ERROR }));
     };
 }
 
-//функция получения определённой куки
-export function getCookie(name) {
-    const matches = document.cookie.match(
-        new RegExp(
-            '(?:^|; )' +
-                name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
-                '=([^;]*)'
-        )
-    );
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
 //функция на обновление данных
-export function setLogoutData(updateURL, name, email, password) {
+export function setLogoutData() {
     return function (dispatch) {
         dispatch({ type: SET_LOGOUT_DATA });
     };

@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import profileHStyles from './profile-header.module.css';
-import {
-    getCookie,
-    logoutRequest,
-    setLogoutData,
-} from '../../../Services/actions/requestsActions';
+import { logoutRequest } from '../../../Services/actions/requestsActions';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
@@ -12,10 +8,11 @@ const ProfileHeader = () => {
     const { url } = useRouteMatch();
     const dispatch = useDispatch();
     const [active, setActive] = useState(1);
-    const { logoutURL, logoutRequestSuccess } = useSelector(
+    const { baseURL, isLogin } = useSelector(
         (store) => ({
-            logoutURL: store.requests.logoutURL,
+            baseURL: store.requests.baseURL,
             logoutRequestSuccess: store.requests.logoutRequestSuccess,
+            isLogin: store.requests.isLogin,
         }),
         shallowEqual
     );
@@ -55,12 +52,12 @@ const ProfileHeader = () => {
                 <p
                     className="text text_type_main-medium text_color_inactive"
                     onClick={() => {
-                        dispatch(logoutRequest(logoutURL));
+                        dispatch(logoutRequest(baseURL));
                     }}>
                     Выход
                 </p>
             </div>
-            <div className={profileHStyles.descrText}>
+            <div className={profileHStyles.descText}>
                 <p className="text text_type_main-default text_color_inactive">
                     В этом разделе вы можете изменить свои персональные данные
                 </p>

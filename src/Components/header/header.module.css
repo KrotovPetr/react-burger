@@ -76,6 +76,13 @@
     cursor: pointer;
 }
 
+.logoDiv{
+    composes: flexBlock;
+    height:68px;
+    width: fit-content;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 600px){
     .headerText{
         display:none;

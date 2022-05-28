@@ -2,11 +2,9 @@ import React from 'react';
 import profileMStyles from './profile-main.module.css';
 import {
     Button,
-    Input,
     EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import {
-    getCookie,
     profileRequest,
     setLogoutData,
     updateRequest,
@@ -15,6 +13,7 @@ import { useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
 
 const ProfileMain = () => {
     const [email, setEmail] = useState('');
@@ -23,40 +22,38 @@ const ProfileMain = () => {
     const dispatch = useDispatch();
 
     const {
-        profileURL,
+        baseURL,
         nameV,
         emailV,
-        updateURL,
-        tokenURL,
         profileRequestError,
         logoutRequestSuccess,
         isLogout,
+        isLogin,
     } = useSelector(
         (store) => ({
-            profileURL: store.requests.profileURL,
+            baseURL: store.requests.baseURL,
             nameV: store.requests.name,
             emailV: store.requests.email,
-            logoutURL: store.requests.logoutURL,
-            updateURL: store.requests.updateURL,
-            tokenURL: store.requests.tokenURL,
             profileRequestRequest: store.requests.profileRequestRequest,
             profileRequestError: store.requests.profileRequestError,
             updateRequestRequest: store.requests.updateRequestRequest,
             logoutRequestSuccess: store.requests.logoutRequestSuccess,
             isLogout: store.requests.isLogout,
+            isLogin: store.requests.isLogin,
         }),
         shallowEqual
     );
     const history = useHistory();
     useEffect(() => {
-        if (logoutRequestSuccess) {
+        // console.log(getCookie('accessToken') + ' ' + isLogout);
+        if (!isLogin) {
             dispatch(setLogoutData());
             history.replace({ pathname: '/login' });
         } else {
             if (!isLogout) {
-                dispatch(profileRequest(profileURL, tokenURL));
+                dispatch(profileRequest(baseURL));
                 if (profileRequestError) {
-                    dispatch(profileRequest(profileURL, tokenURL));
+                    dispatch(profileRequest(baseURL));
                 }
                 setEmail(emailV);
                 setName(nameV);
@@ -66,26 +63,36 @@ const ProfileMain = () => {
     }, [nameV, emailV, logoutRequestSuccess]);
 
     return (
-        <div className={profileMStyles.formContainer}>
-            <EmailInput
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-                name={'name'}
-                className="input"
-            />
-            <EmailInput
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-                name={'email'}
-                className="input"
-            />
-            <EmailInput
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                name={'password'}
-                className="input"
-            />
-
+        <form
+            className={profileMStyles.formContainer}
+            onSubmit={(e) => {
+                e.preventDefault();
+                dispatch(updateRequest(baseURL, name, email, password));
+            }}>
+            <label>
+                <EmailInput
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                    name={'name'}
+                    className="input"
+                />
+            </label>
+            <label>
+                <EmailInput
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    name={'email'}
+                    className="input"
+                />
+            </label>
+            <label>
+                <EmailInput
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    name={'password'}
+                    className="input"
+                />
+            </label>
             <div className={profileMStyles.tabsContainer}>
                 <p
                     className="text text_type_main-default text_color_inactive"
@@ -96,18 +103,11 @@ const ProfileMain = () => {
                     }}>
                     Отмена
                 </p>
-                <Button
-                    type="primary"
-                    size="medium"
-                    onClick={() => {
-                        dispatch(
-                            updateRequest(updateURL, name, email, password)
-                        );
-                    }}>
+                <Button type="primary" size="medium">
                     Сохранить
                 </Button>
             </div>
-        </div>
+        </form>
     );
 };
 

@@ -13,27 +13,24 @@ import {
 //модальное окно
 import Modal from '../modal/modal';
 import OrderDetails from '../orderDetails/order-details';
-
+import { v4 as uuidv4 } from 'uuid';
 //экшены
 import {
+    clearInfo,
     decreaseCounter,
     deleteElement,
     dragElement,
     getOrder,
     increaseCounter,
     replaceElement,
+    setActive,
+    setData,
     setDragOver,
 } from '../../Services/actions/components';
-import {
-    getCookie,
-    profileRequest,
-} from '../../Services/actions/requestsActions';
+import { profileRequest } from '../../Services/actions/requestsActions';
 import { useHistory } from 'react-router-dom';
 
 const BurgerConstructor = () => {
-    const dispatch = useDispatch();
-    const history = useHistory();
-    //данные из хранилища
     const {
         buns,
         ingredients,
@@ -48,8 +45,8 @@ const BurgerConstructor = () => {
         isReady,
         isOrderSuccess,
         profileRequestError,
-        profileURL,
-        tokenURL,
+        baseURL,
+        isLogin,
     } = useSelector(
         (store) => ({
             ingredients: store.component.ingredients,
@@ -64,15 +61,20 @@ const BurgerConstructor = () => {
             cart: store.component.cart,
             isReady: store.component.isReady,
             isOrderSuccess: store.orderData.isOrderSuccess,
-            profileURL: store.requests.profileURL,
-            tokenURL: store.requests.tokenURL,
+            isOrderSend: store.orderData.isOrderSend,
             profileRequestError: store.requests.profileRequestError,
+            baseURL: store.requests.baseURL,
+            isLogin: store.requests.isLogin,
         }),
         shallowEqual
     );
 
-    const isAuth = () => {
-        return getCookie('accessToken') !== undefined;
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const closeWindow = () => {
+        orderInfo ? dispatch(clearInfo(ingredients)) : dispatch(setData(null));
+        dispatch(setActive(false));
     };
 
     return (
@@ -104,7 +106,7 @@ const BurgerConstructor = () => {
                             <ConstructorElement
                                 type="top"
                                 isLocked={true}
-                                text={buns.name}
+                                text={buns.name + ' (верх)'}
                                 price={buns.price}
                                 thumbnail={buns.image}
                             />
@@ -114,7 +116,7 @@ const BurgerConstructor = () => {
                     {/*Блок формирования центральной части бургера*/}
                     <div className={constStyles.middle}>
                         {isActive && isOrderSuccess && orderInfo && (
-                            <Modal title="">
+                            <Modal title="" onClose={() => closeWindow()}>
                                 <OrderDetails />
                             </Modal>
                         )}
@@ -122,7 +124,7 @@ const BurgerConstructor = () => {
                             components.map((cards, index) => (
                                 <div
                                     className={constStyles.position}
-                                    key={index}
+                                    key={uuidv4()}
                                     draggable
                                     onDrag={(e) => {
                                         e.preventDefault();
@@ -160,7 +162,7 @@ const BurgerConstructor = () => {
                                                 thumbnail={
                                                     cards['image_mobile']
                                                 }
-                                                handleClose={(e) => {
+                                                handleClose={() => {
                                                     dispatch(
                                                         deleteElement(
                                                             index,
@@ -188,7 +190,7 @@ const BurgerConstructor = () => {
                             <ConstructorElement
                                 type="bottom"
                                 isLocked={true}
-                                text={buns.name}
+                                text={buns.name + ' (низ)'}
                                 price={buns.price}
                                 thumbnail={buns.image}
                             />
@@ -209,14 +211,10 @@ const BurgerConstructor = () => {
                             type="primary"
                             size="large"
                             onClick={() => {
-                                if (isAuth()) {
-                                    dispatch(
-                                        profileRequest(profileURL, tokenURL)
-                                    );
+                                if (isLogin) {
+                                    dispatch(profileRequest(baseURL));
                                     if (profileRequestError) {
-                                        dispatch(
-                                            profileRequest(profileURL, tokenURL)
-                                        );
+                                        dispatch(profileRequest(baseURL));
                                     }
                                     dispatch(
                                         getOrder(buns, components, fetchURL)

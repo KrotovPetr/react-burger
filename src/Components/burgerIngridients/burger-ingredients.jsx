@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ingredientsBurger from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientList from './ingredientList/ingredient-list';
 import appStyles from '../app/app.module.css';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredientDetails/ingredient-details';
 import { shallowEqual, useSelector } from 'react-redux';
+import { scrollFunction } from '../../utils/functions/scrollFunction';
+import ModalI from '../ModalI/ModalI';
 
 const BurgerIngredients = () => {
     const { isActive, cardData } = useSelector(
         (store) => ({
+            orderInfo: store.component.orderInfo,
+            ingredients: store.component.ingredients,
             isActive: store.component.isActiv,
             cardData: store.component.cardData,
         }),
@@ -17,6 +19,7 @@ const BurgerIngredients = () => {
     );
 
     const [current, setCurrent] = useState('one');
+    // console.log(cardData);
 
     return (
         <div className={ingredientsBurger.constructor}>
@@ -51,43 +54,10 @@ const BurgerIngredients = () => {
             <section
                 className={ingredientsBurger.menu}
                 id="menu"
-                onScroll={(e) => {
-                    const block = document.getElementById('menu');
-                    const sauceBlock = document.getElementById('sauceSection');
-                    const bunsBlock = document.getElementById('bunsSection');
-                    const mainBlock = document.getElementById('mainSection');
-                    if (
-                        Math.abs(bunsBlock.offsetTop - block.scrollTop) <
-                            Math.abs(sauceBlock.offsetTop - block.scrollTop) &&
-                        Math.abs(bunsBlock.offsetTop - block.scrollTop) <
-                            Math.abs(mainBlock.offsetTop - block.scrollTop)
-                    ) {
-                        setCurrent('one');
-                    }
-                    if (
-                        Math.abs(sauceBlock.offsetTop - block.scrollTop) <
-                            Math.abs(mainBlock.offsetTop - block.scrollTop) &&
-                        Math.abs(sauceBlock.offsetTop - block.scrollTop) <
-                            Math.abs(bunsBlock.offsetTop - block.scrollTop)
-                    ) {
-                        setCurrent('two');
-                    }
-
-                    if (
-                        Math.abs(mainBlock.offsetTop - block.scrollTop) <
-                            Math.abs(sauceBlock.offsetTop - block.scrollTop) &&
-                        Math.abs(mainBlock.offsetTop - block.scrollTop) <
-                            Math.abs(bunsBlock.offsetTop - block.scrollTop)
-                    ) {
-                        setCurrent('three');
-                    }
+                onScroll={() => {
+                    setCurrent(scrollFunction());
                 }}>
-                {isActive && cardData && (
-                    <Modal title={'Детали ингредиента'}>
-                        <IngredientDetails />
-                    </Modal>
-                )}
-
+                {isActive && cardData && <ModalI onClose={() => {}} />}
                 {/*Секция булок*/}
                 <section id="bunsSection">
                     <p className="text text_type_main-medium " id="bun">

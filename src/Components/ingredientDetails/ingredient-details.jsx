@@ -8,14 +8,12 @@ const IngredientDetails = () => {
         }),
         shallowEqual
     );
-
     return (
         <div className={ingredientStyles.main}>
             {/*блок с картинкой*/}
             <div className={ingredientStyles.imageDiv}>
                 <img src={cardData.image} alt={cardData.name} />
             </div>
-
             {/*описание ингридиента*/}
             <h2 className="text text_type_main-medium">{cardData.name}</h2>
             <div className={ingredientStyles.descriptionDiv}>

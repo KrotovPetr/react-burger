@@ -12,29 +12,41 @@ import {
     setActive,
     dragElement,
 } from '../../../Services/actions/components';
-import { useHistory, useRouteMatch } from 'react-router-dom';
-import { getCookie } from '../../../Services/actions/requestsActions';
+import { Redirect, useLocation } from 'react-router-dom';
+import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
 
 const IngredientList = (props) => {
     const dispatch = useDispatch();
-    const history = useHistory();
-    const { ingredients } = useSelector(
+    const location = useLocation();
+    const { ingredients, cardData } = useSelector(
         (store) => ({
             ingredients: store.component.ingredients,
+            cardData: store.component.cardData,
         }),
         shallowEqual
     );
-
+    // console.log(cardData);
     useEffect(() => {
         if (getCookie('isActive') !== undefined) {
             dispatch(setActive(true));
-            dispatch(setData(JSON.parse(getCookie('data'))));
+            getCookie('data') !== undefined &&
+                dispatch(setData(JSON.parse(getCookie('data'))));
         } else {
             dispatch(setActive(false));
         }
     }, []);
-    // console.log(getCookie('isActive'));
-    const { url } = useRouteMatch();
+
+    if (cardData) {
+        return (
+            <Redirect
+                to={{
+                    pathname: '/ingredients/' + cardData['_id'],
+                    state: { background: location },
+                }}
+            />
+        );
+    }
+
     return (
         <div className={cardStyle.cardArea}>
             {ingredients &&
@@ -52,13 +64,9 @@ const IngredientList = (props) => {
                                 }}>
                                 <div
                                     className={cardStyle.card}
-                                    onClick={(e) => {
+                                    onClick={() => {
                                         dispatch(setData(cards));
                                         dispatch(setActive(true));
-                                        history.replace({
-                                            pathname:
-                                                '/ingredients/' + cards['_id'],
-                                        });
                                     }}>
                                     {cards['__v'] > 0 && (
                                         <Counter

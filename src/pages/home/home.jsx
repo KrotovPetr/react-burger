@@ -6,7 +6,6 @@ import BurgerConstructor from '../../Components/burgerConstructor/burger-constru
 const Home = () => {
     return (
         <div>
-            {' '}
             <main className={appStyles.main}>
                 <BurgerIngredients className={appStyles.burgerIngredients} />
                 <BurgerConstructor />

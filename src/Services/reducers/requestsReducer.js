@@ -5,6 +5,7 @@ import {
     FORGOT_URL_ERROR,
     FORGOT_URL_REQUEST,
     FORGOT_URL_SUCCESS,
+    IS_AUTH,
     LOGOUT_URL_ERROR,
     LOGOUT_URL_REQUEST,
     LOGOUT_URL_SUCCESS,
@@ -94,6 +95,8 @@ const initialState = {
 
     isLogout: false,
 
+    isLogin: false,
+
     //блок страницы /logout
     //отправка запроса на регистрацию
     updateRequestRequest: false,
@@ -115,29 +118,8 @@ const initialState = {
     tokenRequestError: false,
 
     //блок эндпоинтов
-    //получение информации о пользователе
-    profileURL: 'https://norma.nomoreparties.space/api/auth/user',
-
-    //обновление информации о пользователе
-    updateURL: 'https://norma.nomoreparties.space/api/auth/user',
-
-    //адрес эндпоинта для обновления токена
-    tokenURL: 'https://norma.nomoreparties.space/api/auth/token',
-
-    //адрес эндпоинта для сброса пароля
-    forgotURL: 'https://norma.nomoreparties.space/api/password-reset',
-
-    //адрес эндпоинта для установки новых данных
-    resetURL: ' https://norma.nomoreparties.space/api/password-reset/reset',
-
-    //адрес эндпоинта для входа
-    enterURL: 'https://norma.nomoreparties.space/api/auth/login',
-
-    //адрес эндпоинта для регистрации новых данных
-    registerURL: 'https://norma.nomoreparties.space/api/auth/register',
-
-    //эндпоинт для выхода из системы
-    logoutURL: 'https://norma.nomoreparties.space/api/auth/logout',
+    //общая часть ссылки
+    baseURL: 'https://norma.nomoreparties.space/api',
 };
 
 export const requestsReducer = (state = initialState, action) => {
@@ -186,6 +168,8 @@ export const requestsReducer = (state = initialState, action) => {
         case REGIST_URL_SUCCESS: {
             return {
                 ...state,
+                isLogin: true,
+                isLogout: false,
                 registerRequestRequest: false,
                 registerRequestError: false,
                 registerRequestSuccess: true,
@@ -217,6 +201,7 @@ export const requestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLogout: false,
+                isLogin: true,
                 enterRequestRequest: false,
                 enterRequestError: false,
                 enterRequestSuccess: true,
@@ -266,6 +251,7 @@ export const requestsReducer = (state = initialState, action) => {
         case LOGOUT_URL_REQUEST: {
             return {
                 ...state,
+                isLogin: false,
                 logoutRequestError: false,
                 logoutRequestSuccess: false,
                 logoutRequestRequest: true,
@@ -289,6 +275,7 @@ export const requestsReducer = (state = initialState, action) => {
                 email: '',
                 name: '',
                 isLogout: true,
+                isLogin: false,
                 logoutRequestRequest: false,
                 logoutRequestError: false,
                 logoutRequestSuccess: true,
@@ -399,6 +386,12 @@ export const requestsReducer = (state = initialState, action) => {
             };
         }
 
+        case IS_AUTH: {
+            return {
+                ...state,
+                isLogin: action.data,
+            };
+        }
         //иное
         default: {
             return state;

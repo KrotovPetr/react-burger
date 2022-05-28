@@ -1,13 +1,15 @@
 import React from 'react';
 import orderStyles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 const OrderDetails = () => {
     const { orderInfo } = useSelector((store) => ({
         orderInfo: store.component.orderInfo,
+        isOrderSuccess: store.orderData.isOrderSuccess,
+        isOrderSend: store.orderData.isOrderSuccess,
     }));
+    // console.log(orderInfo);
 
     return (
         <div className={orderStyles.main}>
@@ -27,7 +29,7 @@ const OrderDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className={orderStyles.descr}>
+            <div className={orderStyles.desc}>
                 <p className="text text_type_main-small">
                     Ваш заказ начали готовить
                 </p>
@@ -37,6 +39,7 @@ const OrderDetails = () => {
             </div>
         </div>
     );
+    // )(isOrderSend && !isOrderSuccess && <LoadingComp />);
 };
 
 export default OrderDetails;

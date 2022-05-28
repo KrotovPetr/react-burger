@@ -1,4 +1,5 @@
-import { getCookie } from './requestsActions';
+import { checkResponse } from '../../utils/functions/checkResponse';
+import { getCookie } from '../../utils/functions/cookieFunctions/getCookie';
 
 export const SET_STATE = 'SET_STATE';
 export const ADD_BUN = 'ADD_BUN';
@@ -27,28 +28,21 @@ export function fetchData(refURL) {
             type: GET_INGREDIENTS_URL_REQUEST,
         });
         fetch(refURL)
-            .then((result) => {
-                if (result.ok) {
-                    return result.json();
-                } else {
-                    dispatch({ type: GET_INGREDIENTS_URL_ERROR });
-                    return Promise.reject(`Ошибка ${result.status}`);
-                }
-            })
+            .then(checkResponse)
             .then((result) => {
                 dispatch({
                     type: GET_INGREDIENTS_URL_SUCCESS,
                     data: result.data,
                 });
             })
-            .catch((e) => console.error(e));
+            .catch((e) => dispatch({ type: GET_INGREDIENTS_URL_ERROR }));
     };
 }
 
 //установка данных карты
 export function setData(card) {
     return function (dispatch) {
-        document.cookie = 'data=' + JSON.stringify(card) + '; path=/;';
+        // document.cookie = 'data=' + JSON.stringify(card) + '; path=/;';
         dispatch({ type: SET_DATA, data: card });
     };
 }
@@ -56,13 +50,6 @@ export function setData(card) {
 //изменение статуса активности модального окна
 export function setActive(data) {
     return function (dispatch) {
-        if (data === true) {
-            document.cookie = 'isActive=true; path=/;';
-        } else {
-            document.cookie = 'isActive=false; path=/; max-age=0';
-            document.cookie = 'data=' + null + '; path=/; max-age=0';
-        }
-
         dispatch({ type: SET_ACTIVE, value: data });
     };
 }
@@ -92,20 +79,13 @@ export function getNumberOrder(array, fetchURL) {
             },
             body: JSON.stringify({ ingredients: array }),
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    dispatch({ type: ORDER_URL_ERROR });
-                    return Promise.reject(`Ошибка ${res.status}`);
-                }
-            })
+            .then(checkResponse)
             .then((data) => {
                 // console.log(data);
                 dispatch({ type: ORDER_URL_SUCCESS });
                 dispatch({ type: SET_ORDER_INFO, data: data });
             })
-            .catch((e) => console.error(e));
+            .catch(() => dispatch({ type: ORDER_URL_ERROR }));
     };
 }
 

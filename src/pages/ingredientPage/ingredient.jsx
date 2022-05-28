@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ingredientStyles from './ingredStyles.module.css';
 import { shallowEqual, useSelector } from 'react-redux';
-import { Redirect, useHistory, useRouteMatch } from 'react-router-dom';
-import { getCookie } from '../../Services/actions/requestsActions';
+import { useRouteMatch } from 'react-router-dom';
+
 const Ingredient = () => {
     const [ingred, setIngred] = useState(null);
     const { ingredients } = useSelector(
@@ -11,24 +11,17 @@ const Ingredient = () => {
         }),
         shallowEqual
     );
-    const history = useHistory();
-    const isAuth = () => {
-        return getCookie('accessToken') !== undefined;
-    };
+
     const { url } = useRouteMatch();
     useEffect(() => {
-        if (!isAuth()) {
-            history.replace({ pathname: '/' });
-        } else {
-            let idIngr = -1;
-            ingredients.map((cards, index) => {
-                if (cards['_id'] === url.split('/')[2]) {
-                    idIngr = index;
-                }
-                // console.log(idIngr);
-                setIngred(ingredients[idIngr]);
-            });
-        }
+        let idIngr = -1;
+        ingredients.map((cards, index) => {
+            if (cards['_id'] === url.split('/')[2]) {
+                idIngr = index;
+            }
+            // console.log(idIngr);
+            setIngred(ingredients[idIngr]);
+        });
     }, [ingredients]);
 
     return (
