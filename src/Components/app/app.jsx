@@ -15,29 +15,31 @@ import ProtectedRoute from '../protectedRoute/protected-route';
 import NotFoundPage from '../../pages/404Page/not-found-page';
 import { isAuth } from '../../utils/functions/isAuth';
 import { IS_AUTH } from '../../Services/actions/requestsActions';
-import ModalI from '../ModalI/ModalI';
+import IngredientModal from '../IngredientModal/IngredientModal';
 const App = () => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const { isActive, cardData, refURL, isLogin } = useSelector(
+    const { isActive, cardData, isLogin, baseURL } = useSelector(
         (store) => ({
             orderInfo: store.component.orderInfo,
             ingredients: store.component.ingredients,
             isActive: store.component.isActiv,
             cardData: store.component.cardData,
-            refURL: store.component.refURL,
             isLogin: store.requests.isLogin,
+            baseURL: store.requests.baseURL,
         }),
         shallowEqual
     );
 
+    //задаём состояние подложки для модалки
     let background = location.state && location.state.background;
 
-    //fetch запрос при отрисовке
+    //fetch запрос на получение ингедиентов
     useEffect(() => {
-        dispatch(fetchData(refURL));
+        dispatch(fetchData(baseURL + '/ingredients'));
     }, []);
 
+    //запрос на авторизацию
     useEffect(() => {
         const data = isAuth();
         dispatch({ type: IS_AUTH, data: data });
@@ -47,7 +49,10 @@ const App = () => {
     }
     return (
         <>
+            {/*шапка с роутингом*/}
             <Header />
+
+            {/*роуты*/}
             <div className={appStyles.page}>
                 <Switch location={background || location}>
                     <Route exact path="/">
@@ -76,7 +81,10 @@ const App = () => {
                     </Route>
                 </Switch>
                 {background && isActive && (
-                    <Route path="/ingredients/:id" children={<ModalI />} />
+                    <Route
+                        path="/ingredients/:id"
+                        children={<IngredientModal />}
+                    />
                 )}
             </div>
         </>

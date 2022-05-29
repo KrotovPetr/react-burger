@@ -9,7 +9,7 @@ import {
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-const ModalI = () => {
+const IngredientModal = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { orderInfo, ingredients } = useSelector(
@@ -37,4 +37,4 @@ const ModalI = () => {
 
 //propTypes - нету
 
-export default ModalI;
+export default IngredientModal;

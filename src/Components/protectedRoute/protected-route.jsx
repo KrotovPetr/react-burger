@@ -18,6 +18,7 @@ const ProtectedRoute = ({ children, ...rest }) => {
                 isLogin ? (
                     children
                 ) : (
+                    // переводим на логин
                     <Redirect
                         to={{
                             pathname: '/login',

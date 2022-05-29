@@ -7,10 +7,9 @@ import { createPortal } from 'react-dom';
 
 const Modal = (props) => {
     const refRoot = document.getElementById('modal');
-
     useEffect(() => {
         const closeByEscape = (e) => {
-            if (e.key === 'Escape') {
+            if (e.keyCode === 27) {
                 props.onClose();
             }
         };
@@ -18,7 +17,7 @@ const Modal = (props) => {
         document.addEventListener('keydown', closeByEscape);
 
         return () => document.removeEventListener('keydown', closeByEscape);
-    }, []);
+    }, [props.info]);
 
     return createPortal(
         <div className={modalStyles.modalContainer}>
@@ -32,9 +31,6 @@ const Modal = (props) => {
                         className={modalStyles.logoDiv}
                         onClick={() => {
                             props.onClose();
-                            // history.replace({
-                            //     pathname: '/',
-                            // });
                         }}>
                         <CloseIcon type="primary" />
                     </div>
@@ -53,6 +49,7 @@ Modal.propTypes = {
     onClose: PropTypes.func,
     title: PropTypes.string,
     children: PropTypes.element,
+    info: PropTypes.object,
 };
 
 export default Modal;

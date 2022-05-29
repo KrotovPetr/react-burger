@@ -20,7 +20,7 @@ const ProfileMain = () => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-
+    const history = useHistory();
     const {
         baseURL,
         nameV,
@@ -43,7 +43,8 @@ const ProfileMain = () => {
         }),
         shallowEqual
     );
-    const history = useHistory();
+
+    //useEffect - проверка на авторизованность и выход из профиля
     useEffect(() => {
         // console.log(getCookie('accessToken') + ' ' + isLogout);
         if (!isLogin) {

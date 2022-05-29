@@ -8,19 +8,18 @@ const ProfileHeader = () => {
     const { url } = useRouteMatch();
     const dispatch = useDispatch();
     const [active, setActive] = useState(1);
-    const { baseURL, isLogin } = useSelector(
+    const history = useHistory();
+    const { baseURL } = useSelector(
         (store) => ({
             baseURL: store.requests.baseURL,
-            logoutRequestSuccess: store.requests.logoutRequestSuccess,
-            isLogin: store.requests.isLogin,
         }),
         shallowEqual
     );
 
-    const history = useHistory();
     return (
         <div className={profileHStyles.headContainer}>
             <div className={profileHStyles.pText}>
+                {/*/profile*/}
                 <p
                     className={
                         active === 1
@@ -35,6 +34,7 @@ const ProfileHeader = () => {
                 </p>
             </div>
             <div className={profileHStyles.pText}>
+                {/*/profile orders*/}
                 <p
                     className={
                         active === 2
@@ -49,6 +49,7 @@ const ProfileHeader = () => {
                 </p>
             </div>
             <div className={profileHStyles.pText}>
+                {/*/logout*/}
                 <p
                     className="text text_type_main-medium text_color_inactive"
                     onClick={() => {

@@ -2,6 +2,7 @@ import React from 'react';
 import overlayStyles from './modal-overlay.module.css';
 import PropTypes from 'prop-types';
 
+//компонент-подложка по модальное окно
 const ModalOverlay = (props) => {
     return (
         <div

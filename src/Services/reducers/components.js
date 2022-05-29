@@ -35,9 +35,6 @@ const initialState = {
         components: [],
     },
 
-    //ссылка на ингредиенты
-    refURL: 'https://norma.nomoreparties.space/api/ingredients',
-
     //состояние модального окна
     isActiv: false,
 
@@ -46,9 +43,6 @@ const initialState = {
 
     //данные карточки ингредиента
     cardData: null,
-
-    //ссылка на номер заказа
-    fetchURL: 'https://norma.nomoreparties.space/api/orders',
 
     //хранение информации заказа
     orderInfo: null,

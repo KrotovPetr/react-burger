@@ -5,7 +5,7 @@ import IngredientList from './ingredientList/ingredient-list';
 import appStyles from '../app/app.module.css';
 import { shallowEqual, useSelector } from 'react-redux';
 import { scrollFunction } from '../../utils/functions/scrollFunction';
-import ModalI from '../ModalI/ModalI';
+import IngredientModal from '../IngredientModal/IngredientModal';
 
 const BurgerIngredients = () => {
     const { isActive, cardData } = useSelector(
@@ -55,7 +55,7 @@ const BurgerIngredients = () => {
                 onScroll={() => {
                     setCurrent(scrollFunction());
                 }}>
-                {/*{isActive && cardData && <ModalI onClose={() => {}} />}*/}
+                {/*{isActive && cardData && <IngredientModal onClose={() => {}} />}*/}
                 {/*Секция булок*/}
                 <section id="bunsSection">
                     <p className="text text_type_main-medium " id="bun">

@@ -214,6 +214,7 @@ export function logoutRequest(baseURL) {
             .then(checkResponse)
             .then((data) => {
                 // console.log(data);
+
                 deleteCookie('accessToken');
                 deleteCookie('refreshToken');
                 deleteCookie('password');

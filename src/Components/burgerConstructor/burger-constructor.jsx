@@ -24,7 +24,6 @@ import {
     increaseCounter,
     replaceElement,
     setActive,
-    setData,
     setDragOver,
 } from '../../Services/actions/components';
 import { profileRequest } from '../../Services/actions/requestsActions';
@@ -35,8 +34,6 @@ const BurgerConstructor = () => {
         buns,
         ingredients,
         components,
-        fetchURL,
-        isActive,
         orderInfo,
         totalPrice,
         draggedElement,
@@ -52,7 +49,6 @@ const BurgerConstructor = () => {
             ingredients: store.component.ingredients,
             buns: store.component.order.buns,
             components: store.component.order.components,
-            fetchURL: store.component.fetchURL,
             isActive: store.component.isActiv,
             isOrderActive: store.component.isOrderActiv,
             orderInfo: store.component.orderInfo,
@@ -74,8 +70,9 @@ const BurgerConstructor = () => {
     const history = useHistory();
 
     const closeWindow = () => {
-        orderInfo ? dispatch(clearInfo(ingredients)) : dispatch(setData(null));
-        dispatch(setActive(false));
+        orderInfo &&
+            dispatch(clearInfo(ingredients)) &&
+            dispatch(setActive(false));
     };
 
     return (
@@ -119,7 +116,8 @@ const BurgerConstructor = () => {
                         {isOrderActive && (
                             <Modal
                                 title=""
-                                onClose={() => orderInfo && closeWindow()}>
+                                info={orderInfo}
+                                onClose={() => closeWindow()}>
                                 <OrderDetails />
                             </Modal>
                         )}
@@ -220,7 +218,11 @@ const BurgerConstructor = () => {
                                         dispatch(profileRequest(baseURL));
                                     }
                                     dispatch(
-                                        getOrder(buns, components, fetchURL)
+                                        getOrder(
+                                            buns,
+                                            components,
+                                            baseURL + '/orders'
+                                        )
                                     );
                                 } else {
                                     history.replace({ pathname: '/login' });
