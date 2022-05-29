@@ -157,12 +157,7 @@ export function profileRequest(baseURL) {
             })
             .catch(() => {
                 dispatch({ type: PROFILE_URL_ERROR });
-                dispatch(
-                    setNewToken(
-                        getCookie('refreshToken'),
-                        baseURL + '/auth/token'
-                    )
-                );
+                dispatch(setNewToken(getCookie('refreshToken'), baseURL));
             });
     };
 }

@@ -8,4 +8,6 @@ const ProfileOrders = () => {
     );
 };
 
+//propTypes - нету
+
 export default ProfileOrders;

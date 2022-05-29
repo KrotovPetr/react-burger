@@ -11,4 +11,6 @@ const LoadingComp = () => {
     );
 };
 
+//propTypes - нету
+
 export default LoadingComp;

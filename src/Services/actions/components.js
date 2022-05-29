@@ -20,6 +20,7 @@ export const GET_INGREDIENTS_URL_REQUEST = 'GET_INGREDIENTS_URL_REQUEST';
 export const GET_INGREDIENTS_URL_ERROR = 'GET_INGREDIENTS_URL_ERROR';
 export const GET_INGREDIENTS_URL_SUCCESS = 'GET_INGREDIENTS_URL_SUCCESS';
 export const SET_ORDER_INFO = 'SET_ORDER_INFO';
+export const SET_ORDER_ACTIVE = 'SET_ORDER_ACTIVE';
 
 //fetch - функция для получения данных
 export function fetchData(refURL) {
@@ -63,9 +64,11 @@ export function clearInfo(ingredients) {
         });
 
         dispatch({ type: CLEAR_INFO, data: arr });
+        dispatch({ type: SET_ORDER_ACTIVE, data: false });
     };
 }
 
+//функция получения номера заказа
 export function getNumberOrder(array, fetchURL) {
     return function (dispatch) {
         dispatch({
@@ -215,5 +218,6 @@ export function getOrder(buns, components, fetchURL) {
         const ingredientIds = ingredients.map((ingredient) => ingredient._id);
         dispatch(getNumberOrder(ingredientIds, fetchURL));
         dispatch(setActive(true));
+        dispatch({ type: SET_ORDER_ACTIVE, data: true });
     };
 }

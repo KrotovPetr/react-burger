@@ -25,7 +25,7 @@ const Registration = () => {
     }));
 
     // console.log(isAuth(), ' ', getCookie('accessToken'));
-    //
+
     if (isLogin) {
         return <Redirect to={{ pathname: fromURL }} />;
     }
@@ -104,4 +104,5 @@ const Registration = () => {
     );
 };
 
+//propTypes - нету
 export default Registration;

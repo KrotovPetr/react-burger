@@ -66,4 +66,6 @@ const ProfileHeader = () => {
     );
 };
 
+//propTypes - нету
+
 export default ProfileHeader;

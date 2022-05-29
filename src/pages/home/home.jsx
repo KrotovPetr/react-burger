@@ -14,4 +14,5 @@ const Home = () => {
     );
 };
 
+//propTypes - нету
 export default Home;

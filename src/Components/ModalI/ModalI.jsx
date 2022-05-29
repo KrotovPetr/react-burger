@@ -35,4 +35,6 @@ const ModalI = () => {
     );
 };
 
+//propTypes - нету
+
 export default ModalI;

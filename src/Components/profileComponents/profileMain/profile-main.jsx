@@ -111,4 +111,6 @@ const ProfileMain = () => {
     );
 };
 
+//propTypes - нету
+
 export default ProfileMain;

@@ -54,4 +54,6 @@ const IngredientDetails = () => {
     );
 };
 
+//propTypes - нету
+
 export default IngredientDetails;

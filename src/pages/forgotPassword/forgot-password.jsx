@@ -82,4 +82,5 @@ const ForgotPassword = () => {
     );
 };
 
+//propTypes - нету
 export default ForgotPassword;

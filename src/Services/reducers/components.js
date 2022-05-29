@@ -15,6 +15,7 @@ import {
     GET_INGREDIENTS_URL_REQUEST,
     GET_INGREDIENTS_URL_SUCCESS,
     GET_INGREDIENTS_URL_ERROR,
+    SET_ORDER_ACTIVE,
 } from '../actions/components';
 
 import { combineReducers } from 'redux';
@@ -39,6 +40,9 @@ const initialState = {
 
     //состояние модального окна
     isActiv: false,
+
+    //состояние модального окна заказа
+    isOrderActiv: false,
 
     //данные карточки ингредиента
     cardData: null,
@@ -123,6 +127,14 @@ export const componentReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isActiv: action.value,
+            };
+        }
+
+        //изменение статуса активности
+        case SET_ORDER_ACTIVE: {
+            return {
+                ...state,
+                isOrderActiv: action.data,
             };
         }
 

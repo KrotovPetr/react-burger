@@ -80,4 +80,5 @@ const Ingredient = () => {
     );
 };
 
+//propTypes - нету
 export default Ingredient;

@@ -26,4 +26,5 @@ const Profile = () => {
     );
 };
 
+//propTypes - нету
 export default Profile;

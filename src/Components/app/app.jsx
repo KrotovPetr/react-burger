@@ -2,13 +2,8 @@ import React, { useEffect } from 'react';
 import Header from '../header/header';
 import appStyles from './app.module.css';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import {
-    clearInfo,
-    fetchData,
-    setActive,
-    setData,
-} from '../../Services/actions/components';
-import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { fetchData } from '../../Services/actions/components';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import Login from '../../pages/login/login';
 import Registration from '../../pages/registration/registration';
 import ForgotPassword from '../../pages/forgotPassword/forgot-password';
@@ -18,16 +13,12 @@ import Home from '../../pages/home/home';
 import Ingredient from '../../pages/ingredientPage/ingredient';
 import ProtectedRoute from '../protectedRoute/protected-route';
 import NotFoundPage from '../../pages/404Page/not-found-page';
-import { getCookie } from '../../utils/functions/cookieFunctions/getCookie';
 import { isAuth } from '../../utils/functions/isAuth';
 import { IS_AUTH } from '../../Services/actions/requestsActions';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredientDetails/ingredient-details';
 import ModalI from '../ModalI/ModalI';
 const App = () => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const history = useHistory();
     const { isActive, cardData, refURL, isLogin } = useSelector(
         (store) => ({
             orderInfo: store.component.orderInfo,

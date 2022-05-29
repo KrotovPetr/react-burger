@@ -50,6 +50,7 @@ const Modal = (props) => {
 // Передаются функция выключения, заголовок, children
 
 Modal.propTypes = {
+    onClose: PropTypes.func,
     title: PropTypes.string,
     children: PropTypes.element,
 };

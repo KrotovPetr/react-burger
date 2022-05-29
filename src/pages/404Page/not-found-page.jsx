@@ -23,4 +23,5 @@ const NotFoundPage = () => {
     );
 };
 
+//propTypes - нету
 export default NotFoundPage;

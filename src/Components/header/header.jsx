@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import HeaderStyles from './header.module.css';
 import {
     BurgerIcon,
@@ -6,9 +6,23 @@ import {
     Logo,
     ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+
 const Header = () => {
+    const location = useLocation();
+
     const history = useHistory();
+    const [type, setType] = useState('home');
+
+    useEffect(() => {
+        if (location.pathname === '/') {
+            setType('home');
+        } else if (location.pathname.split('/')[1] === 'profile') {
+            setType('profile');
+        } else {
+            setType('besoon');
+        }
+    }, [location]);
 
     return (
         <div className={HeaderStyles.top}>
@@ -20,12 +34,18 @@ const Header = () => {
                         onClick={() => {
                             history.replace({ pathname: '/' });
                         }}>
-                        <BurgerIcon type="primary" />
+                        <BurgerIcon
+                            type={type === 'home' ? 'primary' : 'secondary'}
+                        />
                         <p
                             className={
-                                HeaderStyles.headerText +
-                                'text text_type_main-default text_color_active ' +
-                                HeaderStyles.hoverText
+                                type === 'home'
+                                    ? HeaderStyles.headerText +
+                                      'text text_type_main-default text_color_active ' +
+                                      HeaderStyles.hoverText
+                                    : HeaderStyles.headerText +
+                                      'text text_type_main-default text_color_inactive ' +
+                                      HeaderStyles.hoverText
                             }>
                             Конструктор
                         </p>
@@ -33,14 +53,20 @@ const Header = () => {
                     <div
                         className={HeaderStyles.orderList}
                         onClick={() =>
-                            history.replace({ pathname: '/profile' })
+                            history.replace({ pathname: '/profile23' })
                         }>
-                        <ListIcon type="secondary" />
+                        <ListIcon
+                            type={type === 'besoon' ? 'primary' : 'secondary'}
+                        />
                         <p
                             className={
-                                HeaderStyles.headerText +
-                                'text text_type_main-default text_color_inactive ' +
-                                HeaderStyles.hoverText
+                                type === 'besoon'
+                                    ? HeaderStyles.headerText +
+                                      'text text_type_main-default text_color_active ' +
+                                      HeaderStyles.hoverText
+                                    : HeaderStyles.headerText +
+                                      'text text_type_main-default text_color_inactive ' +
+                                      HeaderStyles.hoverText
                             }>
                             Лента заказов
                         </p>
@@ -59,11 +85,16 @@ const Header = () => {
                 <div
                     className={HeaderStyles.personalAccount}
                     onClick={() => history.replace({ pathname: '/profile' })}>
-                    <ProfileIcon type="secondary" />
+                    <ProfileIcon
+                        type={type === 'profile' ? 'primary' : 'secondary'}
+                    />
                     <p
                         className={
-                            'text headerText text_type_main-small text_color_inactive ' +
-                            HeaderStyles.hoverText
+                            type === 'profile'
+                                ? 'text headerText text_type_main-small text_color_active ' +
+                                  HeaderStyles.hoverText
+                                : 'text headerText text_type_main-small text_color_inactive ' +
+                                  HeaderStyles.hoverText
                         }>
                         Личный кабинет
                     </p>
@@ -72,5 +103,7 @@ const Header = () => {
         </div>
     );
 };
+
+//propTypes - нету
 
 export default Header;

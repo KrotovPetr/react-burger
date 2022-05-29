@@ -43,7 +43,7 @@ const BurgerConstructor = () => {
         underDraggedElement,
         cart,
         isReady,
-        isOrderSuccess,
+        isOrderActive,
         profileRequestError,
         baseURL,
         isLogin,
@@ -54,6 +54,7 @@ const BurgerConstructor = () => {
             components: store.component.order.components,
             fetchURL: store.component.fetchURL,
             isActive: store.component.isActiv,
+            isOrderActive: store.component.isOrderActiv,
             orderInfo: store.component.orderInfo,
             totalPrice: store.component.totalPrice,
             draggedElement: store.component.draggedElement,
@@ -115,8 +116,10 @@ const BurgerConstructor = () => {
 
                     {/*Блок формирования центральной части бургера*/}
                     <div className={constStyles.middle}>
-                        {isActive && isOrderSuccess && orderInfo && (
-                            <Modal title="" onClose={() => closeWindow()}>
+                        {isOrderActive && (
+                            <Modal
+                                title=""
+                                onClose={() => orderInfo && closeWindow()}>
                                 <OrderDetails />
                             </Modal>
                         )}

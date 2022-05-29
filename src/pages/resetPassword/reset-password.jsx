@@ -110,4 +110,5 @@ const ResetPassword = () => {
     );
 };
 
+//propTypes - нету
 export default ResetPassword;

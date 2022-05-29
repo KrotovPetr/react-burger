@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children, ...rest }) => {
     const { isLogin } = useSelector((store) => ({
@@ -27,6 +28,11 @@ const ProtectedRoute = ({ children, ...rest }) => {
             }
         />
     );
+};
+
+ProtectedRoute.propTypes = {
+    children: PropTypes.element,
+    rest: PropTypes.object,
 };
 
 export default ProtectedRoute;

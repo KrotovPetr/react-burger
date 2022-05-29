@@ -10,8 +10,6 @@ import ModalI from '../ModalI/ModalI';
 const BurgerIngredients = () => {
     const { isActive, cardData } = useSelector(
         (store) => ({
-            orderInfo: store.component.orderInfo,
-            ingredients: store.component.ingredients,
             isActive: store.component.isActiv,
             cardData: store.component.cardData,
         }),
@@ -57,7 +55,7 @@ const BurgerIngredients = () => {
                 onScroll={() => {
                     setCurrent(scrollFunction());
                 }}>
-                {isActive && cardData && <ModalI onClose={() => {}} />}
+                {/*{isActive && cardData && <ModalI onClose={() => {}} />}*/}
                 {/*Секция булок*/}
                 <section id="bunsSection">
                     <p className="text text_type_main-medium " id="bun">
@@ -92,4 +90,5 @@ const BurgerIngredients = () => {
     );
 };
 
+//propTypes - нету
 export default BurgerIngredients;

@@ -112,4 +112,5 @@ const Login = () => {
     );
 };
 
+//propTypes - нету
 export default Login;
