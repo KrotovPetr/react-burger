@@ -36,7 +36,7 @@
     margin:32px 0 60px 0;
 }
 
-.descr{
+.desc{
     composes:flexModel;
     flex-flow: column nowrap;
     row-gap: 8px;

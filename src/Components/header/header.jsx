@@ -1,34 +1,109 @@
-import React from 'react';
-import HeaderStyles from "./header.module.css";
-import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { useEffect, useState } from 'react';
+import HeaderStyles from './header.module.css';
+import {
+    BurgerIcon,
+    ListIcon,
+    Logo,
+    ProfileIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useHistory, useLocation } from 'react-router-dom';
+
 const Header = () => {
+    const location = useLocation();
+
+    const history = useHistory();
+    const [type, setType] = useState('home');
+
+    useEffect(() => {
+        if (location.pathname === '/') {
+            setType('home');
+        } else if (location.pathname.split('/')[1] === 'profile') {
+            setType('profile');
+        } else {
+            setType('besoon');
+        }
+    }, [location]);
+
     return (
         <div className={HeaderStyles.top}>
             <header className={HeaderStyles.header}>
-
                 {/*зона левых кнопок*/}
                 <div className={HeaderStyles.btnArea}>
-                    <div className={HeaderStyles.constructor}>
-                        <BurgerIcon type="primary" />
-                        <p className={HeaderStyles.headerText + "text text_type_main-default text_color_active"}>Конструктор</p>
+                    <div
+                        className={HeaderStyles.constructor}
+                        onClick={() => {
+                            history.replace({ pathname: '/' });
+                        }}>
+                        <BurgerIcon
+                            type={type === 'home' ? 'primary' : 'secondary'}
+                        />
+                        <p
+                            className={
+                                type === 'home'
+                                    ? HeaderStyles.headerText +
+                                      'text text_type_main-default text_color_active ' +
+                                      HeaderStyles.hoverText
+                                    : HeaderStyles.headerText +
+                                      'text text_type_main-default text_color_inactive ' +
+                                      HeaderStyles.hoverText
+                            }>
+                            Конструктор
+                        </p>
                     </div>
-                    <div className={HeaderStyles.orderList}>
-                        <ListIcon type="secondary" />
-                        <p className={HeaderStyles.headerText + "text text_type_main-default text_color_inactive"}>Лента заказов</p>
+                    <div
+                        className={HeaderStyles.orderList}
+                        onClick={() =>
+                            history.replace({ pathname: '/profile23' })
+                        }>
+                        <ListIcon
+                            type={type === 'besoon' ? 'primary' : 'secondary'}
+                        />
+                        <p
+                            className={
+                                type === 'besoon'
+                                    ? HeaderStyles.headerText +
+                                      'text text_type_main-default text_color_active ' +
+                                      HeaderStyles.hoverText
+                                    : HeaderStyles.headerText +
+                                      'text text_type_main-default text_color_inactive ' +
+                                      HeaderStyles.hoverText
+                            }>
+                            Лента заказов
+                        </p>
                     </div>
                 </div>
 
                 {/*лого*/}
-                <Logo className={HeaderStyles.logo}/>
-
+                <div
+                    className={HeaderStyles.logoDiv}
+                    onClick={() => {
+                        history.replace({ pathname: '/' });
+                    }}>
+                    <Logo className={HeaderStyles.logo} />
+                </div>
                 {/*зона правых кнопок*/}
-                <div className={HeaderStyles.personalAccount}>
-                    <ProfileIcon type="secondary"/>
-                    <p className="text headerText text_type_main-small text_color_inactive">Личный кабинет</p>
+                <div
+                    className={HeaderStyles.personalAccount}
+                    onClick={() => history.replace({ pathname: '/profile' })}>
+                    <ProfileIcon
+                        type={type === 'profile' ? 'primary' : 'secondary'}
+                    />
+                    <p
+                        className={
+                            type === 'profile'
+                                ? 'text headerText text_type_main-small text_color_active ' +
+                                  HeaderStyles.hoverText
+                                : 'text headerText text_type_main-small text_color_inactive ' +
+                                  HeaderStyles.hoverText
+                        }>
+                        Личный кабинет
+                    </p>
                 </div>
             </header>
         </div>
     );
 };
+
+//propTypes - нету
 
 export default Header;

@@ -1,36 +1,91 @@
 import React, { useEffect } from 'react';
 import Header from '../header/header';
-import BurgerIngredients from '../burgerIngridients/burger-ingredients';
 import appStyles from './app.module.css';
-import BurgerConstructor from '../burgerConstructor/burger-constructor';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { fetchData } from '../../Services/actions/components';
+import { Route, Switch, useLocation } from 'react-router-dom';
+import Login from '../../pages/login/login';
+import Registration from '../../pages/registration/registration';
+import ForgotPassword from '../../pages/forgotPassword/forgot-password';
+import ResetPassword from '../../pages/resetPassword/reset-password';
+import Profile from '../../pages/profile/profile';
+import Home from '../../pages/home/home';
+import Ingredient from '../../pages/ingredientPage/ingredient';
+import ProtectedRoute from '../protectedRoute/protected-route';
+import NotFoundPage from '../../pages/404Page/not-found-page';
+import { isAuth } from '../../utils/functions/isAuth';
+import { IS_AUTH } from '../../Services/actions/requestsActions';
+import IngredientModal from '../IngredientModal/IngredientModal';
 const App = () => {
     const dispatch = useDispatch();
-
-    //вытаскивание из хранилища данных
-    const { refURL } = useSelector(
+    const location = useLocation();
+    const { isActive, cardData, isLogin, baseURL } = useSelector(
         (store) => ({
-            refURL: store.component.refURL,
+            orderInfo: store.component.orderInfo,
+            ingredients: store.component.ingredients,
+            isActive: store.component.isActiv,
+            cardData: store.component.cardData,
+            isLogin: store.requests.isLogin,
+            baseURL: store.requests.baseURL,
         }),
         shallowEqual
     );
 
-    //fetch запрос при отрисовке
+    //задаём состояние подложки для модалки
+    let background = location.state && location.state.background;
+
+    //fetch запрос на получение ингедиентов
     useEffect(() => {
-        dispatch(fetchData(refURL));
+        dispatch(fetchData(baseURL + '/ingredients'));
     }, []);
 
+    //запрос на авторизацию
+    useEffect(() => {
+        const data = isAuth();
+        dispatch({ type: IS_AUTH, data: data });
+    }, [isLogin]);
+    if (!cardData && background !== undefined) {
+        location.state.background = undefined;
+    }
     return (
         <>
+            {/*шапка с роутингом*/}
             <Header />
+
+            {/*роуты*/}
             <div className={appStyles.page}>
-                <main className={appStyles.main}>
-                    <BurgerIngredients
-                        className={appStyles.burgerIngredients}
+                <Switch location={background || location}>
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    <Route path="/login">
+                        <Login />
+                    </Route>
+                    <Route path="/register">
+                        <Registration />
+                    </Route>
+                    <Route path="/forgot-password">
+                        <ForgotPassword />
+                    </Route>
+                    <Route path="/reset-password">
+                        <ResetPassword />
+                    </Route>
+                    <ProtectedRoute path="/profile">
+                        <Profile />
+                    </ProtectedRoute>
+                    <Route path="/ingredients/:id">
+                        <Ingredient />
+                    </Route>
+                    <Route>
+                        <NotFoundPage />
+                    </Route>
+                </Switch>
+                {background && isActive && (
+                    <Route
+                        path="/ingredients/:id"
+                        children={<IngredientModal />}
                     />
-                    <BurgerConstructor />
-                </main>
+                )}
             </div>
         </>
     );

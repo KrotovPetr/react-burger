@@ -15,10 +15,12 @@ import {
     GET_INGREDIENTS_URL_REQUEST,
     GET_INGREDIENTS_URL_SUCCESS,
     GET_INGREDIENTS_URL_ERROR,
+    SET_ORDER_ACTIVE,
 } from '../actions/components';
 
 import { combineReducers } from 'redux';
 import { orderReducer } from './orders';
+import { requestsReducer } from './requestsReducer';
 
 const initialState = {
     //список всех ингредиентов
@@ -33,17 +35,14 @@ const initialState = {
         components: [],
     },
 
-    //ссылка на ингредиенты
-    refURL: 'https://norma.nomoreparties.space/api/ingredients',
-
     //состояние модального окна
     isActiv: false,
 
+    //состояние модального окна заказа
+    isOrderActiv: false,
+
     //данные карточки ингредиента
     cardData: null,
-
-    //ссылка на номер заказа
-    fetchURL: 'https://norma.nomoreparties.space/api/orders',
 
     //хранение информации заказа
     orderInfo: null,
@@ -122,6 +121,14 @@ export const componentReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isActiv: action.value,
+            };
+        }
+
+        //изменение статуса активности
+        case SET_ORDER_ACTIVE: {
+            return {
+                ...state,
+                isOrderActiv: action.data,
             };
         }
 
@@ -247,4 +254,5 @@ export const componentReducer = (state = initialState, action) => {
 export const rootReducer = combineReducers({
     component: componentReducer,
     orderData: orderReducer,
+    requests: requestsReducer,
 });

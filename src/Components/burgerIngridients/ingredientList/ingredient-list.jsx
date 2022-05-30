@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import constructBurger from '../burger-ingredients.module.css';
 import {
     Counter,
@@ -12,16 +12,40 @@ import {
     setActive,
     dragElement,
 } from '../../../Services/actions/components';
+import { Redirect, useLocation } from 'react-router-dom';
+import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
 
 const IngredientList = (props) => {
     const dispatch = useDispatch();
-
-    const { ingredients } = useSelector(
+    const location = useLocation();
+    const { ingredients, cardData } = useSelector(
         (store) => ({
             ingredients: store.component.ingredients,
+            cardData: store.component.cardData,
         }),
         shallowEqual
     );
+    // console.log(cardData);
+    useEffect(() => {
+        if (getCookie('isActive') !== undefined) {
+            dispatch(setActive(true));
+            getCookie('data') !== undefined &&
+                dispatch(setData(JSON.parse(getCookie('data'))));
+        } else {
+            dispatch(setActive(false));
+        }
+    }, []);
+
+    if (cardData) {
+        return (
+            <Redirect
+                to={{
+                    pathname: '/ingredients/' + cardData['_id'],
+                    state: { background: location },
+                }}
+            />
+        );
+    }
 
     return (
         <div className={cardStyle.cardArea}>
@@ -40,7 +64,7 @@ const IngredientList = (props) => {
                                 }}>
                                 <div
                                     className={cardStyle.card}
-                                    onClick={(e) => {
+                                    onClick={() => {
                                         dispatch(setData(cards));
                                         dispatch(setActive(true));
                                     }}>

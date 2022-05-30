@@ -13,42 +13,44 @@ import {
 //модальное окно
 import Modal from '../modal/modal';
 import OrderDetails from '../orderDetails/order-details';
-
+import { v4 as uuidv4 } from 'uuid';
 //экшены
 import {
+    clearInfo,
     decreaseCounter,
     deleteElement,
     dragElement,
     getOrder,
     increaseCounter,
     replaceElement,
+    setActive,
     setDragOver,
 } from '../../Services/actions/components';
+import { profileRequest } from '../../Services/actions/requestsActions';
+import { useHistory } from 'react-router-dom';
 
 const BurgerConstructor = () => {
-    const dispatch = useDispatch();
-
-    //данные из хранилища
     const {
         buns,
         ingredients,
         components,
-        fetchURL,
-        isActive,
         orderInfo,
         totalPrice,
         draggedElement,
         underDraggedElement,
         cart,
         isReady,
-        isOrderSuccess,
+        isOrderActive,
+        profileRequestError,
+        baseURL,
+        isLogin,
     } = useSelector(
         (store) => ({
             ingredients: store.component.ingredients,
             buns: store.component.order.buns,
             components: store.component.order.components,
-            fetchURL: store.component.fetchURL,
             isActive: store.component.isActiv,
+            isOrderActive: store.component.isOrderActiv,
             orderInfo: store.component.orderInfo,
             totalPrice: store.component.totalPrice,
             draggedElement: store.component.draggedElement,
@@ -56,9 +58,22 @@ const BurgerConstructor = () => {
             cart: store.component.cart,
             isReady: store.component.isReady,
             isOrderSuccess: store.orderData.isOrderSuccess,
+            isOrderSend: store.orderData.isOrderSend,
+            profileRequestError: store.requests.profileRequestError,
+            baseURL: store.requests.baseURL,
+            isLogin: store.requests.isLogin,
         }),
         shallowEqual
     );
+
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const closeWindow = () => {
+        orderInfo &&
+            dispatch(clearInfo(ingredients)) &&
+            dispatch(setActive(false));
+    };
 
     return (
         <div className={constStyles.area}>
@@ -89,7 +104,7 @@ const BurgerConstructor = () => {
                             <ConstructorElement
                                 type="top"
                                 isLocked={true}
-                                text={buns.name}
+                                text={buns.name + ' (верх)'}
                                 price={buns.price}
                                 thumbnail={buns.image}
                             />
@@ -98,8 +113,11 @@ const BurgerConstructor = () => {
 
                     {/*Блок формирования центральной части бургера*/}
                     <div className={constStyles.middle}>
-                        {isActive && isOrderSuccess && orderInfo && (
-                            <Modal title="">
+                        {isOrderActive && (
+                            <Modal
+                                title=""
+                                info={orderInfo}
+                                onClose={() => closeWindow()}>
                                 <OrderDetails />
                             </Modal>
                         )}
@@ -107,7 +125,7 @@ const BurgerConstructor = () => {
                             components.map((cards, index) => (
                                 <div
                                     className={constStyles.position}
-                                    key={index}
+                                    key={uuidv4()}
                                     draggable
                                     onDrag={(e) => {
                                         e.preventDefault();
@@ -145,7 +163,7 @@ const BurgerConstructor = () => {
                                                 thumbnail={
                                                     cards['image_mobile']
                                                 }
-                                                handleClose={(e) => {
+                                                handleClose={() => {
                                                     dispatch(
                                                         deleteElement(
                                                             index,
@@ -173,7 +191,7 @@ const BurgerConstructor = () => {
                             <ConstructorElement
                                 type="bottom"
                                 isLocked={true}
-                                text={buns.name}
+                                text={buns.name + ' (низ)'}
                                 price={buns.price}
                                 thumbnail={buns.image}
                             />
@@ -193,8 +211,22 @@ const BurgerConstructor = () => {
                         <Button
                             type="primary"
                             size="large"
-                            onClick={(e) => {
-                                dispatch(getOrder(buns, components, fetchURL));
+                            onClick={() => {
+                                if (isLogin) {
+                                    dispatch(profileRequest(baseURL));
+                                    if (profileRequestError) {
+                                        dispatch(profileRequest(baseURL));
+                                    }
+                                    dispatch(
+                                        getOrder(
+                                            buns,
+                                            components,
+                                            baseURL + '/orders'
+                                        )
+                                    );
+                                } else {
+                                    history.replace({ pathname: '/login' });
+                                }
                             }}
                             disabled={buns === null}>
                             Оформить заказ

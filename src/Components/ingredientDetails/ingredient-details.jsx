@@ -14,7 +14,6 @@ const IngredientDetails = () => {
             <div className={ingredientStyles.imageDiv}>
                 <img src={cardData.image} alt={cardData.name} />
             </div>
-
             {/*описание ингридиента*/}
             <h2 className="text text_type_main-medium">{cardData.name}</h2>
             <div className={ingredientStyles.descriptionDiv}>
@@ -54,5 +53,7 @@ const IngredientDetails = () => {
         </div>
     );
 };
+
+//propTypes - нету
 
 export default IngredientDetails;
