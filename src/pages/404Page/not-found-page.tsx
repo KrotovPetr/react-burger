@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 import nfStyles from './not-found.module.css';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useHistory } from 'react-router-dom';
-const NotFoundPage = () => {
+const NotFoundPage: FC = () => {
     const history = useHistory();
     return (
         <div className={nfStyles.commonContainer}>
@@ -15,7 +15,7 @@ const NotFoundPage = () => {
                 <Button
                     type="primary"
                     size="medium"
-                    onClick={() => history.replace({ pathname: '/' })}>
+                    onClick={(): void => history.replace({ pathname: '/' })}>
                     Назад
                 </Button>
             </div>

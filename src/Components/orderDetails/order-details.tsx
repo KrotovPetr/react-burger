@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { FC } from 'react';
 import orderStyles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
-import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const OrderDetails = () => {
-    const { orderInfo } = useSelector((store) => ({
+// interface IOrderDetails {
+//     component: {
+//         orderInfo: {
+//             order: {
+//                 number: number;
+//             };
+//         } | null;
+//     };
+// }
+
+type TOrderDetails = {};
+
+const OrderDetails: FC<TOrderDetails> = () => {
+    const { orderInfo } = useSelector((store: any) => ({
         orderInfo: store.component.orderInfo,
-        isOrderSuccess: store.orderData.isOrderSuccess,
-        isOrderSend: store.orderData.isOrderSuccess,
     }));
-    // console.log(orderInfo);
 
     return orderInfo ? (
         <div className={orderStyles.main}>
@@ -67,7 +75,6 @@ const OrderDetails = () => {
             </div>
         </div>
     );
-    // )(isOrderSend && !isOrderSuccess && <LoadingComp />);
 };
 
 //propTypes - нету

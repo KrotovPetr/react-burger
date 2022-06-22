@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ingredientStyles from './ingredStyles.module.css';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
+import { TCard } from '../../utils/types/types';
 
 const Ingredient = () => {
-    const [ingred, setIngred] = useState(null);
+    const [ingred, setIngred] = useState<TCard | null>(null);
     const { ingredients } = useSelector(
-        (store) => ({
+        (store: any) => ({
             ingredients: store.component.ingredients,
         }),
         shallowEqual
@@ -14,13 +15,13 @@ const Ingredient = () => {
 
     const { url } = useRouteMatch();
     useEffect(() => {
-        let idIngr = -1;
-        ingredients.map((cards, index) => {
+        let idIngredient = -1;
+        ingredients.map((cards: TCard, index: number): any => {
             if (cards['_id'] === url.split('/')[2]) {
-                idIngr = index;
+                idIngredient = index;
             }
             // console.log(idIngr);
-            setIngred(ingredients[idIngr]);
+            setIngred(ingredients[idIngredient]);
         });
     }, [ingredients]);
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import resetStyles from './reset.module.css';
 import {
     Button,
@@ -11,18 +11,18 @@ import { resetRequest } from '../../Services/actions/requestsActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { isForgot } from '../../utils/functions/isForgot';
 
-const ResetPassword = () => {
-    const [password, setPassword] = useState('');
-    const [token, setToken] = useState('');
+const ResetPassword: FC = () => {
+    const [password, setPassword] = useState<string>('');
+    const [token, setToken] = useState<string>('');
     const { baseURL, resetRequestSuccess, resetRequestError, isLogin } =
-        useSelector((store) => ({
+        useSelector((store: any) => ({
             baseURL: store.requests.baseURL,
             resetRequestSuccess: store.requests.resetRequestSuccess,
             resetRequestError: store.requests.resetRequestError,
             isLogin: store.requests.isLogin,
         }));
 
-    useEffect(() => {
+    useEffect((): void => {
         resetRequestSuccess &&
             !resetRequestError &&
             history.replace({ pathname: '/login' });
@@ -63,7 +63,7 @@ const ResetPassword = () => {
         <div className={resetStyles.commonContainer}>
             <form
                 className={resetStyles.formContainer}
-                onSubmit={(e) => {
+                onSubmit={(e): void => {
                     e.preventDefault();
                     dispatch(resetRequest(password, token, baseURL));
                 }}>
@@ -71,25 +71,27 @@ const ResetPassword = () => {
                     Восстановление пароля
                 </h1>
                 <label>
-                    <PasswordInput
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="input"
-                        value={password}
-                        name={'password'}
-                    />
+                    <div className="input">
+                        <PasswordInput
+                            onChange={(e): void => setPassword(e.target.value)}
+                            value={password}
+                            name={'password'}
+                        />
+                    </div>
                 </label>
                 <label>
-                    <Input
-                        type={'text'}
-                        placeholder={'Введите код из письма'}
-                        onChange={(e) => setToken(e.target.value)}
-                        className="input"
-                        value={token}
-                        name={'name'}
-                        error={false}
-                        errorText={'Ошибка'}
-                        size={'default'}
-                    />
+                    <div className="input">
+                        <Input
+                            type={'text'}
+                            placeholder={'Введите код из письма'}
+                            onChange={(e): void => setToken(e.target.value)}
+                            value={token}
+                            name={'name'}
+                            error={false}
+                            errorText={'Ошибка'}
+                            size={'default'}
+                        />
+                    </div>
                 </label>
                 <div className={resetStyles.buttonContainer}>
                     <Button type="primary" size="medium">

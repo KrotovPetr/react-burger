@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import Header from '../header/header';
 import appStyles from './app.module.css';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -16,13 +16,42 @@ import NotFoundPage from '../../pages/404Page/not-found-page';
 import { isAuth } from '../../utils/functions/isAuth';
 import { IS_AUTH } from '../../Services/actions/requestsActions';
 import IngredientModal from '../IngredientModal/IngredientModal';
-const App = () => {
+import { Location } from 'history';
+
+// type TSelector = {
+//     // component: {
+//     //     isActiv: boolean;
+//     //     cardData: {
+//     //         calories: number;
+//     //         carbohydrates: number;
+//     //         fat: number;
+//     //         image: string;
+//     //         image_large: string;
+//     //         image_mobile: string;
+//     //         price: number;
+//     //         proteins: number;
+//     //         type: string;
+//     //         __v: number;
+//     //         _id: string;
+//     //     } | null;
+//     // };
+//     // requests: {
+//     //     isLogin: boolean;
+//     //     baseURL: string;
+//     // };
+//     component: any;
+//     requests: any;
+// };
+
+// type TLocation = {
+//     background
+// }
+
+const App: FC = () => {
     const dispatch = useDispatch();
-    const location = useLocation();
+    const location = useLocation<{ background: Location | undefined }>();
     const { isActive, cardData, isLogin, baseURL } = useSelector(
-        (store) => ({
-            orderInfo: store.component.orderInfo,
-            ingredients: store.component.ingredients,
+        (store: any) => ({
             isActive: store.component.isActiv,
             cardData: store.component.cardData,
             isLogin: store.requests.isLogin,
@@ -32,7 +61,8 @@ const App = () => {
     );
 
     //задаём состояние подложки для модалки
-    let background = location.state && location.state.background;
+    let background: Location | undefined =
+        location.state && location.state.background;
 
     //fetch запрос на получение ингедиентов
     useEffect(() => {
@@ -41,12 +71,14 @@ const App = () => {
 
     //запрос на авторизацию
     useEffect(() => {
-        const data = isAuth();
+        const data: boolean = isAuth();
         dispatch({ type: IS_AUTH, data: data });
     }, [isLogin]);
+
     if (!cardData && background !== undefined) {
         location.state.background = undefined;
     }
+
     return (
         <>
             {/*шапка с роутингом*/}
@@ -70,7 +102,7 @@ const App = () => {
                     <Route path="/reset-password">
                         <ResetPassword />
                     </Route>
-                    <ProtectedRoute path="/profile">
+                    <ProtectedRoute path={'/profile'}>
                         <Profile />
                     </ProtectedRoute>
                     <Route path="/ingredients/:id">

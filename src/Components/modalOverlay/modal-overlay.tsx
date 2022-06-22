@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import overlayStyles from './modal-overlay.module.css';
-import PropTypes from 'prop-types';
 
+interface IProps {
+    onClose: () => void;
+}
 //компонент-подложка по модальное окно
-const ModalOverlay = (props) => {
+const ModalOverlay: FC<IProps> = (props) => {
     return (
         <div
             className={overlayStyles.modalActive}
@@ -12,10 +14,6 @@ const ModalOverlay = (props) => {
             }}
         />
     );
-};
-
-ModalOverlay.propTypes = {
-    onClose: PropTypes.func,
 };
 
 export default ModalOverlay;

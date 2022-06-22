@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import loginStyles from './login.module.css';
 import '../../commonStyles/styles.css';
 import {
@@ -11,20 +11,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     clearForgotCookie,
     enterRequest,
-    getCookie,
+    // getCookie,
 } from '../../Services/actions/requestsActions';
 
-const Login = () => {
+type TLocation = {
+    from: { pathname: string };
+};
+
+const Login: FC = () => {
     // console.log(typeof location.state.from.pathname);
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
     const dispatch = useDispatch();
     const history = useHistory();
-    const { baseURL, isLogin } = useSelector((store) => ({
+    const { baseURL, isLogin } = useSelector((store: any) => ({
         baseURL: store.requests.baseURL,
         isLogin: store.requests.isLogin,
     }));
-    const { state } = useLocation();
+    const { state } = useLocation<TLocation>();
 
     useEffect(() => {
         dispatch(clearForgotCookie());
@@ -47,7 +51,7 @@ const Login = () => {
 
                 <form
                     className={loginStyles.inputContainer}
-                    onSubmit={(e) => {
+                    onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                         e.preventDefault();
                         dispatch(enterRequest(email, password, baseURL));
                     }}>
@@ -55,7 +59,9 @@ const Login = () => {
                         <Input
                             type={'text'}
                             placeholder={'Email'}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                            ): void => setEmail(e.target.value)}
                             value={email}
                             name={'name'}
                             error={false}
@@ -64,12 +70,15 @@ const Login = () => {
                         />
                     </label>
                     <label>
-                        <PasswordInput
-                            className="input"
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
-                            name={'password'}
-                        />
+                        <div className="input">
+                            <PasswordInput
+                                onChange={(
+                                    e: React.ChangeEvent<HTMLInputElement>
+                                ): void => setPassword(e.target.value)}
+                                value={password}
+                                name={'password'}
+                            />
+                        </div>
                     </label>
 
                     <div className={loginStyles.buttonContainer}>
@@ -85,7 +94,7 @@ const Login = () => {
                     Вы новый пользователь?
                     <span
                         className="text text_type_main-default text_color_inactive"
-                        onClick={() =>
+                        onClick={(): void =>
                             history.push({
                                 pathname: '/register',
                                 state: { url: state?.from.pathname },
@@ -100,7 +109,7 @@ const Login = () => {
                     Забыли пароль?{' '}
                     <span
                         className="text text_type_main-default text_color_inactive"
-                        onClick={() =>
+                        onClick={(): void =>
                             history.replace({ pathname: '/forgot-password' })
                         }>
                         {' '}

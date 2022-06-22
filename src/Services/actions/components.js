@@ -36,7 +36,7 @@ export function fetchData(refURL) {
                     data: result.data,
                 });
             })
-            .catch((e) => dispatch({ type: GET_INGREDIENTS_URL_ERROR }));
+            .catch(() => dispatch({ type: GET_INGREDIENTS_URL_ERROR }));
     };
 }
 

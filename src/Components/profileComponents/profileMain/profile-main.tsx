@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import profileMStyles from './profile-main.module.css';
 import {
     Button,
@@ -15,10 +15,10 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
 
-const ProfileMain = () => {
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
+const ProfileMain: FC = () => {
+    const [email, setEmail] = useState<string>('');
+    const [name, setName] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const dispatch = useDispatch();
     const history = useHistory();
     const {
@@ -30,13 +30,11 @@ const ProfileMain = () => {
         isLogout,
         isLogin,
     } = useSelector(
-        (store) => ({
+        (store: any) => ({
             baseURL: store.requests.baseURL,
             nameV: store.requests.name,
             emailV: store.requests.email,
-            profileRequestRequest: store.requests.profileRequestRequest,
             profileRequestError: store.requests.profileRequestError,
-            updateRequestRequest: store.requests.updateRequestRequest,
             logoutRequestSuccess: store.requests.logoutRequestSuccess,
             isLogout: store.requests.isLogout,
             isLogin: store.requests.isLogin,
@@ -58,7 +56,10 @@ const ProfileMain = () => {
                 }
                 setEmail(emailV);
                 setName(nameV);
-                setPassword(getCookie('password'));
+                let myPass: string | undefined = getCookie('password');
+                if (myPass !== undefined) {
+                    setPassword(myPass);
+                }
             }
         }
     }, [nameV, emailV, logoutRequestSuccess]);
@@ -66,41 +67,54 @@ const ProfileMain = () => {
     return (
         <form
             className={profileMStyles.formContainer}
-            onSubmit={(e) => {
+            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                 e.preventDefault();
                 dispatch(updateRequest(baseURL, name, email, password));
             }}>
             <label>
-                <EmailInput
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}
-                    name={'name'}
-                    className="input"
-                />
+                <div className="input">
+                    <EmailInput
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setName(e.target.value)
+                        }
+                        value={name}
+                        name={'name'}
+                    />
+                </div>
             </label>
             <label>
-                <EmailInput
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                    name={'email'}
-                    className="input"
-                />
+                <div className="input">
+                    <EmailInput
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setEmail(e.target.value)
+                        }
+                        value={email}
+                        name={'email'}
+                        // TS2339: Property 'value' does not exist on type 'EventTarget & HTMLElement'.
+                    />
+                </div>
             </label>
             <label>
-                <EmailInput
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                    name={'password'}
-                    className="input"
-                />
+                <div className="input">
+                    <EmailInput
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setPassword(e.target.value)
+                        }
+                        value={password}
+                        name={'password'}
+                    />
+                </div>
             </label>
             <div className={profileMStyles.tabsContainer}>
                 <p
                     className="text text_type_main-default text_color_inactive"
-                    onClick={() => {
+                    onClick={(): void => {
                         setEmail(emailV);
                         setName(nameV);
-                        setPassword(getCookie('password'));
+                        let myPass: string | undefined = getCookie('password');
+                        if (myPass !== undefined) {
+                            setPassword(myPass);
+                        }
                     }}>
                     Отмена
                 </p>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import HeaderStyles from './header.module.css';
 import {
     BurgerIcon,
@@ -8,11 +8,10 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useHistory, useLocation } from 'react-router-dom';
 
-const Header = () => {
+const Header: FC = () => {
     const location = useLocation();
-
     const history = useHistory();
-    const [type, setType] = useState('home');
+    const [type, setType] = useState<string>('home');
 
     useEffect(() => {
         if (location.pathname === '/') {
@@ -20,7 +19,7 @@ const Header = () => {
         } else if (location.pathname.split('/')[1] === 'profile') {
             setType('profile');
         } else {
-            setType('besoon');
+            setType('beSoon');
         }
     }, [location]);
 
@@ -30,8 +29,8 @@ const Header = () => {
                 {/*зона левых кнопок*/}
                 <div className={HeaderStyles.btnArea}>
                     <div
-                        className={HeaderStyles.constructor}
-                        onClick={() => {
+                        className={HeaderStyles.constructorR}
+                        onClick={(): void => {
                             history.replace({ pathname: '/' });
                         }}>
                         <BurgerIcon
@@ -56,11 +55,11 @@ const Header = () => {
                             history.replace({ pathname: '/profile23' })
                         }>
                         <ListIcon
-                            type={type === 'besoon' ? 'primary' : 'secondary'}
+                            type={type === 'beSoon' ? 'primary' : 'secondary'}
                         />
                         <p
                             className={
-                                type === 'besoon'
+                                type === 'beSoon'
                                     ? HeaderStyles.headerText +
                                       'text text_type_main-default text_color_active ' +
                                       HeaderStyles.hoverText
@@ -76,15 +75,20 @@ const Header = () => {
                 {/*лого*/}
                 <div
                     className={HeaderStyles.logoDiv}
-                    onClick={() => {
+                    onClick={(): void => {
                         history.replace({ pathname: '/' });
                     }}>
-                    <Logo className={HeaderStyles.logo} />
+                    <div className={HeaderStyles.logo}>
+                        {' '}
+                        <Logo />
+                    </div>
                 </div>
                 {/*зона правых кнопок*/}
                 <div
                     className={HeaderStyles.personalAccount}
-                    onClick={() => history.replace({ pathname: '/profile' })}>
+                    onClick={(): void =>
+                        history.replace({ pathname: '/profile' })
+                    }>
                     <ProfileIcon
                         type={type === 'profile' ? 'primary' : 'secondary'}
                     />

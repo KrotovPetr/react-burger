@@ -1,26 +1,25 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import ingredientsBurger from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientList from './ingredientList/ingredient-list';
 import appStyles from '../app/app.module.css';
 import { shallowEqual, useSelector } from 'react-redux';
 import { scrollFunction } from '../../utils/functions/scrollFunction';
-import IngredientModal from '../IngredientModal/IngredientModal';
 
-const BurgerIngredients = () => {
-    const { isActive, cardData } = useSelector(
-        (store) => ({
-            isActive: store.component.isActiv,
-            cardData: store.component.cardData,
-        }),
-        shallowEqual
-    );
+const BurgerIngredients: FC = () => {
+    // const { isActive, cardData } = useSelector(
+    //     (store: any) => ({
+    //         isActive: store.component.isActiv,
+    //         cardData: store.component.cardData,
+    //     }),
+    //     shallowEqual
+    // );
 
-    const [current, setCurrent] = useState('one');
+    const [current, setCurrent] = useState<string>('one');
     // console.log(cardData);
 
     return (
-        <div className={ingredientsBurger.constructor}>
+        <div className={ingredientsBurger.constructorR}>
             {/*Заголовок*/}
             <h1 className={appStyles.app_text + 'text text_type_main-large'}>
                 Соберите бургер
@@ -52,8 +51,12 @@ const BurgerIngredients = () => {
             <section
                 className={ingredientsBurger.menu}
                 id="menu"
-                onScroll={() => {
-                    setCurrent(scrollFunction());
+                onScroll={(): void => {
+                    let scrollFunctionResp: string | undefined =
+                        scrollFunction();
+                    if (scrollFunctionResp) {
+                        setCurrent(scrollFunctionResp);
+                    }
                 }}>
                 {/*{isActive && cardData && <IngredientModal onClose={() => {}} />}*/}
                 {/*Секция булок*/}
