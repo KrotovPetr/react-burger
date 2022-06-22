@@ -28,21 +28,7 @@ import {
 } from '../../Services/actions/components';
 import { profileRequest } from '../../Services/actions/requestsActions';
 import { useHistory } from 'react-router-dom';
-
-type TCard = {
-    calories: number;
-    name: string;
-    carbohydrates: number;
-    fat: number;
-    image: string;
-    image_large: string;
-    image_mobile: string;
-    price: number;
-    proteins: number;
-    type: string;
-    __v: number;
-    _id: string;
-};
+import { TCard } from '../../utils/types/types';
 
 //доделать
 const BurgerConstructor: FC = () => {

@@ -3,9 +3,10 @@ import modalStyles from './modal-styles.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modalOverlay/modal-overlay';
 import { createPortal } from 'react-dom';
-//подправить
+import { TOrder } from '../../utils/types/types';
+
 type TProps = {
-    info?: any;
+    info?: undefined | null | { name: string; success: boolean; order: TOrder };
     onClose: () => void;
     children?: ReactNode | ReactChildren;
     title: string;
@@ -15,7 +16,7 @@ const Modal: FC<TProps> = (props) => {
     const refRoot: HTMLElement | null = document.getElementById('modal');
     useEffect(() => {
         const closeByEscape = (e: KeyboardEvent) => {
-            if (e.keyCode === 27) {
+            if (e.key === 'Escape') {
                 props.onClose();
             }
         };
@@ -25,6 +26,7 @@ const Modal: FC<TProps> = (props) => {
         return (): void =>
             document.removeEventListener('keydown', closeByEscape);
     }, [props.info]);
+    // console.log(props.info);
 
     return createPortal(
         <div className={modalStyles.modalContainer}>

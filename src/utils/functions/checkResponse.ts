@@ -1,4 +1,4 @@
-export function checkResponse(res: any): string | object {
+export function checkResponse(res: Response): string | object {
     if (res.ok) {
         return res.json();
     } else {

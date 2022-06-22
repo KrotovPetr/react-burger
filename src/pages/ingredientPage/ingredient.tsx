@@ -2,21 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ingredientStyles from './ingredStyles.module.css';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
-
-type TCard = {
-    calories: number;
-    name: string;
-    carbohydrates: number;
-    fat: number;
-    image: string;
-    image_large: string;
-    image_mobile: string;
-    price: number;
-    proteins: number;
-    type: string;
-    __v: number;
-    _id: string;
-};
+import { TCard } from '../../utils/types/types';
 
 const Ingredient = () => {
     const [ingred, setIngred] = useState<TCard | null>(null);

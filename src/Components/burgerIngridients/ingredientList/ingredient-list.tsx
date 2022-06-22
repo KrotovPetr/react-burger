@@ -13,25 +13,11 @@ import {
 } from '../../../Services/actions/components';
 import { Redirect, useLocation } from 'react-router-dom';
 import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
+import { TCard } from '../../../utils/types/types';
 
 interface IProps {
     typeOfMeal: string | undefined;
 }
-
-type TCard = {
-    calories: number;
-    name: string;
-    carbohydrates: number;
-    fat: number;
-    image: string;
-    image_large: string;
-    image_mobile: string;
-    price: number;
-    proteins: number;
-    type: string;
-    __v: number;
-    _id: string;
-};
 
 const IngredientList: FC<IProps> = (props) => {
     const dispatch = useDispatch();
