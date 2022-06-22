@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import forgotStyles from './forgot.module.css';
 import {
     Button,
@@ -9,18 +9,17 @@ import { Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { forgotRequest } from '../../Services/actions/requestsActions';
 
-const ForgotPassword = () => {
-    const [forgot, setForgot] = useState('');
+const ForgotPassword: FC = () => {
+    const [forgot, setForgot] = useState<string>('');
     const dispatch = useDispatch();
+    const history = useHistory();
     const { baseURL, forgotRequestSuccess, forgotRequestError, isLogin } =
-        useSelector((store) => ({
+        useSelector((store: any) => ({
             baseURL: store.requests.baseURL,
             forgotRequestSuccess: store.requests.forgotRequestSuccess,
             forgotRequestError: store.requests.forgotRequestError,
             isLogin: store.requests.isLogin,
         }));
-
-    const history = useHistory();
 
     useEffect(() => {
         forgotRequestSuccess &&
@@ -43,7 +42,7 @@ const ForgotPassword = () => {
         <div className={forgotStyles.commonContainer}>
             <form
                 className={forgotStyles.formContainer}
-                onSubmit={(e) => {
+                onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                     e.preventDefault();
                     dispatch(forgotRequest(baseURL, forgot));
                 }}>
@@ -51,17 +50,20 @@ const ForgotPassword = () => {
                     Восстановление пароля
                 </h1>
                 <label>
-                    <Input
-                        type={'text'}
-                        placeholder={'Email'}
-                        onChange={(e) => setForgot(e.target.value)}
-                        className="input"
-                        value={forgot}
-                        name={'name'}
-                        error={false}
-                        errorText={'Ошибка'}
-                        size={'default'}
-                    />
+                    <div className="input">
+                        <Input
+                            type={'text'}
+                            placeholder={'Email'}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                setForgot(e.target.value)
+                            }
+                            value={forgot}
+                            name={'name'}
+                            error={false}
+                            errorText={'Ошибка'}
+                            size={'default'}
+                        />
+                    </div>
                 </label>
                 <div className={forgotStyles.buttonContainer}>
                     <Button type="primary" size="medium">
@@ -72,7 +74,9 @@ const ForgotPassword = () => {
                     Вспомнили пароль?{' '}
                     <span
                         className="text text_type_main-default text_color_inactive"
-                        onClick={() => history.replace({ pathname: '/login' })}>
+                        onClick={(): void =>
+                            history.replace({ pathname: '/login' })
+                        }>
                         {' '}
                         Войти
                     </span>

@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import constructBurger from '../burger-ingredients.module.css';
 import {
     Counter,
     CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cardStyle from './ingredient-list.module.css';
-import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
     setData,
@@ -15,11 +14,30 @@ import {
 import { Redirect, useLocation } from 'react-router-dom';
 import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
 
-const IngredientList = (props) => {
+interface IProps {
+    typeOfMeal: string | undefined;
+}
+
+type TCard = {
+    calories: number;
+    name: string;
+    carbohydrates: number;
+    fat: number;
+    image: string;
+    image_large: string;
+    image_mobile: string;
+    price: number;
+    proteins: number;
+    type: string;
+    __v: number;
+    _id: string;
+};
+
+const IngredientList: FC<IProps> = (props) => {
     const dispatch = useDispatch();
     const location = useLocation();
     const { ingredients, cardData } = useSelector(
-        (store) => ({
+        (store: any) => ({
             ingredients: store.component.ingredients,
             cardData: store.component.cardData,
         }),
@@ -29,8 +47,9 @@ const IngredientList = (props) => {
     useEffect(() => {
         if (getCookie('isActive') !== undefined) {
             dispatch(setActive(true));
-            getCookie('data') !== undefined &&
-                dispatch(setData(JSON.parse(getCookie('data'))));
+            let getCookieResp: string | undefined = getCookie('data');
+            getCookieResp !== undefined &&
+                dispatch(setData(JSON.parse(getCookieResp)));
         } else {
             dispatch(setActive(false));
         }
@@ -51,12 +70,14 @@ const IngredientList = (props) => {
         <div className={cardStyle.cardArea}>
             {ingredients &&
                 ingredients.map(
-                    (cards) =>
+                    (cards: TCard) =>
                         props.typeOfMeal === cards.type && (
                             <div
                                 key={cards['_id']}
                                 draggable
-                                onDrag={(e) => {
+                                onDrag={(
+                                    e: React.DragEvent<HTMLDivElement>
+                                ): void => {
                                     e.preventDefault();
                                     dispatch(
                                         dragElement(cards, 'ingredients', false)
@@ -64,7 +85,7 @@ const IngredientList = (props) => {
                                 }}>
                                 <div
                                     className={cardStyle.card}
-                                    onClick={() => {
+                                    onClick={(): void => {
                                         dispatch(setData(cards));
                                         dispatch(setActive(true));
                                     }}>
@@ -94,13 +115,6 @@ const IngredientList = (props) => {
                 )}
         </div>
     );
-};
-
-// Передаются
-// typeOfMeal
-
-IngredientList.propTypes = {
-    typeOfMeal: PropTypes.string.isRequired,
 };
 
 export default IngredientList;

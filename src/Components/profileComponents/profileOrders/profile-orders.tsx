@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const ProfileOrders = () => {
+const ProfileOrders: FC = () => {
     //будет в следующем спринте
     return (
         <div>

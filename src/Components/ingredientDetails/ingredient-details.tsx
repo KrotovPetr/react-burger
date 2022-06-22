@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { FC } from 'react';
 import ingredientStyles from './ingredient-styles.module.css';
 import { shallowEqual, useSelector } from 'react-redux';
-const IngredientDetails = () => {
+
+// type TSelector = {
+//     component: {
+//         cardData: any;
+//     };
+// };
+
+const IngredientDetails: FC = () => {
     const { cardData } = useSelector(
-        (store) => ({
+        (store: any) => ({
             cardData: store.component.cardData,
         }),
         shallowEqual
-    );
+    ) as any;
     return (
         <div className={ingredientStyles.main}>
             {/*блок с картинкой*/}
@@ -53,7 +60,5 @@ const IngredientDetails = () => {
         </div>
     );
 };
-
-//propTypes - нету
 
 export default IngredientDetails;

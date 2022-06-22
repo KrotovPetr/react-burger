@@ -13,7 +13,7 @@
 }
 
 /*общий контейнер*/
-.constructor{
+.constructorR{
     composes: myFlex;
     flex-flow: column nowrap;
     width:fit-content;

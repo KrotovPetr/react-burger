@@ -1,14 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from './Components/app/app';
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { rootReducer } from './Services/reducers/components';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
-);
+import { BrowserRouter } from 'react-router-dom';
 
 declare global {
     interface Window {
@@ -23,12 +20,13 @@ const store = createStore(
     composeEnhancers(applyMiddleware(thunk))
 );
 
-root.render(
+ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <Provider store={store}>
                 <App />
             </Provider>
         </BrowserRouter>
-    </React.StrictMode>
+    </React.StrictMode>,
+    document.getElementById('root')
 );

@@ -38,7 +38,7 @@
 }
 
 /*зона кнопок конструктора*/
-.constructor{
+.constructorR{
     composes: flexBlock;
     justify-content: flex-end;
     flex: 1 1 auto;

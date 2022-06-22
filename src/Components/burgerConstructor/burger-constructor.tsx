@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import constStyles from './burger-constructor.module.css';
 
@@ -29,7 +29,23 @@ import {
 import { profileRequest } from '../../Services/actions/requestsActions';
 import { useHistory } from 'react-router-dom';
 
-const BurgerConstructor = () => {
+type TCard = {
+    calories: number;
+    name: string;
+    carbohydrates: number;
+    fat: number;
+    image: string;
+    image_large: string;
+    image_mobile: string;
+    price: number;
+    proteins: number;
+    type: string;
+    __v: number;
+    _id: string;
+};
+
+//доделать
+const BurgerConstructor: FC = () => {
     const {
         buns,
         ingredients,
@@ -45,7 +61,7 @@ const BurgerConstructor = () => {
         baseURL,
         isLogin,
     } = useSelector(
-        (store) => ({
+        (store: any) => ({
             ingredients: store.component.ingredients,
             buns: store.component.order.buns,
             components: store.component.order.components,
@@ -69,7 +85,7 @@ const BurgerConstructor = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const closeWindow = () => {
+    const closeWindow = (): void => {
         orderInfo &&
             dispatch(clearInfo(ingredients)) &&
             dispatch(setActive(false));
@@ -80,7 +96,7 @@ const BurgerConstructor = () => {
             <div className={constStyles.orderArea}>
                 <div
                     className={constStyles.order}
-                    onDrop={(e) => {
+                    onDrop={(e: React.DragEvent<HTMLDivElement>): void => {
                         e.preventDefault();
                         if (cart === 'ingredients') {
                             dispatch(
@@ -98,7 +114,9 @@ const BurgerConstructor = () => {
                             )
                         );
                     }}
-                    onDragOver={(e) => e.preventDefault()}>
+                    onDragOver={(e: React.DragEvent<HTMLDivElement>) =>
+                        e.preventDefault()
+                    }>
                     <div className={constStyles.edgeElement}>
                         {buns && (
                             <ConstructorElement
@@ -117,17 +135,19 @@ const BurgerConstructor = () => {
                             <Modal
                                 title=""
                                 info={orderInfo}
-                                onClose={() => closeWindow()}>
+                                onClose={(): void => closeWindow()}>
                                 <OrderDetails />
                             </Modal>
                         )}
                         {components &&
-                            components.map((cards, index) => (
+                            components.map((cards: TCard, index: number) => (
                                 <div
                                     className={constStyles.position}
                                     key={uuidv4()}
                                     draggable
-                                    onDrag={(e) => {
+                                    onDrag={(
+                                        e: React.DragEvent<HTMLDivElement>
+                                    ): void => {
                                         e.preventDefault();
                                         dispatch(
                                             dragElement(
@@ -137,7 +157,9 @@ const BurgerConstructor = () => {
                                             )
                                         );
                                     }}
-                                    onDrop={(e) => {
+                                    onDrop={(
+                                        e: React.DragEvent<HTMLDivElement>
+                                    ): void => {
                                         e.preventDefault();
                                         replaceElement(
                                             draggedElement,
@@ -147,7 +169,9 @@ const BurgerConstructor = () => {
                                             cart
                                         );
                                     }}
-                                    onDragOver={(e) => {
+                                    onDragOver={(
+                                        e: React.DragEvent<HTMLDivElement>
+                                    ): void => {
                                         e.preventDefault();
                                         dispatch(setDragOver(cards));
                                     }}>
@@ -163,7 +187,7 @@ const BurgerConstructor = () => {
                                                 thumbnail={
                                                     cards['image_mobile']
                                                 }
-                                                handleClose={() => {
+                                                handleClose={(): void => {
                                                     dispatch(
                                                         deleteElement(
                                                             index,
@@ -211,7 +235,7 @@ const BurgerConstructor = () => {
                         <Button
                             type="primary"
                             size="large"
-                            onClick={() => {
+                            onClick={(): void => {
                                 if (isLogin) {
                                     dispatch(profileRequest(baseURL));
                                     if (profileRequestError) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import registerStyle from './register.module.css';
 import '../../commonStyles/styles.css';
@@ -9,17 +9,23 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { registerRequest } from '../../Services/actions/requestsActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { Location } from 'history';
 
-const Registration = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+type TLocation = {
+    url: string;
+    location: Location;
+};
+
+const Registration: FC = () => {
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const history = useHistory();
     const dispatch = useDispatch();
-    const location = useLocation();
-    let fromURL = location.state.url;
+    const location = useLocation<TLocation>();
+    let fromURL: string = location.state.url;
 
-    const { baseURL, isLogin } = useSelector((store) => ({
+    const { baseURL, isLogin } = useSelector((store: any) => ({
         baseURL: store.requests.baseURL,
         isLogin: store.requests.isLogin,
     }));
@@ -41,42 +47,43 @@ const Registration = () => {
                 </h1>
                 <form
                     className={registerStyle.inputContainer}
-                    onSubmit={(e) => {
+                    onSubmit={(e): void => {
                         e.preventDefault();
-
                         dispatch(
                             registerRequest(email, password, name, baseURL)
                         );
                     }}>
                     <label>
-                        <Input
-                            type={'text'}
-                            className="input"
-                            placeholder={'Имя'}
-                            onChange={(e) => setName(e.target.value)}
-                            value={name}
-                            name={'name'}
-                            error={false}
-                            errorText={'Ошибка'}
-                            size={'default'}
-                        />
+                        <div className="input">
+                            <Input
+                                type={'text'}
+                                placeholder={'Имя'}
+                                onChange={(e): void => setName(e.target.value)}
+                                value={name}
+                                name={'name'}
+                                error={false}
+                                errorText={'Ошибка'}
+                                size={'default'}
+                            />
+                        </div>
                     </label>
                     <label>
-                        <Input
-                            type={'text'}
-                            placeholder={'E-mail'}
-                            className="input"
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
-                            name={'name'}
-                            error={false}
-                            errorText={'Ошибка'}
-                            size={'default'}
-                        />
+                        <div className="input">
+                            <Input
+                                type={'text'}
+                                placeholder={'E-mail'}
+                                onChange={(e): void => setEmail(e.target.value)}
+                                value={email}
+                                name={'name'}
+                                error={false}
+                                errorText={'Ошибка'}
+                                size={'default'}
+                            />
+                        </div>
                     </label>
                     <label>
                         <PasswordInput
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e): void => setPassword(e.target.value)}
                             value={password}
                             name={'password'}
                         />
@@ -94,7 +101,9 @@ const Registration = () => {
                     Уже зарегистрированы?
                     <span
                         className="text text_type_main-default text_color_inactive"
-                        onClick={() => history.replace({ pathname: '/login' })}>
+                        onClick={(): void =>
+                            history.replace({ pathname: '/login' })
+                        }>
                         {' '}
                         Войти
                     </span>

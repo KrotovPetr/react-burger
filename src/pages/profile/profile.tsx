@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import profileStyles from './profile.module.css';
-import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import '../../commonStyles/styles.css';
 import ProfileHeader from '../../Components/profileComponents/profileHeader/profile-header';
 import ProfileMain from '../../Components/profileComponents/profileMain/profile-main';
 import ProfileOrders from '../../Components/profileComponents/profileOrders/profile-orders';
 
-const Profile = () => {
+const Profile: FC = () => {
     return (
         <div className={profileStyles.commonContainer}>
             <div className={profileStyles.subRouterContainer}>

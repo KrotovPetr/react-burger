@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import profileHStyles from './profile-header.module.css';
 import { logoutRequest } from '../../../Services/actions/requestsActions';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
-const ProfileHeader = () => {
-    const { url } = useRouteMatch();
+const ProfileHeader: FC = () => {
+    const { url } = useRouteMatch<string | undefined>();
     const dispatch = useDispatch();
-    const [active, setActive] = useState(1);
+    const [active, setActive] = useState<number>(1);
     const history = useHistory();
     const { baseURL } = useSelector(
-        (store) => ({
+        (store: any) => ({
             baseURL: store.requests.baseURL,
         }),
         shallowEqual
@@ -26,7 +26,7 @@ const ProfileHeader = () => {
                             ? 'text text_type_main-medium'
                             : 'text text_type_main-medium text_color_inactive'
                     }
-                    onClick={() => {
+                    onClick={(): void => {
                         setActive(1);
                         history.replace({ pathname: url });
                     }}>
@@ -41,7 +41,7 @@ const ProfileHeader = () => {
                             ? 'text text_type_main-medium'
                             : 'text text_type_main-medium text_color_inactive'
                     }
-                    onClick={() => {
+                    onClick={(): void => {
                         setActive(2);
                         history.replace({ pathname: url + '/orders' });
                     }}>
@@ -52,7 +52,7 @@ const ProfileHeader = () => {
                 {/*/logout*/}
                 <p
                     className="text text_type_main-medium text_color_inactive"
-                    onClick={() => {
+                    onClick={(): void => {
                         dispatch(logoutRequest(baseURL));
                     }}>
                     Выход

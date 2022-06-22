@@ -1,5 +1,5 @@
 import { getCookie } from './cookieFunctions/getCookie';
 
-export function isForgot() {
+export function isForgot(): boolean {
     return getCookie('forgot') === undefined;
 }

@@ -3,10 +3,25 @@ import ingredientStyles from './ingredStyles.module.css';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 
+type TCard = {
+    calories: number;
+    name: string;
+    carbohydrates: number;
+    fat: number;
+    image: string;
+    image_large: string;
+    image_mobile: string;
+    price: number;
+    proteins: number;
+    type: string;
+    __v: number;
+    _id: string;
+};
+
 const Ingredient = () => {
-    const [ingred, setIngred] = useState(null);
+    const [ingred, setIngred] = useState<TCard | null>(null);
     const { ingredients } = useSelector(
-        (store) => ({
+        (store: any) => ({
             ingredients: store.component.ingredients,
         }),
         shallowEqual
@@ -14,13 +29,13 @@ const Ingredient = () => {
 
     const { url } = useRouteMatch();
     useEffect(() => {
-        let idIngr = -1;
-        ingredients.map((cards, index) => {
+        let idIngredient = -1;
+        ingredients.map((cards: TCard, index: number): any => {
             if (cards['_id'] === url.split('/')[2]) {
-                idIngr = index;
+                idIngredient = index;
             }
             // console.log(idIngr);
-            setIngred(ingredients[idIngr]);
+            setIngred(ingredients[idIngredient]);
         });
     }, [ingredients]);
 
