@@ -8,20 +8,21 @@ import '../../commonStyles/styles.css';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { forgotRequest } from '../../Services/actions/requestsActions';
+import { RootState } from '../../utils/types/store';
 
 const ForgotPassword: FC = () => {
     const [forgot, setForgot] = useState<string>('');
     const dispatch = useDispatch();
     const history = useHistory();
     const { baseURL, forgotRequestSuccess, forgotRequestError, isLogin } =
-        useSelector((store: any) => ({
+        useSelector((store: RootState) => ({
             baseURL: store.requests.baseURL,
             forgotRequestSuccess: store.requests.forgotRequestSuccess,
             forgotRequestError: store.requests.forgotRequestError,
             isLogin: store.requests.isLogin,
         }));
 
-    useEffect(() => {
+    useEffect((): void => {
         forgotRequestSuccess &&
             !forgotRequestError &&
             history.replace({ pathname: '/reset-password' });

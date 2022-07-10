@@ -6,3 +6,23 @@
 .input_size_default{
     width:480px;
 }
+
+*{
+    scrollbar-width: thin;
+    scrollbar-color: #8484ac #2f2f37;
+}
+
+/*декорация скролл-бара*/
+::-webkit-scrollbar{
+    width: 8px;
+}
+
+/*декорация заднего фона скролла*/
+::-webkit-scrollbar-track{
+    background: #2f2f37;
+}
+
+/*декорация ползунка*/
+::-webkit-scrollbar-thumb{
+    background: #8484ac;
+}

@@ -2,24 +2,13 @@ import React, { FC } from 'react';
 import orderStyles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../utils/types/store';
 
-// interface IOrderDetails {
-//     component: {
-//         orderInfo: {
-//             order: {
-//                 number: number;
-//             };
-//         } | null;
-//     };
-// }
-
-type TOrderDetails = {};
-
-const OrderDetails: FC<TOrderDetails> = () => {
-    const { orderInfo } = useSelector((store: any) => ({
+const OrderDetails: FC = () => {
+    const { orderInfo } = useSelector((store: RootState) => ({
         orderInfo: store.component.orderInfo,
     }));
-
+    console.log(orderInfo);
     return orderInfo ? (
         <div className={orderStyles.main}>
             <h2

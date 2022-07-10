@@ -14,6 +14,7 @@ import {
 import { Redirect, useLocation } from 'react-router-dom';
 import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
 import { TCard } from '../../../utils/types/types';
+import { RootState } from '../../../utils/types/store';
 
 interface IProps {
     typeOfMeal: string | undefined;

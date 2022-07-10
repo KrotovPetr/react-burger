@@ -13,6 +13,7 @@ import {
     enterRequest,
     // getCookie,
 } from '../../Services/actions/requestsActions';
+import { RootState } from '../../utils/types/store';
 
 type TLocation = {
     from: { pathname: string };
@@ -24,13 +25,13 @@ const Login: FC = () => {
     const [email, setEmail] = useState<string>('');
     const dispatch = useDispatch();
     const history = useHistory();
-    const { baseURL, isLogin } = useSelector((store: any) => ({
+    const { baseURL, isLogin } = useSelector((store: RootState) => ({
         baseURL: store.requests.baseURL,
         isLogin: store.requests.isLogin,
     }));
     const { state } = useLocation<TLocation>();
 
-    useEffect(() => {
+    useEffect((): void => {
         dispatch(clearForgotCookie());
     }, []);
 

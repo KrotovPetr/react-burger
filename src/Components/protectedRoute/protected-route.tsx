@@ -1,19 +1,10 @@
-import React, { FC, ReactChildren, ReactNode } from 'react';
+import React, { FC } from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
-// type TProtRoute = {
-//     children?: ReactNode | ReactChildren;
-//     path?: string;
-// };
-// interface IStore {
-//     requests: {
-//         isLogin: boolean;
-//     };
-// }
+import { RootState } from '../../utils/types/store';
 
 const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
-    const { isLogin } = useSelector((store: any) => ({
+    const { isLogin } = useSelector((store: RootState) => ({
         isLogin: store.requests.isLogin,
     }));
 

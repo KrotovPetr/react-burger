@@ -6,13 +6,16 @@ import {
     Logo,
     ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { setOrderInfo } from '../../Services/actions/requestsActions';
+import { useDispatch } from 'react-redux';
 
 const Header: FC = () => {
     const location = useLocation();
     const history = useHistory();
     const [type, setType] = useState<string>('home');
-
+    const dispatch = useDispatch();
+    const { url } = useRouteMatch();
     useEffect(() => {
         if (location.pathname === '/') {
             setType('home');
@@ -22,7 +25,7 @@ const Header: FC = () => {
             setType('beSoon');
         }
     }, [location]);
-
+    // console.log(type);
     return (
         <div className={HeaderStyles.top}>
             <header className={HeaderStyles.header}>
@@ -51,9 +54,11 @@ const Header: FC = () => {
                     </div>
                     <div
                         className={HeaderStyles.orderList}
-                        onClick={() =>
-                            history.replace({ pathname: '/profile23' })
-                        }>
+                        onClick={() => {
+                            history.replace({ pathname: '/feed' });
+
+                            dispatch(setOrderInfo(undefined));
+                        }}>
                         <ListIcon
                             type={type === 'beSoon' ? 'primary' : 'secondary'}
                         />

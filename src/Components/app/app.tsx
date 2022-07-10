@@ -17,45 +17,37 @@ import { isAuth } from '../../utils/functions/isAuth';
 import { IS_AUTH } from '../../Services/actions/requestsActions';
 import IngredientModal from '../IngredientModal/IngredientModal';
 import { Location } from 'history';
-
-// type TSelector = {
-//     // component: {
-//     //     isActiv: boolean;
-//     //     cardData: {
-//     //         calories: number;
-//     //         carbohydrates: number;
-//     //         fat: number;
-//     //         image: string;
-//     //         image_large: string;
-//     //         image_mobile: string;
-//     //         price: number;
-//     //         proteins: number;
-//     //         type: string;
-//     //         __v: number;
-//     //         _id: string;
-//     //     } | null;
-//     // };
-//     // requests: {
-//     //     isLogin: boolean;
-//     //     baseURL: string;
-//     // };
-//     component: any;
-//     requests: any;
-// };
-
-// type TLocation = {
-//     background
-// }
+import FeedPage from '../../pages/Feed/feed';
+import Order from '../../pages/Order/order';
+import OrderModal from '../Modals/orderModal/order-modal';
+import { RootState } from '../../utils/types/store';
+import ProfileOrders from '../profileComponents/profileOrders/profile-orders';
 
 const App: FC = () => {
     const dispatch = useDispatch();
-    const location = useLocation<{ background: Location | undefined }>();
-    const { isActive, cardData, isLogin, baseURL } = useSelector(
-        (store: any) => ({
+    const location = useLocation<{
+        background: Location | undefined;
+        orderBackground: Location | undefined;
+        personOrderBackground: Location | undefined;
+    }>();
+    useEffect(() => {
+        dispatch(fetchData(baseURL + '/ingredients'));
+    }, []);
+    const {
+        isActive,
+        cardData,
+        isLogin,
+        baseURL,
+        ordersActive,
+        personOrdersActive,
+    } = useSelector(
+        (store: RootState) => ({
             isActive: store.component.isActiv,
             cardData: store.component.cardData,
             isLogin: store.requests.isLogin,
             baseURL: store.requests.baseURL,
+            ordersActive: store.requests.ordersActive,
+            personOrdersActive: store.requests.personOrdersActive,
         }),
         shallowEqual
     );
@@ -64,11 +56,19 @@ const App: FC = () => {
     let background: Location | undefined =
         location.state && location.state.background;
 
+    //задаём состояние подложки для модалки
+    let orderBackground: Location | undefined =
+        location.state && location.state.orderBackground;
+
+    //задаём состояние подложки для модалки
+    let personOrderBackground: Location | undefined =
+        location.state && location.state.personOrderBackground;
+
     //fetch запрос на получение ингедиентов
     useEffect(() => {
         dispatch(fetchData(baseURL + '/ingredients'));
     }, []);
-
+    // console.log(url);
     //запрос на авторизацию
     useEffect(() => {
         const data: boolean = isAuth();
@@ -78,7 +78,14 @@ const App: FC = () => {
     if (!cardData && background !== undefined) {
         location.state.background = undefined;
     }
-
+    if (!ordersActive && orderBackground !== undefined) {
+        location.state.orderBackground = undefined;
+    }
+    if (!personOrdersActive && personOrderBackground !== undefined) {
+        location.state.personOrderBackground = undefined;
+    }
+    // console.log(personOrderBackground);
+    // console.log('app');
     return (
         <>
             {/*шапка с роутингом*/}
@@ -86,27 +93,39 @@ const App: FC = () => {
 
             {/*роуты*/}
             <div className={appStyles.page}>
-                <Switch location={background || location}>
+                <Switch location={background || orderBackground || location}>
                     <Route exact path="/">
                         <Home />
                     </Route>
-                    <Route path="/login">
+                    <Route path="/login" exact={true}>
                         <Login />
                     </Route>
-                    <Route path="/register">
+                    <Route path="/register" exact={true}>
                         <Registration />
                     </Route>
-                    <Route path="/forgot-password">
+                    <Route path="/forgot-password" exact={true}>
                         <ForgotPassword />
                     </Route>
-                    <Route path="/reset-password">
+                    <Route path="/reset-password" exact={true}>
                         <ResetPassword />
+                    </Route>
+                    <Route path="/feed" exact={true}>
+                        <FeedPage />
                     </Route>
                     <ProtectedRoute path={'/profile'}>
                         <Profile />
                     </ProtectedRoute>
-                    <Route path="/ingredients/:id">
+                    <Route path="/ingredients/:id" exact={true}>
                         <Ingredient />
+                    </Route>
+                    {/*<Route path="/profile/orders">*/}
+                    {/*    <ProfileOrders />*/}
+                    {/*</Route>*/}
+                    {/*<Route path="/profile/orders/:id" exact={true}>*/}
+                    {/*    <Order />*/}
+                    {/*</Route>*/}
+                    <Route path="/feed/:id" exact={true}>
+                        <Order />
                     </Route>
                     <Route>
                         <NotFoundPage />
@@ -118,6 +137,22 @@ const App: FC = () => {
                         children={<IngredientModal />}
                     />
                 )}
+                {(orderBackground || personOrderBackground) &&
+                    isActive &&
+                    (orderBackground ? (
+                        <Route path="/feed/:id" children={<OrderModal />} />
+                    ) : (
+                        <Route
+                            path="/profile/orders/:id"
+                            children={<OrderModal />}
+                        />
+                    ))}
+                {/*{orderBackground && isActive && (*/}
+                {/*    <Route*/}
+                {/*        path="/profile/orders/:id"*/}
+                {/*        children={<OrderModal />}*/}
+                {/*    />*/}
+                {/*)}*/}
             </div>
         </>
     );

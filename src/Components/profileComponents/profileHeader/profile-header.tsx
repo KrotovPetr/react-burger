@@ -3,14 +3,16 @@ import profileHStyles from './profile-header.module.css';
 import { logoutRequest } from '../../../Services/actions/requestsActions';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { RootState } from '../../../utils/types/store';
 
 const ProfileHeader: FC = () => {
+    // console.log('profileHeader');
     const { url } = useRouteMatch<string | undefined>();
     const dispatch = useDispatch();
     const [active, setActive] = useState<number>(1);
     const history = useHistory();
     const { baseURL } = useSelector(
-        (store: any) => ({
+        (store: RootState) => ({
             baseURL: store.requests.baseURL,
         }),
         shallowEqual
@@ -66,7 +68,6 @@ const ProfileHeader: FC = () => {
         </div>
     );
 };
-
 //propTypes - нету
 
 export default ProfileHeader;

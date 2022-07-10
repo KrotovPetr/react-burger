@@ -11,7 +11,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 //модальное окно
-import Modal from '../modal/modal';
+import Modal from '../Modals/modal/modal';
 import OrderDetails from '../orderDetails/order-details';
 import { v4 as uuidv4 } from 'uuid';
 //экшены
@@ -29,6 +29,7 @@ import {
 import { profileRequest } from '../../Services/actions/requestsActions';
 import { useHistory } from 'react-router-dom';
 import { TCard } from '../../utils/types/types';
+import { RootState } from '../../utils/types/store';
 
 //доделать
 const BurgerConstructor: FC = () => {
@@ -152,7 +153,8 @@ const BurgerConstructor: FC = () => {
                                             underDraggedElement,
                                             components,
                                             buns,
-                                            cart
+                                            cart,
+                                            false
                                         );
                                     }}
                                     onDragOver={(

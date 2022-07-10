@@ -3,6 +3,7 @@
     justify-content: flex-start;
     align-items: center;
     flex-flow: column nowrap;
+    margin: 120px 0 0 0;
     height: 302px;
     width: 480px;
     row-gap: 24px;

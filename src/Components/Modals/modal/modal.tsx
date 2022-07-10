@@ -3,7 +3,7 @@ import modalStyles from './modal-styles.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modalOverlay/modal-overlay';
 import { createPortal } from 'react-dom';
-import { TOrder } from '../../utils/types/types';
+import { TOrder } from '../../../utils/types/types';
 
 type TProps = {
     info?: undefined | null | { name: string; success: boolean; order: TOrder };
@@ -32,7 +32,9 @@ const Modal: FC<TProps> = (props) => {
         <div className={modalStyles.modalContainer}>
             <div
                 className={modalStyles.modalContent}
-                onClick={(e) => e.stopPropagation()}>
+                onClick={(e: React.MouseEvent<HTMLDivElement>) =>
+                    e.stopPropagation()
+                }>
                 <div className={modalStyles.topLevel}>
                     <h1 className="text text_type_main-large">{props.title}</h1>
 

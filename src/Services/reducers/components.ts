@@ -10,7 +10,6 @@ import {
     CHANGE_COMPONENTS,
     SET_ON_DRAG,
     SWAP_COMPONENTS,
-    CHANGE_SWAP,
     SET_ORDER_INFO,
     GET_INGREDIENTS_URL_REQUEST,
     GET_INGREDIENTS_URL_SUCCESS,
@@ -21,8 +20,31 @@ import {
 import { combineReducers } from 'redux';
 import { orderReducer } from './orders';
 import { requestsReducer } from './requestsReducer';
+import { TCard, TOrder, TOrderResponse } from '../../utils/types/types';
+import { TComponentsActions } from '../../utils/types/actionComponentsTypes';
+import { socketReducer } from './socketReducer';
 
-const initialState = {
+export type TinitialState = {
+    ingredients: any[] | TCard[];
+    totalPrice: number;
+    order: {
+        buns: null | any;
+        components: any[] | TCard[];
+    };
+    isActiv: boolean;
+    isOrderActiv: boolean;
+    cardData: TCard | null;
+    orderInfo: any;
+    draggedElement: TCard | {};
+    underDraggedElement: TCard | null;
+    cart: TCard[] | string;
+    isReady: boolean;
+    isIngredientSend: boolean;
+    isIngredientSuccess: boolean;
+    isIngredientError: boolean;
+};
+
+const initialState: TinitialState = {
     //список всех ингредиентов
     ingredients: [],
 
@@ -69,7 +91,10 @@ const initialState = {
     isIngredientError: false,
 };
 
-export const componentReducer = (state = initialState, action) => {
+export const componentReducer = (
+    state: TinitialState = initialState,
+    action: TComponentsActions
+): TinitialState => {
     switch (action.type) {
         //получение данных
         case SET_STATE: {
@@ -154,13 +179,13 @@ export const componentReducer = (state = initialState, action) => {
             };
         }
 
-        //функция смены компонентов местами
-        case CHANGE_SWAP: {
-            return {
-                ...state,
-                isSwap: action.isSwap,
-            };
-        }
+        // //функция смены компонентов местами
+        // case CHANGE_SWAP: {
+        //     return {
+        //         ...state,
+        //         isSwap: action.isSwap,
+        //     };
+        // }
 
         case SET_ORDER_INFO: {
             return {
@@ -183,7 +208,11 @@ export const componentReducer = (state = initialState, action) => {
         case SWAP_COMPONENTS: {
             return {
                 ...state,
-                components: action.data,
+                order: {
+                    ...state,
+                    buns: state.order.buns,
+                    components: action.data,
+                },
                 isReady: action.isReady,
             };
         }
@@ -220,9 +249,9 @@ export const componentReducer = (state = initialState, action) => {
         case GET_INGREDIENTS_URL_REQUEST: {
             return {
                 ...state,
-                isError: false,
-                isSuccess: false,
-                isSend: true,
+                isIngredientError: false,
+                isIngredientSuccess: false,
+                isIngredientSend: true,
             };
         }
 
@@ -230,18 +259,18 @@ export const componentReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ingredients: action.data,
-                isSend: false,
-                isError: false,
-                isSuccess: true,
+                isIngredientSend: false,
+                isIngredientError: false,
+                isIngredientSuccess: true,
             };
         }
 
         case GET_INGREDIENTS_URL_ERROR: {
             return {
                 ...state,
-                isSend: false,
-                isError: true,
-                isSuccess: false,
+                isIngredientSend: false,
+                isIngredientError: true,
+                isIngredientSuccess: false,
             };
         }
         //иное
@@ -255,4 +284,5 @@ export const rootReducer = combineReducers({
     component: componentReducer,
     orderData: orderReducer,
     requests: requestsReducer,
+    sockets: socketReducer,
 });

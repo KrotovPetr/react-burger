@@ -25,9 +25,49 @@ import {
     UPDATE_URL_ERROR,
     UPDATE_URL_REQUEST,
     UPDATE_URL_SUCCESS,
+    // SAVE_DATA,
+    SET_ORDER_INFO,
+    SET_PERSON_ORDER_INFO,
 } from '../actions/requestsActions';
 
-const initialState = {
+import { TRequestActions } from '../../utils/types/actionRequestsTypes';
+
+export type TRequestsReducer = {
+    email: string;
+    name: string;
+    forgotRequestRequest: boolean;
+    forgotRequestSuccess: boolean;
+    forgotRequestError: boolean;
+    resetRequestRequest: boolean;
+    resetRequestSuccess: boolean;
+    resetRequestError: boolean;
+    profileRequestRequest: boolean;
+    profileRequestSuccess: boolean;
+    profileRequestError: boolean;
+    enterRequestRequest: boolean;
+    enterRequestSuccess: boolean;
+    enterRequestError: boolean;
+    registerRequestRequest: boolean;
+    registerRequestSuccess: boolean;
+    registerRequestError: boolean;
+    logoutRequestRequest: boolean;
+    logoutRequestSuccess: boolean;
+    logoutRequestError: boolean;
+    isLogout: boolean;
+    isLogin: boolean;
+    updateRequestRequest: boolean;
+    updateRequestSuccess: boolean;
+    updateRequestError: boolean;
+    tokenRequestRequest: boolean;
+    tokenRequestSuccess: boolean;
+    tokenRequestError: boolean;
+    baseURL: string;
+    ordersInfo: any;
+    ordersActive: any;
+    personOrdersActive: any;
+};
+
+const initialState: TRequestsReducer = {
     //логин пользователя
     email: '',
 
@@ -120,9 +160,21 @@ const initialState = {
     //блок эндпоинтов
     //общая часть ссылки
     baseURL: 'https://norma.nomoreparties.space/api',
+
+    //все полученные заказы
+    ordersInfo: undefined,
+
+    //состав заказа, доступный всем
+    ordersActive: undefined,
+
+    //состав заказа личного
+    personOrdersActive: undefined,
 };
 
-export const requestsReducer = (state = initialState, action) => {
+export const requestsReducer = (
+    state: TRequestsReducer = initialState,
+    action: TRequestActions
+): TRequestsReducer => {
     switch (action.type) {
         //запрос на сброс пароля
         case FORGOT_URL_REQUEST: {
@@ -390,6 +442,27 @@ export const requestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLogin: action.data,
+            };
+        }
+
+        // case SAVE_DATA: {
+        //     return {
+        //         ...state,
+        //         ordersInfo: action.data,
+        //     };
+        // }
+
+        case SET_ORDER_INFO: {
+            return {
+                ...state,
+                ordersActive: action.data,
+            };
+        }
+
+        case SET_PERSON_ORDER_INFO: {
+            return {
+                ...state,
+                personOrdersActive: action.data,
             };
         }
         //иное

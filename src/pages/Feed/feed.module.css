@@ -1,0 +1,222 @@
+/*общий шаблон*/
+.flexModel{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/*общая страница*/
+.page{
+    width: fit-content;
+    max-width: 1280px;
+    height: 85vh;
+
+}
+
+/*стиль отступа заглавия*/
+.headerText{
+    padding: 40px 0 0 0;
+}
+
+/*область страницы с большими контейнерами*/
+.section{
+    composes: flexModel;
+    align-items: flex-start;
+    column-gap: 60px;
+}
+
+/*блок с ингредиентами заказов*/
+.orders{
+    /*composes: flexModel;*/
+    /*flex-flow: column nowrap;*/
+    width: 608px;
+    max-height:750px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #8484ac #2f2f37;
+
+}
+
+
+
+/*блок с информацией о всех заказах*/
+.orderInfo{
+    /*background: #8484ac;*/
+    width: 580px;
+    min-height:626px;
+    height: fit-content;
+    max-height: fit-content;
+    row-gap: 60px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*уровень с номерами заказов*/
+.orderNumbers{
+    display: flex;
+    justify-content: space-between;
+    height: 240px;
+    width:100%;
+    margin: 0 0 60px 0;
+}
+
+/*стиль отступа заголовка*/
+.h2Header{
+ padding: 0 0 24px 0;
+}
+
+/*блок готовых заказов и заказами в работе*/
+.readyOrders, .ordersInWork {
+    width: 272px;
+    height:240px;
+
+}
+
+
+
+/*счетчик заказов и дневной счётчик заказов*/
+.ordersCounter, .ordersPerDayCounter{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    height:150px;
+    width:580px;
+}
+
+.ordersCounter > p, .ordersPerDayCounter > p{
+    text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+/*блок номера заказа*/
+.numbers {
+    width: 100%;
+    height: fit-content;
+    max-height:240px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow:hidden;
+    margin: 0 0 60px 0;
+}
+.numbers > p {
+    margin: 0 8px 0 8px;
+}
+
+/*контейнер с информацией о заказе*/
+.orderPosition{
+    width: 584px;
+    height: 214px;
+    margin: 0 0 16px 0;
+    border-radius: 40px;
+    background: #1C1C21;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+}
+
+/*уровень номера заказа и его времени приготовления*/
+.positionInfo{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    width:536px;
+    height: 24px;
+}
+
+/*область названия заказа*/
+.orderPosition > h2 {
+    width:536px;
+    height: 24px;
+}
+
+/*нижний уровень с ингредиентами и ценой*/
+.priceLevel{
+    width:536px;
+    height: 64px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    column-gap: 24px;
+}
+
+/*блок с ценой и иконкой*/
+.priceBlock{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 8px;
+}
+
+/*контейнер для картинки*/
+.pageContainer{
+    width: 56px;
+    height: 56px;
+    border: 2px solid #8484ac;
+    border-radius: 50%;
+    position:relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    background: #241e36;
+
+
+}
+/*ячека с картинками*/
+.orderIngredients{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    width:436px;
+    height:64px;
+    overflow: hidden;
+    position: relative;
+
+
+}
+
+/*кружочки с ингредиентами*/
+.pageContainer:nth-child(1){
+    z-index: 1;
+}
+.pageContainer:nth-child(2){
+    z-index: 2;
+    left:-28px;
+}
+.pageContainer:nth-child(3){
+    z-index: 3;
+    left:-56px;
+}
+.pageContainer:nth-child(4){
+    z-index: 4;
+    left:-84px;
+}
+.pageContainer:nth-child(5){
+    z-index: 5;
+    left:-112px;
+}
+.pageContainer:nth-child(6){
+    z-index: 6;
+    left:-140px;
+}
+
+/*для указания количества непоказанных ингредиентов*/
+.pageContainer > p{
+   z-index: 8;
+    position: absolute;
+}
+
+/*картинка ингредиента*/
+.img {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+}

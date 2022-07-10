@@ -1,0 +1,196 @@
+p{padding: 0; margin: 0}
+
+.ordersContainer{
+    width: 860px;
+    height:916px;
+    overflow-y: auto;
+    margin: 30px 0 0 0 ;
+}
+
+
+.orders{
+    /*composes: flexModel;*/
+    /*flex-flow: column nowrap;*/
+    width: 100%;
+    max-height:100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #8484ac #2f2f37;
+
+}
+
+/*декорация скролл-бара*/
+.menu::-webkit-scrollbar{
+    width: 8px;
+}
+
+/*декорация заднего фона скролла*/
+.menu::-webkit-scrollbar-track{
+    background: #2f2f37;
+}
+
+/*декорация ползунка*/
+.menu::-webkit-scrollbar-thumb{
+    background: #8484ac;
+}
+
+.orderInfo{
+    /*background: #8484ac;*/
+    width: 844px;
+    min-height:246px;
+    height: fit-content;
+    max-height: fit-content;
+    row-gap: 60px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.orderNumbers{
+    display: flex;
+    justify-content: space-between;
+    height: 206px;
+    width:100%;
+
+}
+
+.h2Header{
+    padding: 0 0 8px 0;
+}
+
+
+.ordersCounter, .ordersPerDayCounter{
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.numbers {
+    width: 100%;
+    height: 100%;
+}
+
+.orderPosition{
+    width: 840px;
+    height: 246px;
+    margin: 0 0 16px 0;
+    border-radius: 40px;
+    background: #1C1C21;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+}
+
+.positionInfo{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    width:796px;
+    height: 24px;
+}
+
+.orderPosition > h2 {
+
+    width:796px;
+    height: 24px;
+
+}
+
+.priceLevel{
+    width:796px;
+    height: 64px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.desContainer{
+    width:796px;
+    display: flex;
+    flex-flow: column wrap;
+
+}
+
+/*ячека с картинками*/
+.orderIngredients{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    width:696px;
+    height:64px;
+    overflow: hidden;
+    position: relative;
+
+
+}
+
+/*кружочки с ингредиентами*/
+.pageContainer:nth-child(1){
+    z-index: 1;
+}
+.pageContainer:nth-child(2){
+    z-index: 2;
+    left:-28px;
+}
+.pageContainer:nth-child(3){
+    z-index: 3;
+    left:-56px;
+}
+.pageContainer:nth-child(4){
+    z-index: 4;
+    left:-84px;
+}
+.pageContainer:nth-child(5){
+    z-index: 5;
+    left:-112px;
+}
+.pageContainer:nth-child(6){
+    z-index: 6;
+    left:-140px;
+}
+
+/*для указания количества непоказанных ингредиентов*/
+.pageContainer > p{
+    z-index: 8;
+    position: absolute;
+}
+
+/*картинка ингредиента*/
+.img {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+}
+
+/*контейнер для картинки*/
+.pageContainer{
+    width: 56px;
+    height: 56px;
+    border: 2px solid #8484ac;
+    border-radius: 50%;
+    position:relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    background: #241e36;
+
+
+}
+
+.priceContainer{
+    height: 64px;
+    width:76px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 8px;
+    margin: 0 0 0 24px;
+}
