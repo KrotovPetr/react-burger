@@ -121,9 +121,9 @@ const App: FC = () => {
                     {/*<Route path="/profile/orders">*/}
                     {/*    <ProfileOrders />*/}
                     {/*</Route>*/}
-                    {/*<Route path="/profile/orders/:id" exact={true}>*/}
-                    {/*    <Order />*/}
-                    {/*</Route>*/}
+                    <Route path="/profile/orders/:id">
+                        <Order />
+                    </Route>
                     <Route path="/feed/:id" exact={true}>
                         <Order />
                     </Route>

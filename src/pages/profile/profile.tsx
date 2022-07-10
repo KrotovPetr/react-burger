@@ -1,6 +1,13 @@
 import React, { FC, useEffect } from 'react';
 import profileStyles from './profile.module.css';
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import {
+    Redirect,
+    Route,
+    Switch,
+    useHistory,
+    useLocation,
+    useRouteMatch,
+} from 'react-router-dom';
 import '../../commonStyles/styles.css';
 import ProfileHeader from '../../Components/profileComponents/profileHeader/profile-header';
 import ProfileMain from '../../Components/profileComponents/profileMain/profile-main';
@@ -13,24 +20,24 @@ import { fetchData } from '../../Services/actions/components';
 import { isAuth } from '../../utils/functions/isAuth';
 import { IS_AUTH } from '../../Services/actions/requestsActions';
 import Order from '../Order/order';
+import * as url from 'url';
 
 const Profile: FC = () => {
+    const history = useHistory();
     const location = useLocation<{
         background: Location | undefined;
         orderBackground: Location | undefined;
         personOrderBackground: Location | undefined;
     }>();
+    const { url } = useRouteMatch();
 
-    const { isActive, cardData, ordersActive, personOrdersActive } =
-        useSelector(
-            (store: RootState) => ({
-                isActive: store.component.isActiv,
-                cardData: store.component.cardData,
-                ordersActive: store.requests.ordersActive,
-                personOrdersActive: store.requests.personOrdersActive,
-            }),
-            shallowEqual
-        );
+    const { isActive, personOrdersActive } = useSelector(
+        (store: RootState) => ({
+            isActive: store.component.isActiv,
+            personOrdersActive: store.requests.personOrdersActive,
+        }),
+        shallowEqual
+    );
 
     // //задаём состояние подложки для модалки
     // let background: Location | undefined =
@@ -53,8 +60,15 @@ const Profile: FC = () => {
     // if (!personOrdersActive && personOrderBackground !== undefined) {
     //     location.state.personOrderBackground = undefined;
     // }
-
-    if (personOrdersActive && isActive) {
+    useEffect(() => {
+        if (personOrdersActive && isActive) {
+            history.push({
+                pathname: '/profile/orders/' + personOrdersActive['_id'],
+                state: { personOrderBackground: location },
+            });
+        }
+    }, [isActive, personOrdersActive]);
+    if (url.split('/').length > 2 && !isActive) {
         return (
             <Redirect
                 to={{
@@ -64,6 +78,10 @@ const Profile: FC = () => {
             />
         );
     }
+
+    // if (url.split('/').length > 2 && !isActive) {
+    //     history.replace({ pathname: url });
+    // }
     return (
         <div className={profileStyles.commonContainer}>
             <div className={profileStyles.subRouterContainer}>
