@@ -2,6 +2,12 @@ import { Dispatch } from 'react';
 import { TComponentsActions } from './actionComponentsTypes';
 import { TRequestActions } from './actionRequestsTypes';
 
+//ответ от сервера по списку ингредиентов
+export type TIngredientRequest = {
+    success: boolean;
+    data: TCard[];
+};
+
 export type TCard = {
     //тип под карточку ингредиента
     calories: number;
@@ -52,8 +58,20 @@ export type TOrderIngredients = {
     status: string;
     owner: string;
     updatedAt: string;
-    __v: number;
     _id: string;
+};
+
+//тип под состав заказа
+export type TOrderIngredientsNew = {
+    createdAt: string;
+    ingredients: string[];
+    name: string;
+    number: number;
+    status: string;
+    owner: string;
+    updatedAt: string;
+    _id: string;
+    __v: number;
 };
 
 //тип для результатов запросов к серверу
@@ -75,6 +93,6 @@ export type TListOfOrders = {
 };
 
 export type TData = {
-    orders: TOrderIngredients[];
+    orders: TOrderIngredientsNew[];
     success: boolean;
 };

@@ -31,6 +31,7 @@ import {
 } from '../actions/requestsActions';
 
 import { TRequestActions } from '../../utils/types/actionRequestsTypes';
+import { TOrderIngredients } from '../../utils/types/types';
 
 export type TRequestsReducer = {
     email: string;
@@ -62,9 +63,8 @@ export type TRequestsReducer = {
     tokenRequestSuccess: boolean;
     tokenRequestError: boolean;
     baseURL: string;
-    ordersInfo: any;
-    ordersActive: any;
-    personOrdersActive: any;
+    ordersActive: undefined | TOrderIngredients;
+    personOrdersActive: undefined | TOrderIngredients;
 };
 
 const initialState: TRequestsReducer = {
@@ -160,9 +160,6 @@ const initialState: TRequestsReducer = {
     //блок эндпоинтов
     //общая часть ссылки
     baseURL: 'https://norma.nomoreparties.space/api',
-
-    //все полученные заказы
-    ordersInfo: undefined,
 
     //состав заказа, доступный всем
     ordersActive: undefined,

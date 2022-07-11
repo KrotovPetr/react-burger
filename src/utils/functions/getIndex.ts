@@ -1,6 +1,6 @@
-import { TCard, TOrderIngredients } from '../types/types';
+import { TCard } from '../types/types';
 
-export const getIndex = (array: any, url: string): number => {
+export const getIndex = (array: TCard[], url: string): number => {
     let index: number = -1;
 
     for (let i: number = 0; i < array.length; i++) {

@@ -8,7 +8,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { setOrderInfo } from '../../Services/actions/requestsActions';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../utils/types/store';
 
 const Header: FC = () => {
     const location = useLocation();

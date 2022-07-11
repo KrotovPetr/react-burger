@@ -93,7 +93,7 @@ export interface IGetIngredientsUrlRequest {
 }
 export interface IGetIngredientsUrlSuccess {
     readonly type: typeof GET_INGREDIENTS_URL_SUCCESS;
-    readonly data: TCard[] | any[];
+    readonly data: TCard[] | [];
 }
 export interface IGetIngredientsUrlError {
     readonly type: typeof GET_INGREDIENTS_URL_ERROR;

@@ -1,36 +1,34 @@
 import React, { FC, useEffect } from 'react';
 import feedStyles from './feed.module.css';
 import { v4 as uuidv4 } from 'uuid';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { setOrderInfo } from '../../Services/actions/requestsActions';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Redirect, useLocation } from 'react-router-dom';
 import { setActive } from '../../Services/actions/components';
 import { getInfo } from '../../utils/functions/getInfo';
 import { getOrderPrice } from '../../utils/functions/getPrice';
-import { RootState } from '../../utils/types/store';
+import { useDispatch, useSelector } from '../../utils/types/store';
 import { getDate } from '../../utils/functions/getDate';
 import { WS_CONNECTION_START } from '../../Services/actions/socketActions';
+import { TOrderIngredients } from '../../utils/types/types';
 
 const Feed: FC = () => {
     const location = useLocation();
     const dispatch = useDispatch();
-    const { ingredients, ordersActive, isActive, payload, WSUrl } = useSelector(
-        (store: RootState) => ({
+    const { ingredients, ordersActive, isActive, payload } = useSelector(
+        (store) => ({
             isActive: store.component.isActiv,
             ingredients: store.component.ingredients,
             ordersActive: store.requests.ordersActive,
             payload: store.sockets.payload,
-            WSUrl: store.sockets.WSUrl,
-        }),
-        shallowEqual
+        })
     );
-
+    // console.log(payload);
     useEffect(() => {
         // console.log('hello!');
         dispatch({ type: WS_CONNECTION_START, payload: '/all' });
     }, []);
-
+    // console.log(ordersActive);
     if (ordersActive && isActive) {
         return (
             <Redirect
@@ -41,7 +39,7 @@ const Feed: FC = () => {
             />
         );
     }
-
+    // console.log(payload);
     return (
         // общий контейнер по странице
         <div className={feedStyles.page}>
@@ -56,7 +54,7 @@ const Feed: FC = () => {
                 {/*блок с лентой заказов*/}
                 <div className={feedStyles.orders}>
                     {payload &&
-                        payload.orders.map((element: any) => (
+                        payload.orders.map((element: TOrderIngredients) => (
                             // карточки/позиции заказа
                             <div
                                 className={feedStyles.orderPosition}
@@ -88,7 +86,7 @@ const Feed: FC = () => {
                                     <div
                                         className={feedStyles.orderIngredients}>
                                         {element.ingredients.map(
-                                            (elem: any, index: number) =>
+                                            (elem: string, index: number) =>
                                                 index < 5 ? (
                                                     <div
                                                         className={
@@ -169,14 +167,15 @@ const Feed: FC = () => {
                             {/*колонка с номерами*/}
                             <div className={feedStyles.numbers}>
                                 {payload &&
-                                    payload.orders.map((element: any) =>
-                                        element.status === 'done' ? (
-                                            <p
-                                                className="text text_type_digits-default text_color_success"
-                                                key={uuidv4()}>
-                                                {element.number}
-                                            </p>
-                                        ) : null
+                                    payload.orders.map(
+                                        (element: TOrderIngredients) =>
+                                            element.status === 'done' ? (
+                                                <p
+                                                    className="text text_type_digits-default text_color_success"
+                                                    key={uuidv4()}>
+                                                    {element.number}
+                                                </p>
+                                            ) : null
                                     )}
                             </div>
                         </div>
@@ -192,16 +191,17 @@ const Feed: FC = () => {
                             {/*колонки с заказами*/}
                             <div className={feedStyles.numbers}>
                                 {payload &&
-                                    payload.orders.map((element: any) =>
-                                        element.status !== 'done' ? (
-                                            <p
-                                                className={
-                                                    'text text_type_digits-default'
-                                                }
-                                                key={uuidv4()}>
-                                                {element.number}
-                                            </p>
-                                        ) : null
+                                    payload.orders.map(
+                                        (element: TOrderIngredients) =>
+                                            element.status !== 'done' ? (
+                                                <p
+                                                    className={
+                                                        'text text_type_digits-default'
+                                                    }
+                                                    key={uuidv4()}>
+                                                    {element.number}
+                                                </p>
+                                            ) : null
                                     )}
                             </div>
                         </div>

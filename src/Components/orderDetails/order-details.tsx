@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import orderStyles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../utils/types/store';
+import { useSelector } from '../../utils/types/store';
 
 const OrderDetails: FC = () => {
-    const { orderInfo } = useSelector((store: RootState) => ({
+    const { orderInfo } = useSelector((store) => ({
         orderInfo: store.component.orderInfo,
     }));
     // console.log(orderInfo);

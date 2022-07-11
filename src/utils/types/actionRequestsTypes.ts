@@ -40,10 +40,7 @@ export interface ISetOrderInfo {
     readonly type: typeof SET_ORDER_INFO;
     readonly data: TOrderIngredients | undefined;
 }
-// export interface ISaveData {
-//     readonly type: typeof SAVE_DATA;
-//     readonly data: any;
-// }
+
 export interface IIsAuth {
     readonly type: typeof IS_AUTH;
     readonly data: boolean;

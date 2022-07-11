@@ -1,11 +1,4 @@
-import {
-    WS_CONNECTION_GET_MESSAGE,
-    WS_CONNECTION_START,
-    wsConnectionError,
-    wsConnectionGetMessage,
-    wsConnectionStart,
-} from '../actions/socketActions';
-import { useLocation } from 'react-router-dom';
+import { WS_CONNECTION_START } from '../actions/socketActions';
 
 export const socketMiddleware = (wsUrl: string, wsActions: any) => {
     return (store: any) => {
@@ -23,6 +16,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: any) => {
             if (socket) {
                 socket.onopen = (event: Event) => {
                     // console.log('onSuccess');
+
                     dispatch({ type: 'WS_CONNECTION_SUCCESS', payload: event });
                 };
 
@@ -34,8 +28,8 @@ export const socketMiddleware = (wsUrl: string, wsActions: any) => {
                     // console.log('hello again!');
                     // console.log(event.data);
                     const parsedData = JSON.parse(event.data);
-                    const { success, ...restParsedData } = parsedData;
                     // console.log('onMessage');
+                    // console.log(parsedData);
                     dispatch({
                         type: 'WS_CONNECTION_GET_MESSAGE',
                         payload: parsedData,

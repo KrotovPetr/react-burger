@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import profileStyles from './profile.module.css';
 import {
     Redirect,
@@ -13,8 +13,7 @@ import '../../commonStyles/styles.css';
 import ProfileHeader from '../../Components/profileComponents/profileHeader/profile-header';
 import ProfileMain from '../../Components/profileComponents/profileMain/profile-main';
 import ProfileOrders from '../../Components/profileComponents/profileOrders/profile-orders';
-import { shallowEqual, useSelector } from 'react-redux';
-import { RootState } from '../../utils/types/store';
+import { RootState, useSelector } from '../../utils/types/store';
 import OrderModal from '../../Components/Modals/orderModal/order-modal';
 import { Location } from 'history';
 import { fetchData } from '../../Services/actions/components';
@@ -22,8 +21,13 @@ import { isAuth } from '../../utils/functions/isAuth';
 import { IS_AUTH } from '../../Services/actions/requestsActions';
 import Order from '../Order/order';
 import * as url from 'url';
+import { TOrderIngredients } from '../../utils/types/types';
 
 const Profile: FC = () => {
+    const [activeOrder, onActive] = useState<TOrderIngredients | undefined>(
+        undefined
+    );
+    console.log(activeOrder);
     const history = useHistory();
     // const params: any = useParams();
     // console.log(params);
@@ -34,30 +38,22 @@ const Profile: FC = () => {
     }>();
     const { url } = useRouteMatch();
 
-    const { isActive, personOrdersActive } = useSelector(
-        (store: RootState) => ({
-            isActive: store.component.isActiv, //активировано ли модальное окно
-            personOrdersActive: store.requests.personOrdersActive, //данные о заказе
-        }),
-        shallowEqual
-    );
+    //функция прямой передачи компонента из заказов
+    const getActiveElement = (element: TOrderIngredients): void => {
+        onActive(element);
+    };
 
-    // }
+    const { isActive, personOrdersActive } = useSelector((store) => ({
+        isActive: store.component.isActiv, //активировано ли модальное окно
+        personOrdersActive: store.requests.personOrdersActive, //данные о заказе
+    }));
+
     useEffect(() => {
-        if (personOrdersActive && isActive) {
-            history.push({
-                pathname: '/profile/orders/' + personOrdersActive['_id'],
-                state: { personOrderBackground: location },
-            });
+        if (!isActive) {
+            // console.log(location.pathname);
+            history.replace({ pathname: location.pathname });
         }
-    }, [isActive, personOrdersActive]);
-
-    // useEffect(() => {
-    //     if (!isActive) {
-    //         // console.log(location.pathname);
-    //         history.replace({ pathname: location.pathname });
-    //     }
-    // }, []);
+    }, [history]);
 
     // if (location.pathname.split('/').length > 2 && !isActive) {
     //     return (
@@ -69,20 +65,14 @@ const Profile: FC = () => {
     //         />
     //     );
     // }
-    // if (personOrdersActive && isActive) {
-    //     return (
-    //         <Redirect
-    //             to={{
-    //                 pathname: location.pathname,
-    //                 state: { personOrderBackground: location },
-    //             }}
-    //         />
-    //     );
-    // }
 
     // if (url.split('/').length > 2 && !isActive) {
-    //     history.replace({ pathname: url });
+    //     activeOrder &&
+    //         history.replace({ pathname: url + '/' + activeOrder['_id'] });
     // }
+
+    //Link не встроил, ибо некуда
+
     return (
         <div className={profileStyles.commonContainer}>
             <div className={profileStyles.subRouterContainer}>
@@ -90,26 +80,16 @@ const Profile: FC = () => {
             </div>
             <div className={profileStyles.formContainer}>
                 <Switch>
-                    <Route exact path="/profile">
+                    <Route path="/profile" exact={true}>
                         <ProfileMain />
                     </Route>
                     <Route path="/profile/orders" exact={true}>
-                        <ProfileOrders />
+                        <ProfileOrders onActive={getActiveElement} />
                     </Route>
-                    {/*<Route path="/profile/orders/:id">*/}
-                    {/*    <Order />*/}
-                    {/*</Route>*/}
+                    <Route path="/profile/orders/:id" exact={true}>
+                        <Order />
+                    </Route>
                 </Switch>
-                {/*{(orderBackground || personOrderBackground) &&*/}
-                {/*    isActive &&*/}
-                {/*    (orderBackground ? (*/}
-                {/*        <Route path="/feed/:id" children={<OrderModal />} />*/}
-                {/*    ) : (*/}
-                {/*        <Route*/}
-                {/*            path="/profile/orders/:id"*/}
-                {/*            children={<OrderModal />}*/}
-                {/*        />*/}
-                {/*    ))}*/}
             </div>
         </div>
     );

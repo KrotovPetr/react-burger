@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import constStyles from './burger-constructor.module.css';
 
 //импортироуемые компоненты
@@ -29,7 +28,8 @@ import {
 import { profileRequest } from '../../Services/actions/requestsActions';
 import { useHistory } from 'react-router-dom';
 import { TCard } from '../../utils/types/types';
-import { RootState } from '../../utils/types/store';
+import { RootState, useDispatch } from '../../utils/types/store';
+import { shallowEqual, useSelector } from 'react-redux';
 
 //доделать
 const BurgerConstructor: FC = () => {
@@ -68,7 +68,7 @@ const BurgerConstructor: FC = () => {
         }),
         shallowEqual
     );
-
+    console.log(orderInfo);
     const dispatch = useDispatch();
     const history = useHistory();
 

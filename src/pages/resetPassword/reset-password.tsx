@@ -8,15 +8,14 @@ import {
 import '../../commonStyles/styles.css';
 import { Redirect, useHistory } from 'react-router-dom';
 import { resetRequest } from '../../Services/actions/requestsActions';
-import { useDispatch, useSelector } from 'react-redux';
 import { isForgot } from '../../utils/functions/isForgot';
-import { RootState } from '../../utils/types/store';
+import { useDispatch, useSelector } from '../../utils/types/store';
 
 const ResetPassword: FC = () => {
     const [password, setPassword] = useState<string>('');
     const [token, setToken] = useState<string>('');
     const { baseURL, resetRequestSuccess, resetRequestError, isLogin } =
-        useSelector((store: RootState) => ({
+        useSelector((store) => ({
             baseURL: store.requests.baseURL,
             resetRequestSuccess: store.requests.resetRequestSuccess,
             resetRequestError: store.requests.resetRequestError,

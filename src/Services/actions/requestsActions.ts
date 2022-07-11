@@ -157,7 +157,7 @@ export function resetRequest(password: string, token: string, baseURL: string) {
 }
 
 export function profileRequest(baseURL: string) {
-    return function (dispatch: any) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: PROFILE_URL_REQUEST,
         });
@@ -291,12 +291,6 @@ export function clearForgotCookie() {
         document.cookie = 'forgot=;max-age=-1';
     };
 }
-
-// export function saveData(data: any) {
-//     return function (dispatch: any) {
-//         dispatch({ type: SAVE_DATA, data: data });
-//     };
-// }
 
 export function setOrderInfo(data: TOrderIngredients | undefined) {
     return function (dispatch: AppDispatch) {

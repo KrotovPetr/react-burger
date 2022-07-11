@@ -8,9 +8,8 @@ import {
     PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { registerRequest } from '../../Services/actions/requestsActions';
-import { useDispatch, useSelector } from 'react-redux';
 import { Location } from 'history';
-import { RootState } from '../../utils/types/store';
+import { useDispatch, useSelector } from '../../utils/types/store';
 
 type TLocation = {
     url: string;
@@ -26,7 +25,7 @@ const Registration: FC = () => {
     const location = useLocation<TLocation>();
     let fromURL: string = location.state.url;
 
-    const { baseURL, isLogin } = useSelector((store: RootState) => ({
+    const { baseURL, isLogin } = useSelector((store) => ({
         baseURL: store.requests.baseURL,
         isLogin: store.requests.isLogin,
     }));

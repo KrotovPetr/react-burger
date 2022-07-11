@@ -35,6 +35,7 @@ export function fetchData(refURL: string) {
         fetch(refURL)
             .then(checkResponse)
             .then((result: any) => {
+                //<--- TCard | string | undefined, но не работает
                 dispatch({
                     type: GET_INGREDIENTS_URL_SUCCESS,
                     data: result.data,
@@ -212,7 +213,7 @@ export function setDragOver(card: TCard) {
 }
 
 export function deleteElement(
-    index: any,
+    index: number,
     changeElement: TCard,
     ingredients: TCard[],
     length: number
@@ -228,9 +229,11 @@ export function deleteElement(
 }
 
 export function getOrder(buns: TCard, components: TCard[], fetchURL: string) {
-    return function (dispatch: any) {
+    return function (dispatch: AppDispatch) {
         const ingredients = [buns, ...components, buns];
-        const ingredientIds = ingredients.map((ingredient) => ingredient._id);
+        const ingredientIds = ingredients.map(
+            (ingredient: TCard) => ingredient._id
+        );
         dispatch(getNumberOrder(ingredientIds, fetchURL));
         dispatch(setActive(true));
         dispatch({ type: SET_ORDER_ACTIVE, data: true });

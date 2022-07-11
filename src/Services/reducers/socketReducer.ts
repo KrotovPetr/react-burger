@@ -7,8 +7,13 @@ import {
     WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
 } from '../actions/socketActions';
+import { TListOfOrders } from '../../utils/types/types';
 
-export type TSocketReducer = { data: any; WSUrl: string; payload: any };
+export type TSocketReducer = {
+    data: Event | undefined;
+    WSUrl: string;
+    payload: TListOfOrders | undefined;
+};
 const initialState: TSocketReducer = {
     data: undefined,
     WSUrl: 'wss://norma.nomoreparties.space/orders',

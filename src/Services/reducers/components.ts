@@ -25,16 +25,16 @@ import { TComponentsActions } from '../../utils/types/actionComponentsTypes';
 import { socketReducer } from './socketReducer';
 
 export type TinitialState = {
-    ingredients: any[] | TCard[];
+    ingredients: [] | TCard[];
     totalPrice: number;
     order: {
-        buns: null | any;
-        components: any[] | TCard[];
+        buns: any; //<---- тут должно быть TCard | null, но не принимает
+        components: [] | TCard[];
     };
     isActiv: boolean;
     isOrderActiv: boolean;
     cardData: TCard | null;
-    orderInfo: any;
+    orderInfo: any; //<---- тут должно быть TOrder | null, но не принимает
     draggedElement: TCard | {};
     underDraggedElement: TCard | null;
     cart: TCard[] | string;

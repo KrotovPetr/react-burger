@@ -1,3 +1,5 @@
+import { TListOfOrders } from '../../utils/types/types';
+
 export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';
 export const WS_CONNECTION_SUCCESS: 'WS_CONNECTION_SUCCESS' =
     'WS_CONNECTION_SUCCESS';
@@ -16,18 +18,18 @@ export interface IWSConnectionStart {
 }
 export interface IWSConnectionSuccess {
     readonly type: typeof WS_CONNECTION_SUCCESS;
-    readonly payload: any;
+    readonly payload: Event;
 }
 export interface IWSConnectionError {
     readonly type: typeof WS_CONNECTION_ERROR;
-    readonly payload: any;
+    readonly payload: ErrorEvent;
 }
 export interface IWSConnectionClosed {
     readonly type: typeof WS_CONNECTION_CLOSED;
 }
 export interface IWSConnectionGetMessage {
     readonly type: typeof WS_CONNECTION_GET_MESSAGE;
-    readonly payload: any;
+    readonly payload: TListOfOrders;
 }
 export interface IWSConnectionSendMessage {
     readonly type: typeof WS_CONNECTION_SEND_MESSAGE;
@@ -55,14 +57,15 @@ export const wsConnectionStart = (wsUrl: string): IWSConnectionStart => {
 //     };
 // };
 
-export const wsConnectionSuccess = (payload: any): IWSConnectionSuccess => {
+export const wsConnectionSuccess = (payload: Event): IWSConnectionSuccess => {
+    console.log(payload);
     return {
         type: WS_CONNECTION_SUCCESS,
         payload: payload,
     };
 };
 
-export const wsConnectionError = (payload: any): IWSConnectionError => {
+export const wsConnectionError = (payload: ErrorEvent): IWSConnectionError => {
     return {
         type: WS_CONNECTION_ERROR,
         payload: payload,
@@ -76,9 +79,8 @@ export const wsConnectionClosed = (): IWSConnectionClosed => {
 };
 
 export const wsConnectionGetMessage = (
-    message: any
+    message: TListOfOrders
 ): IWSConnectionGetMessage => {
-    console.log('messageAction');
     return {
         type: WS_CONNECTION_GET_MESSAGE,
         payload: message,
@@ -86,7 +88,7 @@ export const wsConnectionGetMessage = (
 };
 
 export const wsConnectionSendMessage = (
-    message: any
+    message: any //<-----тут может быть что угодно
 ): IWSConnectionSendMessage => {
     return {
         type: WS_CONNECTION_SEND_MESSAGE,

@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import Header from '../header/header';
 import appStyles from './app.module.css';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 import { fetchData } from '../../Services/actions/components';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import Login from '../../pages/login/login';
@@ -20,7 +20,7 @@ import { Location } from 'history';
 import FeedPage from '../../pages/Feed/feed';
 import Order from '../../pages/Order/order';
 import OrderModal from '../Modals/orderModal/order-modal';
-import { RootState } from '../../utils/types/store';
+import { RootState, useDispatch, useSelector } from '../../utils/types/store';
 import ProfileOrders from '../profileComponents/profileOrders/profile-orders';
 
 const App: FC = () => {
@@ -41,7 +41,7 @@ const App: FC = () => {
         ordersActive,
         personOrdersActive,
     } = useSelector(
-        (store: RootState) => ({
+        (store) => ({
             isActive: store.component.isActiv,
             cardData: store.component.cardData,
             isLogin: store.requests.isLogin,

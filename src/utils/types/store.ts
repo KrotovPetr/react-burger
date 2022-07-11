@@ -9,7 +9,7 @@ import { rootReducer } from '../../Services/reducers/components';
 
 import { TComponentsActions } from './actionComponentsTypes';
 import { TRequestActions } from './actionRequestsTypes';
-import thunk, { ThunkAction } from 'redux-thunk';
+import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { Dispatch } from 'react';
 import {
     TypedUseSelectorHook,
@@ -49,13 +49,6 @@ export const store = createStore(rootReducer, enhancer);
 
 // получение состояний хранилища
 export type RootState = ReturnType<typeof store.getState>;
-// export type RootState = {
-//     component: TinitialState;
-//     orderData: TOrderState;
-//     requests: TRequestsReducer;
-//     sockets: TSocketReducer;
-// };
-
 // единый тип для экшенов
 export type TApplicationActions =
     | TComponentsActions
@@ -68,7 +61,7 @@ export type AppThunk<TReturn = void> = ActionCreator<
 >;
 
 // типизация хранилища и thunk
-export type AppDispatch = Dispatch<TApplicationActions>;
+export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
 
 // типизация useSelector
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
