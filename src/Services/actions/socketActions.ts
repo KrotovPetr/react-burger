@@ -1,50 +1,95 @@
-import { AppDispatch } from '../../utils/types/store';
-import { checkResponse } from '../../utils/functions/checkResponse';
-import {
-    FORGOT_URL_ERROR,
-    FORGOT_URL_REQUEST,
-    FORGOT_URL_SUCCESS,
-} from './requestsActions';
-
+export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';
 export const WS_CONNECTION_SUCCESS: 'WS_CONNECTION_SUCCESS' =
     'WS_CONNECTION_SUCCESS';
 export const WS_CONNECTION_ERROR: 'WS_CONNECTION_ERROR' = 'WS_CONNECTION_ERROR';
-export const WS_GET_MESSAGE: 'WS_GET_MESSAGE' = 'WS_GET_MESSAGE';
 export const WS_CONNECTION_CLOSED: 'WS_CONNECTION_CLOSED' =
     'WS_CONNECTION_CLOSED';
-export const WS_SEND_MESSAGE: 'WS_SEND_MESSAGE' = 'WS_SEND_MESSAGE';
-export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';
+// export const WS_CONNECTION_END: 'WS_CONNECTION_END' = 'WS_CONNECTION_END';
+export const WS_CONNECTION_GET_MESSAGE: 'WS_CONNECTION_GET_MESSAGE' =
+    'WS_CONNECTION_GET_MESSAGE';
+export const WS_CONNECTION_SEND_MESSAGE: 'WS_CONNECTION_SEND_MESSAGE' =
+    'WS_CONNECTION_SEND_MESSAGE';
+
+export interface IWSConnectionStart {
+    readonly type: typeof WS_CONNECTION_START;
+    readonly wsUrl: string;
+}
+export interface IWSConnectionSuccess {
+    readonly type: typeof WS_CONNECTION_SUCCESS;
+    readonly payload: any;
+}
+export interface IWSConnectionError {
+    readonly type: typeof WS_CONNECTION_ERROR;
+    readonly payload: any;
+}
+export interface IWSConnectionClosed {
+    readonly type: typeof WS_CONNECTION_CLOSED;
+}
+export interface IWSConnectionGetMessage {
+    readonly type: typeof WS_CONNECTION_GET_MESSAGE;
+    readonly payload: any;
+}
+export interface IWSConnectionSendMessage {
+    readonly type: typeof WS_CONNECTION_SEND_MESSAGE;
+    readonly payload: any;
+}
+
+export type TWSConnectionActions =
+    | IWSConnectionSendMessage
+    | IWSConnectionGetMessage
+    | IWSConnectionClosed
+    | IWSConnectionError
+    | IWSConnectionSuccess
+    | IWSConnectionStart;
+
+export const wsConnectionStart = (wsUrl: string): IWSConnectionStart => {
+    return {
+        type: WS_CONNECTION_START,
+        wsUrl: wsUrl,
+    };
+};
 //
-// //функция на открытие соединения
-// export function wsOnOpen(ev: any) {
-//     return function (dispatch: AppDispatch) {
-//         dispatch({ type: 'WS_CONNECTION_SUCCESS', payload: ev });
+// export const wsClose = (): IWSConnectionClosed => {
+//     return {
+//         type: WS_CONNECTION_END,
 //     };
-// }
-// //функция на открытие соединения
-// export function wsOnClose(ev: any) {
-//     return function (dispatch: AppDispatch) {
-//         dispatch({ type: 'WS_CONNECTION_CLOSED', payload: ev });
-//     };
-// }
-//
-// //функция на открытие соединения
-// export function wsOnopen(ev: any) {
-//     return function (dispatch: AppDispatch) {
-//         dispatch({ type: 'WS_CONNECTION_SUCCESS', payload: ev });
-//     };
-// }
-//
-// //функция на открытие соединения
-// export function wsOnopen(ev: any) {
-//     return function (dispatch: AppDispatch) {
-//         dispatch({ type: 'WS_CONNECTION_SUCCESS', payload: ev });
-//     };
-// }
-//
-// //функция на открытие соединения
-// export function wsOnopen(ev: any) {
-//     return function (dispatch: AppDispatch) {
-//         dispatch({ type: 'WS_CONNECTION_SUCCESS', payload: ev });
-//     };
-// }
+// };
+
+export const wsConnectionSuccess = (payload: any): IWSConnectionSuccess => {
+    return {
+        type: WS_CONNECTION_SUCCESS,
+        payload: payload,
+    };
+};
+
+export const wsConnectionError = (payload: any): IWSConnectionError => {
+    return {
+        type: WS_CONNECTION_ERROR,
+        payload: payload,
+    };
+};
+
+export const wsConnectionClosed = (): IWSConnectionClosed => {
+    return {
+        type: WS_CONNECTION_CLOSED,
+    };
+};
+
+export const wsConnectionGetMessage = (
+    message: any
+): IWSConnectionGetMessage => {
+    console.log('messageAction');
+    return {
+        type: WS_CONNECTION_GET_MESSAGE,
+        payload: message,
+    };
+};
+
+export const wsConnectionSendMessage = (
+    message: any
+): IWSConnectionSendMessage => {
+    return {
+        type: WS_CONNECTION_SEND_MESSAGE,
+        payload: message,
+    };
+};

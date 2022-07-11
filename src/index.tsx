@@ -1,24 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './Components/app/app';
-import { createStore, compose, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import { rootReducer } from './Services/reducers/components';
+import { compose } from 'redux';
+
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { store } from './utils/types/store';
 
 declare global {
     interface Window {
         __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
     }
 }
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(
-    rootReducer,
-    composeEnhancers(applyMiddleware(thunk))
-);
 
 ReactDOM.render(
     <React.StrictMode>

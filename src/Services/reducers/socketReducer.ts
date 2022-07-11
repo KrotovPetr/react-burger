@@ -2,16 +2,17 @@ import { TSocketActions } from '../../utils/types/actionSocketTypes';
 import {
     WS_CONNECTION_CLOSED,
     WS_CONNECTION_ERROR,
+    WS_CONNECTION_GET_MESSAGE,
+    WS_CONNECTION_SEND_MESSAGE,
     WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
-    WS_GET_MESSAGE,
-    WS_SEND_MESSAGE,
 } from '../actions/socketActions';
 
-export type TSocketReducer = { data: any; WSUrl: string };
+export type TSocketReducer = { data: any; WSUrl: string; payload: any };
 const initialState: TSocketReducer = {
     data: undefined,
     WSUrl: 'wss://norma.nomoreparties.space/orders',
+    payload: undefined,
 };
 export const socketReducer = (
     state: TSocketReducer = initialState,
@@ -35,7 +36,7 @@ export const socketReducer = (
                 data: action.payload,
             };
         }
-        case WS_SEND_MESSAGE: {
+        case WS_CONNECTION_SEND_MESSAGE: {
             return {
                 ...state,
             };
@@ -46,10 +47,10 @@ export const socketReducer = (
                 data: action.payload,
             };
         }
-        case WS_GET_MESSAGE: {
+        case WS_CONNECTION_GET_MESSAGE: {
             return {
                 ...state,
-                data: action.payload,
+                payload: action.payload,
             };
         }
 

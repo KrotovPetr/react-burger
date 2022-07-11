@@ -8,7 +8,7 @@ const OrderDetails: FC = () => {
     const { orderInfo } = useSelector((store: RootState) => ({
         orderInfo: store.component.orderInfo,
     }));
-    console.log(orderInfo);
+    // console.log(orderInfo);
     return orderInfo ? (
         <div className={orderStyles.main}>
             <h2

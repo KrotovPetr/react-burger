@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import feedStyles from './feed.module.css';
 import { v4 as uuidv4 } from 'uuid';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -9,51 +9,27 @@ import { setActive } from '../../Services/actions/components';
 import { getInfo } from '../../utils/functions/getInfo';
 import { getOrderPrice } from '../../utils/functions/getPrice';
 import { RootState } from '../../utils/types/store';
+import { getDate } from '../../utils/functions/getDate';
+import { WS_CONNECTION_START } from '../../Services/actions/socketActions';
 
 const Feed: FC = () => {
     const location = useLocation();
-    const [info, setInfo] = useState<any>([]);
     const dispatch = useDispatch();
-    const [isPaused, setIsPaused] = useState<boolean>(false);
-    const [status, setStatus] = useState<string>('');
-    const ws = useRef<any>(null);
-    // console.log(info);
-    const { ingredients, ordersActive, isActive, WSUrl } = useSelector(
+    const { ingredients, ordersActive, isActive, payload, WSUrl } = useSelector(
         (store: RootState) => ({
             isActive: store.component.isActiv,
             ingredients: store.component.ingredients,
             ordersActive: store.requests.ordersActive,
+            payload: store.sockets.payload,
             WSUrl: store.sockets.WSUrl,
         }),
         shallowEqual
     );
 
-    // const ws = new WebSocket(WSUrl + '/all');
-
     useEffect(() => {
-        if (!isPaused) {
-            ws.current = new WebSocket(WSUrl + '/all'); // создаем ws соединение
-            ws.current.onopen = () => setStatus('Соединение открыто'); // callback на ивент открытия соединения
-            ws.current.onclose = () => setStatus('Соединение закрыто'); // callback на ивент закрытия соединения
-        }
-
-        gettingData();
-        return () => ws.current.close();
-    }, [ws, isPaused]);
-
-    const gettingData = useCallback(() => {
-        if (!ws.current) return;
-
-        ws.current.onmessage = (e: any) => {
-            //подписка на получение данных по вебсокету
-            if (isPaused) return;
-            const message = JSON.parse(e.data);
-            // console.log(message);
-            if (e.data) {
-                setInfo(message);
-            }
-        };
-    }, [isPaused]);
+        // console.log('hello!');
+        dispatch({ type: WS_CONNECTION_START, payload: '/all' });
+    }, []);
 
     if (ordersActive && isActive) {
         return (
@@ -79,8 +55,8 @@ const Feed: FC = () => {
             <div className={feedStyles.section}>
                 {/*блок с лентой заказов*/}
                 <div className={feedStyles.orders}>
-                    {info.orders &&
-                        info.orders.map((element: any) => (
+                    {payload &&
+                        payload.orders.map((element: any) => (
                             // карточки/позиции заказа
                             <div
                                 className={feedStyles.orderPosition}
@@ -96,7 +72,7 @@ const Feed: FC = () => {
                                         #{element.number}
                                     </p>
                                     <p className="text text_type_main-default text_color_inactive">
-                                        {element.createdAt}
+                                        {getDate(element.createdAt)}
                                     </p>
                                 </div>
                                 {/*название блюда*/}
@@ -192,8 +168,8 @@ const Feed: FC = () => {
                             </h2>
                             {/*колонка с номерами*/}
                             <div className={feedStyles.numbers}>
-                                {info.orders &&
-                                    info.orders.map((element: any) =>
+                                {payload &&
+                                    payload.orders.map((element: any) =>
                                         element.status === 'done' ? (
                                             <p
                                                 className="text text_type_digits-default text_color_success"
@@ -215,8 +191,8 @@ const Feed: FC = () => {
                             </h2>
                             {/*колонки с заказами*/}
                             <div className={feedStyles.numbers}>
-                                {info.orders &&
-                                    info.orders.map((element: any) =>
+                                {payload &&
+                                    payload.orders.map((element: any) =>
                                         element.status !== 'done' ? (
                                             <p
                                                 className={
@@ -240,7 +216,7 @@ const Feed: FC = () => {
                             Выполнено за всё время:
                         </h2>
                         <p className="text text_type_digits-large">
-                            {info.total}
+                            {payload && payload.total}
                         </p>
                     </div>
                     {/*счетчики выполненных заказов*/}
@@ -253,7 +229,7 @@ const Feed: FC = () => {
                             Выполнено за сегодня:
                         </h2>
                         <p className="text text_type_digits-large">
-                            {info.totalToday}
+                            {payload && payload.totalToday}
                         </p>
                     </div>
                 </div>

@@ -6,6 +6,7 @@ import {
     Switch,
     useHistory,
     useLocation,
+    useParams,
     useRouteMatch,
 } from 'react-router-dom';
 import '../../commonStyles/styles.css';
@@ -24,6 +25,8 @@ import * as url from 'url';
 
 const Profile: FC = () => {
     const history = useHistory();
+    // const params: any = useParams();
+    // console.log(params);
     const location = useLocation<{
         background: Location | undefined;
         orderBackground: Location | undefined;
@@ -33,32 +36,12 @@ const Profile: FC = () => {
 
     const { isActive, personOrdersActive } = useSelector(
         (store: RootState) => ({
-            isActive: store.component.isActiv,
-            personOrdersActive: store.requests.personOrdersActive,
+            isActive: store.component.isActiv, //активировано ли модальное окно
+            personOrdersActive: store.requests.personOrdersActive, //данные о заказе
         }),
         shallowEqual
     );
 
-    // //задаём состояние подложки для модалки
-    // let background: Location | undefined =
-    //     location.state && location.state.background;
-    //
-    // //задаём состояние подложки для модалки
-    // let orderBackground: Location | undefined =
-    //     location.state && location.state.orderBackground;
-    //
-    // //задаём состояние подложки для модалки
-    // let personOrderBackground: Location | undefined =
-    //     location.state && location.state.personOrderBackground;
-    //
-    // if (!cardData && background !== undefined) {
-    //     location.state.background = undefined;
-    // }
-    // if (!ordersActive && orderBackground !== undefined) {
-    //     location.state.orderBackground = undefined;
-    // }
-    // if (!personOrdersActive && personOrderBackground !== undefined) {
-    //     location.state.personOrderBackground = undefined;
     // }
     useEffect(() => {
         if (personOrdersActive && isActive) {
@@ -68,16 +51,34 @@ const Profile: FC = () => {
             });
         }
     }, [isActive, personOrdersActive]);
-    if (url.split('/').length > 2 && !isActive) {
-        return (
-            <Redirect
-                to={{
-                    pathname: '/profile/orders/' + personOrdersActive['_id'],
-                    state: { personOrderBackground: location },
-                }}
-            />
-        );
-    }
+
+    // useEffect(() => {
+    //     if (!isActive) {
+    //         // console.log(location.pathname);
+    //         history.replace({ pathname: location.pathname });
+    //     }
+    // }, []);
+
+    // if (location.pathname.split('/').length > 2 && !isActive) {
+    //     return (
+    //         <Redirect
+    //             to={{
+    //                 pathname: location.pathname,
+    //                 state: { personOrderBackground: location },
+    //             }}
+    //         />
+    //     );
+    // }
+    // if (personOrdersActive && isActive) {
+    //     return (
+    //         <Redirect
+    //             to={{
+    //                 pathname: location.pathname,
+    //                 state: { personOrderBackground: location },
+    //             }}
+    //         />
+    //     );
+    // }
 
     // if (url.split('/').length > 2 && !isActive) {
     //     history.replace({ pathname: url });

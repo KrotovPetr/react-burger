@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
-import IngredientDetails from '../ingredientDetails/ingredient-details';
-import Modal from '../Modals/modal/modal';
+import IngredientDetails from '../../ingredientDetails/ingredient-details';
+import Modal from '../modal/modal';
 import {
     clearInfo,
     setActive,
     setData,
-} from '../../Services/actions/components';
+} from '../../../Services/actions/components';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { RootState } from '../../utils/types/store';
+import { RootState } from '../../../utils/types/store';
 
 const IngredientModal: FC = () => {
     const dispatch = useDispatch();

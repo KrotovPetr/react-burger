@@ -9,53 +9,32 @@ import { getInfo } from '../../../utils/functions/getInfo';
 import { setActive } from '../../../Services/actions/components';
 import { setPersonOrderInfo } from '../../../Services/actions/requestsActions';
 import { getDate } from '../../../utils/functions/getDate';
+import { WS_CONNECTION_START } from '../../../Services/actions/socketActions';
 const ProfileOrders: FC = () => {
-    const [info, setInfo] = useState<any>([]);
-    const [isPaused, setPause] = useState<boolean>(false);
-    const [status, setStatus] = useState<string>('');
     const dispatch = useDispatch();
-    const ws = useRef<any>(null);
 
-    const { ingredients, WSUrl } = useSelector(
+    const { ingredients, WSUrl, payload } = useSelector(
         (store: any) => ({
             ingredients: store.component.ingredients,
             WSUrl: store.sockets.WSUrl,
+            payload: store.sockets.payload,
         }),
         shallowEqual
     );
 
     useEffect(() => {
-        if (!isPaused) {
-            ws.current = new WebSocket(
-                WSUrl + '?token=' + getCookie('accessToken')
-            );
-            ws.current.onopen = () => setStatus('Соединение открыто');
-            ws.current.onclose = () => setStatus('Соединение закрыто');
-        }
-
-        gettingData();
-        return () => ws.current.close();
-    }, [ws, isPaused]);
-
-    const gettingData = useCallback(() => {
-        if (!ws.current) return;
-        ws.current.onmessage = (e: any) => {
-            //подписка на получение данных по вебсокету
-            if (isPaused) return;
-            const message = JSON.parse(e.data);
-            // console.log(message);
-            if (e.data) {
-                setInfo(message);
-            }
-        };
-    }, [isPaused]);
+        dispatch({
+            type: WS_CONNECTION_START,
+            payload: '?token=' + getCookie('accessToken'),
+        });
+    }, []);
 
     return (
         // контенер с заказами
         <div className={profileStyles.ordersContainer}>
             <div className={profileStyles.orders}>
-                {info.orders &&
-                    info.orders.map((element: any) => (
+                {payload &&
+                    payload.orders.map((element: any) => (
                         // карточка заказа
                         <div
                             className={profileStyles.orderPosition}

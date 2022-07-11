@@ -11,6 +11,7 @@ import { getInfo } from '../../utils/functions/getInfo';
 import { getOrderPrice } from '../../utils/functions/getPrice';
 import { RootState } from '../../utils/types/store';
 import { TCard, TData, TOrderResponse } from '../../utils/types/types';
+import { getDate } from '../../utils/functions/getDate';
 
 const OrderIngredients: FC = () => {
     // console.log('orderIngredients');
@@ -64,9 +65,13 @@ const OrderIngredients: FC = () => {
 
     // эффект для установки цены
     useEffect(() => {
-        ordersActive &&
-            setPrice(getOrderPrice(ordersActive.ingredients, ingredients));
-    }, [ordersActive]);
+        personOrdersActive
+            ? setPrice(
+                  getOrderPrice(personOrdersActive.ingredients, ingredients)
+              )
+            : ordersActive &&
+              setPrice(getOrderPrice(ordersActive.ingredients, ingredients));
+    }, [ordersActive, personOrdersActive]);
 
     // функция составления списка заказа и количества ингредиентов
     const getInformation = () => {
@@ -196,7 +201,7 @@ const OrderIngredients: FC = () => {
                     </div>
                     <div className={orderStyle.otherInfo}>
                         <p className="text text_type_main-default text_color_inactive">
-                            {data.orders[0].createdAt}
+                            {getDate(data.orders[0].createdAt)}
                         </p>
                         <div className={orderStyle.price}>
                             <p className="text text_type_main-medium">

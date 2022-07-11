@@ -15,7 +15,7 @@ import ProtectedRoute from '../protectedRoute/protected-route';
 import NotFoundPage from '../../pages/404Page/not-found-page';
 import { isAuth } from '../../utils/functions/isAuth';
 import { IS_AUTH } from '../../Services/actions/requestsActions';
-import IngredientModal from '../IngredientModal/IngredientModal';
+import IngredientModal from '../Modals/IngredientModal/IngredientModal';
 import { Location } from 'history';
 import FeedPage from '../../pages/Feed/feed';
 import Order from '../../pages/Order/order';
@@ -112,7 +112,13 @@ const App: FC = () => {
                     <Route path="/feed" exact={true}>
                         <FeedPage />
                     </Route>
-                    <ProtectedRoute path={'/profile'}>
+                    <ProtectedRoute path={'/profile'} exact={true}>
+                        <Profile />
+                    </ProtectedRoute>
+                    <ProtectedRoute path={'/profile/orders'} exact={true}>
+                        <Profile />
+                    </ProtectedRoute>
+                    <ProtectedRoute path={'/profile/orders/:id'} exact={true}>
                         <Profile />
                     </ProtectedRoute>
                     <Route path="/ingredients/:id" exact={true}>
@@ -121,7 +127,7 @@ const App: FC = () => {
                     {/*<Route path="/profile/orders">*/}
                     {/*    <ProfileOrders />*/}
                     {/*</Route>*/}
-                    <Route path="/profile/orders/:id">
+                    <Route path="/profile/orders/:id" exact={true}>
                         <Order />
                     </Route>
                     <Route path="/feed/:id" exact={true}>
