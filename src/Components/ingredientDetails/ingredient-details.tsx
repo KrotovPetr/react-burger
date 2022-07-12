@@ -3,11 +3,11 @@ import ingredientStyles from './ingredient-styles.module.css';
 import { useSelector } from '../../utils/types/store';
 
 const IngredientDetails: FC = () => {
-    const { cardData } = useSelector((store: any) => ({
+    const { cardData } = useSelector((store) => ({
         cardData: store.component.cardData,
     }));
-    console.log(cardData);
-    return (
+
+    return cardData ? (
         <div className={ingredientStyles.main}>
             {/*блок с картинкой*/}
             <div className={ingredientStyles.imageDiv}>
@@ -50,7 +50,7 @@ const IngredientDetails: FC = () => {
                 </div>
             </div>
         </div>
-    );
+    ) : null;
 };
 
 export default IngredientDetails;

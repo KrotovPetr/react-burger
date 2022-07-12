@@ -1,6 +1,6 @@
 import { checkResponse } from '../../utils/functions/checkResponse';
 import { getCookie } from '../../utils/functions/cookieFunctions/getCookie';
-import { TCard } from '../../utils/types/types';
+import { TCard, TOrder } from '../../utils/types/types';
 import { AppDispatch } from '../../utils/types/store';
 export const SET_STATE: 'SET_STATE' = 'SET_STATE';
 export const ADD_BUN: 'ADD_BUN' = 'ADD_BUN';
@@ -98,12 +98,9 @@ export function getNumberOrder(array: string[], fetchURL: string) {
 }
 
 // запись перетаскиваемого элемента
-export function dragElement(
-    cards: TCard,
-    cart: string | TCard[],
-    isReady: boolean
-) {
+export function dragElement(cards: TCard, cart: string, isReady: boolean) {
     return function (dispatch: AppDispatch) {
+        // console.log(cart);
         dispatch({
             type: DRAG_ELEMENT,
             data: cards,

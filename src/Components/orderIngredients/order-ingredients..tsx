@@ -9,7 +9,7 @@ import { useRouteMatch } from 'react-router-dom';
 import { getInfo } from '../../utils/functions/getInfo';
 import { getOrderPrice } from '../../utils/functions/getPrice';
 import { useDispatch, useSelector } from '../../utils/types/store';
-import { TCard, TData, TListOfOrders } from '../../utils/types/types';
+import { TCard, TData } from '../../utils/types/types';
 import { getDate } from '../../utils/functions/getDate';
 import { WS_CONNECTION_START } from '../../Services/actions/socketActions';
 import { getCookie } from '../../utils/functions/cookieFunctions/getCookie';
@@ -20,20 +20,17 @@ const OrderIngredients: FC = () => {
     const [copyData, setCopyData] = useState<TCard[]>([]);
     // данные
     const [data, setData] = useState<undefined | null | TData>(undefined);
-    const [payData, setPayData] = useState<TListOfOrders | undefined>(
-        undefined
-    );
     // цена
     const [price, setPrice] = useState<number>(0);
     const dispatch = useDispatch();
     const { url } = useRouteMatch();
-    const { ingredients, ordersActive, personOrdersActive, payload } =
-        useSelector((store) => ({
+    const { ingredients, ordersActive, personOrdersActive } = useSelector(
+        (store) => ({
             ingredients: store.component.ingredients,
             ordersActive: store.requests.ordersActive,
             personOrdersActive: store.requests.personOrdersActive,
-            payload: store.sockets.payload,
-        }));
+        })
+    );
 
     // запрос на сервер по заказу
     useEffect(() => {
@@ -94,9 +91,6 @@ const OrderIngredients: FC = () => {
         }
     }, [ingredients]);
 
-    const getOrderNumber = (pl: TListOfOrders): TListOfOrders => {
-        return pl;
-    };
     // эффект для составления списка
     useEffect(() => {
         // if (data === null) {

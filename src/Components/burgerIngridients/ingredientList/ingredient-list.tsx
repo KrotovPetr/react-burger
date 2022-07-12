@@ -13,8 +13,7 @@ import {
 import { Redirect, useLocation } from 'react-router-dom';
 import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
 import { TCard } from '../../../utils/types/types';
-import { RootState, useDispatch } from '../../../utils/types/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../../utils/types/store';
 
 interface IProps {
     typeOfMeal: string | undefined;
@@ -23,7 +22,7 @@ interface IProps {
 const IngredientList: FC<IProps> = (props) => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const { ingredients, cardData } = useSelector((store: any) => ({
+    const { ingredients, cardData } = useSelector((store) => ({
         ingredients: store.component.ingredients,
         cardData: store.component.cardData,
     }));
@@ -49,6 +48,7 @@ const IngredientList: FC<IProps> = (props) => {
             />
         );
     }
+    // console.log(ingredients);
 
     return (
         <div className={cardStyle.cardArea}>

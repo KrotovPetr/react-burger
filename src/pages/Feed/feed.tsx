@@ -3,7 +3,7 @@ import feedStyles from './feed.module.css';
 import { v4 as uuidv4 } from 'uuid';
 import { setOrderInfo } from '../../Services/actions/requestsActions';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { setActive } from '../../Services/actions/components';
 import { getInfo } from '../../utils/functions/getInfo';
 import { getOrderPrice } from '../../utils/functions/getPrice';
@@ -56,13 +56,19 @@ const Feed: FC = () => {
                     {payload &&
                         payload.orders.map((element: TOrderIngredients) => (
                             // карточки/позиции заказа
+                            // <Link
+                            //     key={uuidv4()}
+                            //     to={{
+                            //         state: { orderBackground: location },
+                            //     }}
+                            //     >
                             <div
                                 className={feedStyles.orderPosition}
-                                key={uuidv4()}
                                 onClick={(): void => {
                                     // console.log(element);
                                     dispatch(setOrderInfo(element));
                                     dispatch(setActive(true));
+                                    // history.push();
                                 }}>
                                 {/*верхний уровень описания заказа*/}
                                 <div className={feedStyles.positionInfo}>
@@ -150,6 +156,7 @@ const Feed: FC = () => {
                                     </div>
                                 </div>
                             </div>
+                            // </Link>
                         ))}
                 </div>
                 {/*блок готовности заказов и ко*/}

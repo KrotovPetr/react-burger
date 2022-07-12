@@ -10,7 +10,6 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 //модальное окно
-import Modal from '../Modals/modal/modal';
 import OrderDetails from '../orderDetails/order-details';
 import { v4 as uuidv4 } from 'uuid';
 //экшены
@@ -28,8 +27,8 @@ import {
 import { profileRequest } from '../../Services/actions/requestsActions';
 import { useHistory } from 'react-router-dom';
 import { TCard } from '../../utils/types/types';
-import { RootState, useDispatch } from '../../utils/types/store';
-import { useSelector } from 'react-redux';
+import Modal from '../Modals/modal/modal';
+import { useDispatch, useSelector } from '../../utils/types/store';
 
 //доделать
 const BurgerConstructor: FC = () => {
@@ -47,7 +46,7 @@ const BurgerConstructor: FC = () => {
         profileRequestError,
         baseURL,
         isLogin,
-    } = useSelector((store: any) => ({
+    } = useSelector((store) => ({
         ingredients: store.component.ingredients,
         buns: store.component.order.buns,
         components: store.component.order.components,
@@ -65,7 +64,7 @@ const BurgerConstructor: FC = () => {
         baseURL: store.requests.baseURL,
         isLogin: store.requests.isLogin,
     }));
-    // console.log(orderInfo);
+
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -74,7 +73,7 @@ const BurgerConstructor: FC = () => {
             dispatch(clearInfo(ingredients)) &&
             dispatch(setActive(false));
     };
-
+    // console.log(buns);
     return (
         <div className={constStyles.area}>
             <div className={constStyles.orderArea}>
@@ -84,13 +83,13 @@ const BurgerConstructor: FC = () => {
                         e.preventDefault();
                         if (cart === 'ingredients') {
                             dispatch(
-                                increaseCounter(draggedElement, ingredients)
+                                increaseCounter(draggedElement!, ingredients)
                             );
                         }
                         dispatch(
                             replaceElement(
-                                draggedElement,
-                                underDraggedElement,
+                                draggedElement!,
+                                underDraggedElement!,
                                 components,
                                 buns,
                                 cart,
@@ -146,8 +145,8 @@ const BurgerConstructor: FC = () => {
                                     ): void => {
                                         e.preventDefault();
                                         replaceElement(
-                                            draggedElement,
-                                            underDraggedElement,
+                                            draggedElement!,
+                                            underDraggedElement!,
                                             components,
                                             buns,
                                             cart,

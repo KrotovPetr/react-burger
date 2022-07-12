@@ -54,7 +54,7 @@ export interface IDragElement {
     readonly type: typeof DRAG_ELEMENT;
     readonly data: TCard;
     readonly isReady: boolean;
-    readonly cartData: string | TCard[];
+    readonly cartData: string;
 }
 
 export interface IChangeComponents {
@@ -127,5 +127,4 @@ export type TComponentsActions =
     | ISetActive
     | ISetData
     | IChangeBun
-    | IAddBun
-    | ISetState;
+    | IAddBun;

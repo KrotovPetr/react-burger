@@ -7,11 +7,7 @@ import {
     setData,
 } from '../../../Services/actions/components';
 import { useHistory } from 'react-router-dom';
-import {
-    RootState,
-    useDispatch,
-    useSelector,
-} from '../../../utils/types/store';
+import { useDispatch, useSelector } from '../../../utils/types/store';
 
 const IngredientModal: FC = () => {
     const dispatch = useDispatch();

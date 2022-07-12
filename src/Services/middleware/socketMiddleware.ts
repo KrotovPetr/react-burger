@@ -1,7 +1,8 @@
 import { WS_CONNECTION_START } from '../actions/socketActions';
+import { MiddlewareAPI } from 'redux';
 
 export const socketMiddleware = (wsUrl: string, wsActions: any) => {
-    return (store: any) => {
+    return (store: MiddlewareAPI<any>) => {
         let socket: null | WebSocket = null;
 
         return (next: any) => (action: any) => {
@@ -15,7 +16,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: any) => {
 
             if (socket) {
                 socket.onopen = (event: Event) => {
-                    console.log('onSuccess');
+                    // console.log('onSuccess');
 
                     dispatch({ type: 'WS_CONNECTION_SUCCESS', payload: event });
                 };
@@ -25,7 +26,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: any) => {
                 };
 
                 socket.onmessage = (event: MessageEvent) => {
-                    console.log('hello again!');
+                    // console.log('hello again!');
                     // console.log(event.data);
                     const parsedData = JSON.parse(event.data);
                     // console.log('onMessage');

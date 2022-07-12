@@ -33,7 +33,7 @@ export interface IWSConnectionGetMessage {
 }
 export interface IWSConnectionSendMessage {
     readonly type: typeof WS_CONNECTION_SEND_MESSAGE;
-    readonly payload: any;
+    readonly payload: any; //<---тут может быть всё, что угодно
 }
 
 export type TWSConnectionActions =

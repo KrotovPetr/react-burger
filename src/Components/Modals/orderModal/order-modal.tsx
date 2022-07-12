@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { setActive } from '../../../Services/actions/components';
 import Modal from '../modal/modal';
@@ -8,6 +7,7 @@ import {
     setPersonOrderInfo,
 } from '../../../Services/actions/requestsActions';
 import OrderIngredients from '../../orderIngredients/order-ingredients.';
+import { useDispatch } from '../../../utils/types/store';
 // модалка для заказов
 const OrderModal: FC = () => {
     const dispatch = useDispatch();

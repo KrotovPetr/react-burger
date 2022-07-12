@@ -20,24 +20,24 @@ import {
 import { combineReducers } from 'redux';
 import { orderReducer } from './orders';
 import { requestsReducer } from './requestsReducer';
-import { TCard, TOrder, TOrderResponse } from '../../utils/types/types';
+import { TCard } from '../../utils/types/types';
 import { TComponentsActions } from '../../utils/types/actionComponentsTypes';
 import { socketReducer } from './socketReducer';
 
 export type TinitialState = {
-    ingredients: [] | TCard[];
+    ingredients: TCard[];
     totalPrice: number;
     order: {
-        buns: any; //<---- тут должно быть TCard | null, но не принимает
-        components: [] | TCard[];
+        buns: any; //<---- тут должна быть булка
+        components: TCard[];
     };
     isActiv: boolean;
     isOrderActiv: boolean;
     cardData: TCard | null;
-    orderInfo: any; //<---- тут должно быть TOrder | null, но не принимает
-    draggedElement: TCard | {};
+    orderInfo: any; //<-тут может быть что угодно
+    draggedElement: TCard | null;
     underDraggedElement: TCard | null;
-    cart: TCard[] | string;
+    cart: string;
     isReady: boolean;
     isIngredientSend: boolean;
     isIngredientSuccess: boolean;
@@ -70,7 +70,7 @@ const initialState: TinitialState = {
     orderInfo: null,
 
     //перетаскиваемый объект
-    draggedElement: {},
+    draggedElement: null,
 
     //объект, над которым держат
     underDraggedElement: null,

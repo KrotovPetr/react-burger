@@ -1,7 +1,3 @@
-import { Dispatch } from 'react';
-import { TComponentsActions } from './actionComponentsTypes';
-import { TRequestActions } from './actionRequestsTypes';
-
 //ответ от сервера по списку ингредиентов
 export type TIngredientRequest = {
     success: boolean;

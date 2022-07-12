@@ -20,9 +20,7 @@ import { Location } from 'history';
 import FeedPage from '../../pages/Feed/feed';
 import Order from '../../pages/Order/order';
 import OrderModal from '../Modals/orderModal/order-modal';
-import { RootState, useDispatch, useSelector } from '../../utils/types/store';
-import ProfileOrders from '../profileComponents/profileOrders/profile-orders';
-import { WS_CONNECTION_START } from '../../Services/actions/socketActions';
+import { useDispatch, useSelector } from '../../utils/types/store';
 
 const App: FC = () => {
     const dispatch = useDispatch();
@@ -34,10 +32,6 @@ const App: FC = () => {
 
     useEffect(() => {
         dispatch(fetchData(baseURL + '/ingredients'));
-        // dispatch({
-        //     type: WS_CONNECTION_START,
-        //     payload: '/all',
-        // });
     }, []);
     const {
         isActive,

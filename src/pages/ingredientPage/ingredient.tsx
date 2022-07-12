@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ingredientStyles from './ingredStyles.module.css';
-import { shallowEqual, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import { TCard } from '../../utils/types/types';
-import { RootState } from '../../utils/types/store';
+import { RootState, useSelector } from '../../utils/types/store';
 
 const Ingredient = () => {
     const [ingredientData, setIngredientData] = useState<TCard | null>(null);
-    const { ingredients } = useSelector(
-        (store: any) => ({
-            ingredients: store.component.ingredients,
-        }),
-        shallowEqual
-    );
+    const { ingredients } = useSelector((store) => ({
+        ingredients: store.component.ingredients,
+    }));
 
     const { url } = useRouteMatch();
     useEffect((): void => {

@@ -10,7 +10,6 @@ import { rootReducer } from '../../Services/reducers/components';
 import { TComponentsActions } from './actionComponentsTypes';
 import { TRequestActions } from './actionRequestsTypes';
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { Dispatch } from 'react';
 import {
     TypedUseSelectorHook,
     useSelector as selectorHook,
