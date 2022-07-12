@@ -1,14 +1,12 @@
 import React, { FC } from 'react';
 import ingredientStyles from './ingredient-styles.module.css';
-import { shallowEqual, useSelector } from 'react-redux';
+import { useSelector } from '../../utils/types/store';
 
 const IngredientDetails: FC = () => {
-    const { cardData } = useSelector(
-        (store: any) => ({
-            cardData: store.component.cardData,
-        }),
-        shallowEqual
-    );
+    const { cardData } = useSelector((store: any) => ({
+        cardData: store.component.cardData,
+    }));
+    console.log(cardData);
     return (
         <div className={ingredientStyles.main}>
             {/*блок с картинкой*/}

@@ -21,11 +21,7 @@ const Order: FC = () => {
     }, []);
 
     // console.log(ordersActive);
-    return (
-        <div className={orderStyle.page}>
-            {ordersActive && <OrderIngredients />}
-        </div>
-    );
+    return <div className={orderStyle.page}>{<OrderIngredients />}</div>;
 };
 
 export default Order;

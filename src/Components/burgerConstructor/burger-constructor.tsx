@@ -29,7 +29,7 @@ import { profileRequest } from '../../Services/actions/requestsActions';
 import { useHistory } from 'react-router-dom';
 import { TCard } from '../../utils/types/types';
 import { RootState, useDispatch } from '../../utils/types/store';
-import { shallowEqual, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 //доделать
 const BurgerConstructor: FC = () => {
@@ -47,28 +47,25 @@ const BurgerConstructor: FC = () => {
         profileRequestError,
         baseURL,
         isLogin,
-    } = useSelector(
-        (store: any) => ({
-            ingredients: store.component.ingredients,
-            buns: store.component.order.buns,
-            components: store.component.order.components,
-            isActive: store.component.isActiv,
-            isOrderActive: store.component.isOrderActiv,
-            orderInfo: store.component.orderInfo,
-            totalPrice: store.component.totalPrice,
-            draggedElement: store.component.draggedElement,
-            underDraggedElement: store.component.underDraggedElement,
-            cart: store.component.cart,
-            isReady: store.component.isReady,
-            isOrderSuccess: store.orderData.isOrderSuccess,
-            isOrderSend: store.orderData.isOrderSend,
-            profileRequestError: store.requests.profileRequestError,
-            baseURL: store.requests.baseURL,
-            isLogin: store.requests.isLogin,
-        }),
-        shallowEqual
-    );
-    console.log(orderInfo);
+    } = useSelector((store: any) => ({
+        ingredients: store.component.ingredients,
+        buns: store.component.order.buns,
+        components: store.component.order.components,
+        isActive: store.component.isActiv,
+        isOrderActive: store.component.isOrderActiv,
+        orderInfo: store.component.orderInfo,
+        totalPrice: store.component.totalPrice,
+        draggedElement: store.component.draggedElement,
+        underDraggedElement: store.component.underDraggedElement,
+        cart: store.component.cart,
+        isReady: store.component.isReady,
+        isOrderSuccess: store.orderData.isOrderSuccess,
+        isOrderSend: store.orderData.isOrderSend,
+        profileRequestError: store.requests.profileRequestError,
+        baseURL: store.requests.baseURL,
+        isLogin: store.requests.isLogin,
+    }));
+    // console.log(orderInfo);
     const dispatch = useDispatch();
     const history = useHistory();
 

@@ -3,7 +3,7 @@ import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { RootState, useSelector } from '../../utils/types/store';
 
 const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
-    const { isLogin } = useSelector((store: RootState) => ({
+    const { isLogin } = useSelector((store) => ({
         isLogin: store.requests.isLogin,
     }));
 

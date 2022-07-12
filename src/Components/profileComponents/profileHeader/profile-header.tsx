@@ -2,18 +2,14 @@ import React, { FC } from 'react';
 import profileHStyles from './profile-header.module.css';
 import { logoutRequest } from '../../../Services/actions/requestsActions';
 import { useHistory, useRouteMatch } from 'react-router-dom';
-import {
-    RootState,
-    useDispatch,
-    useSelector,
-} from '../../../utils/types/store';
+import { useDispatch, useSelector } from '../../../utils/types/store';
 
 const ProfileHeader: FC = () => {
     // console.log('profileHeader');
     const { url } = useRouteMatch<string | undefined>();
     const dispatch = useDispatch();
     const history = useHistory();
-    const { baseURL } = useSelector((store: RootState) => ({
+    const { baseURL } = useSelector((store) => ({
         baseURL: store.requests.baseURL,
     }));
 

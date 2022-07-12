@@ -8,39 +8,43 @@ import { checkResponse } from '../../utils/functions/checkResponse';
 import { useRouteMatch } from 'react-router-dom';
 import { getInfo } from '../../utils/functions/getInfo';
 import { getOrderPrice } from '../../utils/functions/getPrice';
-import { useSelector } from '../../utils/types/store';
-import { TCard, TData } from '../../utils/types/types';
+import { useDispatch, useSelector } from '../../utils/types/store';
+import { TCard, TData, TListOfOrders } from '../../utils/types/types';
 import { getDate } from '../../utils/functions/getDate';
+import { WS_CONNECTION_START } from '../../Services/actions/socketActions';
+import { getCookie } from '../../utils/functions/cookieFunctions/getCookie';
 
 const OrderIngredients: FC = () => {
     // console.log('orderIngredients');
     // копия данных
     const [copyData, setCopyData] = useState<TCard[]>([]);
     // данные
-    const [data, setData] = useState<undefined | TData>(undefined);
-
+    const [data, setData] = useState<undefined | null | TData>(undefined);
+    const [payData, setPayData] = useState<TListOfOrders | undefined>(
+        undefined
+    );
     // цена
     const [price, setPrice] = useState<number>(0);
+    const dispatch = useDispatch();
     const { url } = useRouteMatch();
-    const { ingredients, ordersActive, personOrdersActive } = useSelector(
-        (store) => ({
+    const { ingredients, ordersActive, personOrdersActive, payload } =
+        useSelector((store) => ({
             ingredients: store.component.ingredients,
             ordersActive: store.requests.ordersActive,
             personOrdersActive: store.requests.personOrdersActive,
-        })
-    );
+            payload: store.sockets.payload,
+        }));
 
     // запрос на сервер по заказу
     useEffect(() => {
-        if (url.split('/')[1] === 'feed' && ordersActive) {
+        if (ordersActive && url.split('/')[1] === 'feed') {
             fetch(
                 ' https://norma.nomoreparties.space/api/orders/' +
                     ordersActive.number
             )
                 .then(checkResponse)
                 .then((result: any) => {
-                    //<---по идее должен быть TOrderIngredientsNew
-                    console.log(result);
+                    // console.log(result);
                     setData(result);
                 })
                 .catch((e) => console.error(e));
@@ -52,34 +56,81 @@ const OrderIngredients: FC = () => {
                 )
                     .then(checkResponse)
                     .then((result: any) => {
-                        //<---по идее должен быть TOrderIngredientsNew
                         setData(result);
                     })
                     .catch((e) => console.error(e));
         }
+        if (
+            !personOrdersActive &&
+            !ordersActive &&
+            url.split('/')[1] === 'feed'
+        ) {
+            fetch(
+                ' https://norma.nomoreparties.space/api/orders/' +
+                    url.split('/')[2]
+            )
+                .then(checkResponse)
+                .then((result: any) => {
+                    setData(result);
+                })
+                .catch((e) => console.error(e));
+            // setData(null);
+        }
+        if (
+            !personOrdersActive &&
+            !ordersActive &&
+            url.split('/')[1] === 'profile'
+        ) {
+            fetch(
+                ' https://norma.nomoreparties.space/api/orders/' +
+                    url.split('/')[2]
+            )
+                .then(checkResponse)
+                .then((result: any) => {
+                    setData(result);
+                })
+                .catch((e) => console.error(e));
+            // setData(null);
+        }
     }, [ingredients]);
 
+    const getOrderNumber = (pl: TListOfOrders): TListOfOrders => {
+        return pl;
+    };
     // эффект для составления списка
     useEffect(() => {
+        // if (data === null) {
+        //     console.log(payload);
+        // }
         data && getInformation();
     }, [data]);
 
     // эффект для установки цены
     useEffect(() => {
-        personOrdersActive
-            ? setPrice(
-                  getOrderPrice(personOrdersActive.ingredients, ingredients)
-              )
-            : ordersActive &&
-              setPrice(getOrderPrice(ordersActive.ingredients, ingredients));
-    }, [ordersActive, personOrdersActive]);
+        ordersActive &&
+            setPrice(getOrderPrice(ordersActive.ingredients, ingredients));
+        personOrdersActive &&
+            setPrice(
+                getOrderPrice(personOrdersActive.ingredients, ingredients)
+            );
+        console.log(data);
+        data &&
+            setPrice(getOrderPrice(data.orders[0].ingredients, ingredients));
+    }, [ordersActive]);
+
+    useEffect(() => {
+        !ordersActive &&
+            !personOrdersActive &&
+            dispatch({
+                type: WS_CONNECTION_START,
+                payload: '?token=' + getCookie('accessToken'),
+            });
+    }, []);
 
     // функция составления списка заказа и количества ингредиентов
     const getInformation = () => {
-        let ingredientCopyObject: TCard[] = JSON.parse(
-            JSON.stringify(ingredients)
-        );
-
+        let ingredientCopyObject: any = JSON.stringify(ingredients);
+        ingredientCopyObject = JSON.parse(ingredientCopyObject);
         if (data) {
             for (
                 let i: number = 0;
@@ -138,7 +189,7 @@ const OrderIngredients: FC = () => {
                     {/*иконочки с ингредиентами*/}
                     <div className={orderStyle.ingredientsContainer}>
                         {copyData.length > 0 &&
-                            copyData.map((elem: TCard) =>
+                            copyData.map((elem: TCard): any =>
                                 elem['__v'] > 0 ? (
                                     <div
                                         className={orderStyle.ingredientCard}
@@ -208,7 +259,10 @@ const OrderIngredients: FC = () => {
                         </p>
                         <div className={orderStyle.price}>
                             <p className="text text_type_main-medium">
-                                {price}
+                                {getOrderPrice(
+                                    data.orders[0].ingredients,
+                                    ingredients
+                                )}
                             </p>
                             <CurrencyIcon type="primary" />
                         </div>

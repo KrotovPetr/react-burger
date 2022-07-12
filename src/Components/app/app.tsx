@@ -22,6 +22,7 @@ import Order from '../../pages/Order/order';
 import OrderModal from '../Modals/orderModal/order-modal';
 import { RootState, useDispatch, useSelector } from '../../utils/types/store';
 import ProfileOrders from '../profileComponents/profileOrders/profile-orders';
+import { WS_CONNECTION_START } from '../../Services/actions/socketActions';
 
 const App: FC = () => {
     const dispatch = useDispatch();
@@ -30,8 +31,13 @@ const App: FC = () => {
         orderBackground: Location | undefined;
         personOrderBackground: Location | undefined;
     }>();
+
     useEffect(() => {
         dispatch(fetchData(baseURL + '/ingredients'));
+        // dispatch({
+        //     type: WS_CONNECTION_START,
+        //     payload: '/all',
+        // });
     }, []);
     const {
         isActive,
@@ -51,7 +57,7 @@ const App: FC = () => {
         }),
         shallowEqual
     );
-
+    // console.log(personOrdersActive);
     //задаём состояние подложки для модалки
     let background: Location | undefined =
         location.state && location.state.background;
@@ -68,7 +74,7 @@ const App: FC = () => {
     useEffect(() => {
         dispatch(fetchData(baseURL + '/ingredients'));
     }, []);
-    // console.log(url);
+
     //запрос на авторизацию
     useEffect(() => {
         const data: boolean = isAuth();
@@ -86,6 +92,7 @@ const App: FC = () => {
     }
     // console.log(personOrderBackground);
     // console.log('app');
+    // console.log(orderBackground);
     return (
         <>
             {/*шапка с роутингом*/}
@@ -119,16 +126,10 @@ const App: FC = () => {
                         <Profile />
                     </ProtectedRoute>
                     <ProtectedRoute path={'/profile/orders/:id'} exact={true}>
-                        <Profile />
+                        <Order />
                     </ProtectedRoute>
                     <Route path="/ingredients/:id" exact={true}>
                         <Ingredient />
-                    </Route>
-                    {/*<Route path="/profile/orders">*/}
-                    {/*    <ProfileOrders />*/}
-                    {/*</Route>*/}
-                    <Route path="/profile/orders/:id" exact={true}>
-                        <Order />
                     </Route>
                     <Route path="/feed/:id" exact={true}>
                         <Order />
@@ -143,22 +144,15 @@ const App: FC = () => {
                         children={<IngredientModal />}
                     />
                 )}
-                {(orderBackground || personOrderBackground) &&
-                    isActive &&
-                    (orderBackground ? (
-                        <Route path="/feed/:id" children={<OrderModal />} />
-                    ) : (
-                        <Route
-                            path="/profile/orders/:id"
-                            children={<OrderModal />}
-                        />
-                    ))}
-                {/*{orderBackground && isActive && (*/}
-                {/*    <Route*/}
-                {/*        path="/profile/orders/:id"*/}
-                {/*        children={<OrderModal />}*/}
-                {/*    />*/}
-                {/*)}*/}
+                {orderBackground && isActive && (
+                    <Route path="/feed/:id" children={<OrderModal />} />
+                )}
+                {personOrdersActive && isActive && (
+                    <Route
+                        path="/profile/orders/:id"
+                        children={<OrderModal />}
+                    />
+                )}
             </div>
         </>
     );
