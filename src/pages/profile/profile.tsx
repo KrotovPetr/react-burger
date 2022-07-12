@@ -28,14 +28,12 @@ const Profile: FC = () => {
     const getActiveElement = (element: TOrderIngredients): void => {
         dispatch(setPersonOrderInfo(element));
         dispatch(setActive(true));
-        history.push(`/profile/orders/${element['_id']}`);
+        history.push({
+            pathname: `/profile/orders/${element._id}`,
+            state: { personOrderBackground: location },
+        });
         onActive(element);
     };
-
-    const { isActive, personOrdersActive } = useSelector((store) => ({
-        isActive: store.component.isActiv, //активировано ли модальное окно
-        personOrdersActive: store.requests.personOrdersActive, //данные о заказе
-    }));
 
     return (
         <div className={profileStyles.commonContainer}>

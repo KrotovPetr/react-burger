@@ -94,7 +94,13 @@ const App: FC = () => {
 
             {/*роуты*/}
             <div className={appStyles.page}>
-                <Switch location={background || orderBackground || location}>
+                <Switch
+                    location={
+                        background ||
+                        orderBackground ||
+                        personOrderBackground ||
+                        location
+                    }>
                     <Route exact path="/">
                         <Home />
                     </Route>
@@ -141,7 +147,7 @@ const App: FC = () => {
                 {orderBackground && isActive && (
                     <Route path="/feed/:id" children={<OrderModal />} />
                 )}
-                {personOrdersActive && isActive && (
+                {personOrderBackground && isActive && (
                     <Route
                         path="/profile/orders/:id"
                         children={<OrderModal />}
