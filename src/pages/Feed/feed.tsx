@@ -9,7 +9,10 @@ import { getInfo } from '../../utils/functions/getInfo';
 import { getOrderPrice } from '../../utils/functions/getPrice';
 import { useDispatch, useSelector } from '../../utils/types/store';
 import { getDate } from '../../utils/functions/getDate';
-import { WS_CONNECTION_START } from '../../Services/actions/socketActions';
+import {
+    WS_CONNECTION_CLOSED,
+    WS_CONNECTION_START,
+} from '../../Services/actions/socketActions';
 import { TOrderIngredients } from '../../utils/types/types';
 
 const Feed: FC = () => {
@@ -24,23 +27,11 @@ const Feed: FC = () => {
             payload: store.sockets.payload,
         })
     );
-    // console.log(payload);
+
     useEffect(() => {
-        // console.log('hello!');
         dispatch({ type: WS_CONNECTION_START, payload: '/all' });
+        dispatch({ type: WS_CONNECTION_CLOSED });
     }, []);
-    // console.log(ordersActive);
-    // if (ordersActive && isActive) {
-    //     return (
-    //         <Redirect
-    //             to={{
-    //                 pathname: '/feed/' + ordersActive['_id'],
-    //                 state: { orderBackground: location },
-    //             }}
-    //         />
-    //     );
-    // }
-    // console.log(payload);
     return (
         // общий контейнер по странице
         <div className={feedStyles.page}>
@@ -58,6 +49,7 @@ const Feed: FC = () => {
                         payload.orders.map((element: TOrderIngredients) => (
                             // карточки/позиции заказа
                             <div
+                                key={uuidv4()}
                                 className={feedStyles.orderPosition}
                                 onClick={(): void => {
                                     // console.log(element);
@@ -67,6 +59,7 @@ const Feed: FC = () => {
                                         pathname: `/feed/${element._id}`,
                                         state: { orderBackground: location },
                                     });
+
                                     // history.push(`/feed/${element['_id']}`);
                                 }}>
                                 {/*верхний уровень описания заказа*/}

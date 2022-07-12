@@ -1,16 +1,32 @@
-import { WS_CONNECTION_START } from '../actions/socketActions';
-import { MiddlewareAPI } from 'redux';
+import {
+    WS_CONNECTION_CLOSED,
+    WS_CONNECTION_ERROR,
+    WS_CONNECTION_GET_MESSAGE,
+    WS_CONNECTION_SEND_MESSAGE,
+    WS_CONNECTION_START,
+    WS_CONNECTION_SUCCESS,
+} from '../actions/socketActions';
+import { Middleware, MiddlewareAPI } from 'redux';
+import { AppDispatch, RootState } from '../../utils/types/store';
 
-export const socketMiddleware = (wsUrl: string, wsActions: any) => {
-    return (store: MiddlewareAPI<any>) => {
+export const socketMiddleware = (wsUrl: string, wsActions: any): Middleware => {
+    return (store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: null | WebSocket = null;
 
-        return (next: any) => (action: any) => {
+        return (next) => (action) => {
             const { dispatch, getState } = store;
             const { type, payload } = action;
+            const {
+                wsInit,
+                wsSendMessage,
+                onOpen,
+                onClose,
+                onError,
+                onMessage,
+            } = wsActions;
             // const { token } = getState().token;
             // console.log(payload);
-            if (type === WS_CONNECTION_START) {
+            if (type === wsInit) {
                 socket = new WebSocket(wsUrl + payload);
             }
 
@@ -18,11 +34,11 @@ export const socketMiddleware = (wsUrl: string, wsActions: any) => {
                 socket.onopen = (event: Event) => {
                     // console.log('onSuccess');
 
-                    dispatch({ type: 'WS_CONNECTION_SUCCESS', payload: event });
+                    dispatch({ type: onOpen, payload: event });
                 };
 
                 socket.onerror = (event: Event) => {
-                    dispatch({ type: 'WS_CONNECTION_ERROR', payload: event });
+                    dispatch({ type: onError, payload: event });
                 };
 
                 socket.onmessage = (event: MessageEvent) => {
@@ -32,15 +48,16 @@ export const socketMiddleware = (wsUrl: string, wsActions: any) => {
                     // console.log('onMessage');
                     // console.log(parsedData);
                     dispatch({
-                        type: 'WS_CONNECTION_GET_MESSAGE',
+                        type: onMessage,
                         payload: parsedData,
                     });
                     // wsConnectionGetMessage(restParsedData);
                 };
 
                 socket.onclose = (event: CloseEvent) => {
+                    // console.log('close');
                     dispatch({
-                        type: 'WS_CONNECTION_CLOSE',
+                        type: onClose,
                         payload: event,
                     });
                 };
