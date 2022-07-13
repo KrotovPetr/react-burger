@@ -3,7 +3,7 @@ import feedStyles from './feed.module.css';
 import { v4 as uuidv4 } from 'uuid';
 import { setOrderInfo } from '../../Services/actions/requestsActions';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { setActive } from '../../Services/actions/components';
 import { getInfo } from '../../utils/functions/getInfo';
 import { getOrderPrice } from '../../utils/functions/getPrice';
@@ -19,18 +19,26 @@ const Feed: FC = () => {
     const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
-    const { ingredients, ordersActive, isActive, payload } = useSelector(
-        (store) => ({
-            isActive: store.component.isActiv,
-            ingredients: store.component.ingredients,
-            ordersActive: store.requests.ordersActive,
-            payload: store.sockets.payload,
-        })
-    );
+    const { ingredients, payload } = useSelector((store) => ({
+        ingredients: store.component.ingredients,
+        payload: store.sockets.payload,
+    }));
+    const match = useRouteMatch({
+        path: '/feed',
+        strict: true,
+        sensitive: true,
+    });
 
     useEffect(() => {
-        dispatch({ type: WS_CONNECTION_START, payload: '/all' });
-        dispatch({ type: WS_CONNECTION_CLOSED });
+        if (match) {
+            dispatch({ type: WS_CONNECTION_START, payload: '/all' });
+        }
+
+        return () => {
+            if (match) {
+                dispatch({ type: WS_CONNECTION_CLOSED });
+            }
+        };
     }, []);
     return (
         // общий контейнер по странице
@@ -42,11 +50,11 @@ const Feed: FC = () => {
                 }>
                 Лента заказов
             </h1>
-            <div className={feedStyles.section}>
-                {/*блок с лентой заказов*/}
-                <div className={feedStyles.orders}>
-                    {payload &&
-                        payload.orders.map((element: TOrderIngredients) => (
+            {payload && (
+                <div className={feedStyles.section}>
+                    {/*блок с лентой заказов*/}
+                    <div className={feedStyles.orders}>
+                        {payload.orders.map((element: TOrderIngredients) => (
                             // карточки/позиции заказа
                             <div
                                 key={uuidv4()}
@@ -150,89 +158,90 @@ const Feed: FC = () => {
                             </div>
                             // </Link>
                         ))}
-                </div>
-                {/*блок готовности заказов и ко*/}
-                <div className={feedStyles.orderInfo}>
-                    {/*блоки с номерами заказов*/}
-                    <div className={feedStyles.orderNumbers}>
-                        <div className={feedStyles.readyOrders}>
-                            <h2
-                                className={
-                                    feedStyles.h2Header +
-                                    ' text text_type_main-medium'
-                                }>
-                                Готовы:
-                            </h2>
-                            {/*колонка с номерами*/}
-                            <div className={feedStyles.numbers}>
-                                {payload &&
-                                    payload.orders.map(
-                                        (element: TOrderIngredients) =>
-                                            element.status === 'done' ? (
-                                                <p
-                                                    className="text text_type_digits-default text_color_success"
-                                                    key={uuidv4()}>
-                                                    {element.number}
-                                                </p>
-                                            ) : null
-                                    )}
-                            </div>
-                        </div>
+                    </div>
+                    {/*блок готовности заказов и ко*/}
+                    <div className={feedStyles.orderInfo}>
                         {/*блоки с номерами заказов*/}
-                        <div className={feedStyles.ordersInWork}>
+                        <div className={feedStyles.orderNumbers}>
+                            <div className={feedStyles.readyOrders}>
+                                <h2
+                                    className={
+                                        feedStyles.h2Header +
+                                        ' text text_type_main-medium'
+                                    }>
+                                    Готовы:
+                                </h2>
+                                {/*колонка с номерами*/}
+                                <div className={feedStyles.numbers}>
+                                    {payload &&
+                                        payload.orders.map(
+                                            (element: TOrderIngredients) =>
+                                                element.status === 'done' ? (
+                                                    <p
+                                                        className="text text_type_digits-default text_color_success"
+                                                        key={uuidv4()}>
+                                                        {element.number}
+                                                    </p>
+                                                ) : null
+                                        )}
+                                </div>
+                            </div>
+                            {/*блоки с номерами заказов*/}
+                            <div className={feedStyles.ordersInWork}>
+                                <h2
+                                    className={
+                                        feedStyles.h2Header +
+                                        ' text text_type_main-medium'
+                                    }>
+                                    В работе:
+                                </h2>
+                                {/*колонки с заказами*/}
+                                <div className={feedStyles.numbers}>
+                                    {payload &&
+                                        payload.orders.map(
+                                            (element: TOrderIngredients) =>
+                                                element.status !== 'done' ? (
+                                                    <p
+                                                        className={
+                                                            'text text_type_digits-default'
+                                                        }
+                                                        key={uuidv4()}>
+                                                        {element.number}
+                                                    </p>
+                                                ) : null
+                                        )}
+                                </div>
+                            </div>
+                        </div>
+                        {/*счетчики выполненных заказов*/}
+                        <div className={feedStyles.ordersCounter}>
                             <h2
                                 className={
                                     feedStyles.h2Header +
                                     ' text text_type_main-medium'
                                 }>
-                                В работе:
+                                Выполнено за всё время:
                             </h2>
-                            {/*колонки с заказами*/}
-                            <div className={feedStyles.numbers}>
-                                {payload &&
-                                    payload.orders.map(
-                                        (element: TOrderIngredients) =>
-                                            element.status !== 'done' ? (
-                                                <p
-                                                    className={
-                                                        'text text_type_digits-default'
-                                                    }
-                                                    key={uuidv4()}>
-                                                    {element.number}
-                                                </p>
-                                            ) : null
-                                    )}
-                            </div>
+                            <p className="text text_type_digits-large">
+                                {payload && payload.total}
+                            </p>
+                        </div>
+                        {/*счетчики выполненных заказов*/}
+                        <div className={feedStyles.ordersPerDayCounter}>
+                            <h2
+                                className={
+                                    feedStyles.h2Header +
+                                    ' text text_type_main-medium'
+                                }>
+                                Выполнено за сегодня:
+                            </h2>
+                            <p className="text text_type_digits-large">
+                                {payload && payload.totalToday}
+                            </p>
                         </div>
                     </div>
-                    {/*счетчики выполненных заказов*/}
-                    <div className={feedStyles.ordersCounter}>
-                        <h2
-                            className={
-                                feedStyles.h2Header +
-                                ' text text_type_main-medium'
-                            }>
-                            Выполнено за всё время:
-                        </h2>
-                        <p className="text text_type_digits-large">
-                            {payload && payload.total}
-                        </p>
-                    </div>
-                    {/*счетчики выполненных заказов*/}
-                    <div className={feedStyles.ordersPerDayCounter}>
-                        <h2
-                            className={
-                                feedStyles.h2Header +
-                                ' text text_type_main-medium'
-                            }>
-                            Выполнено за сегодня:
-                        </h2>
-                        <p className="text text_type_digits-large">
-                            {payload && payload.totalToday}
-                        </p>
-                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

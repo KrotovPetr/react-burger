@@ -8,9 +8,13 @@ import {
 } from '../../Services/actions/socketActions';
 const Order: FC = () => {
     const dispatch = useDispatch();
-    useEffect((): void => {
+
+    useEffect(() => {
         dispatch({ type: WS_CONNECTION_START, payload: '/all' });
-        dispatch({ type: WS_CONNECTION_CLOSED });
+
+        return () => {
+            dispatch({ type: WS_CONNECTION_CLOSED });
+        };
     }, []);
 
     return <div className={orderStyle.page}>{<OrderIngredients />}</div>;

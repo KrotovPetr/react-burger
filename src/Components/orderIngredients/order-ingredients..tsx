@@ -8,11 +8,9 @@ import { checkResponse } from '../../utils/functions/checkResponse';
 import { useRouteMatch } from 'react-router-dom';
 import { getInfo } from '../../utils/functions/getInfo';
 import { getOrderPrice } from '../../utils/functions/getPrice';
-import { useDispatch, useSelector } from '../../utils/types/store';
+import { useSelector } from '../../utils/types/store';
 import { TCard, TData } from '../../utils/types/types';
 import { getDate } from '../../utils/functions/getDate';
-import { WS_CONNECTION_START } from '../../Services/actions/socketActions';
-import { getCookie } from '../../utils/functions/cookieFunctions/getCookie';
 
 const OrderIngredients: FC = () => {
     // console.log('orderIngredients');
@@ -22,7 +20,6 @@ const OrderIngredients: FC = () => {
     const [data, setData] = useState<undefined | null | TData>(undefined);
     // цена
     const [price, setPrice] = useState<number>(0);
-    const dispatch = useDispatch();
     const { url } = useRouteMatch();
     const { ingredients, ordersActive, personOrdersActive } = useSelector(
         (store) => ({
@@ -34,92 +31,99 @@ const OrderIngredients: FC = () => {
 
     // запрос на сервер по заказу
     useEffect(() => {
-        if (ordersActive && url.split('/')[1] === 'feed') {
-            fetch(
-                ' https://norma.nomoreparties.space/api/orders/' +
-                    ordersActive.number
-            )
-                .then(checkResponse)
-                .then((result: any) => {
-                    // console.log(result);
-                    setData(result);
-                })
-                .catch((e) => console.error(e));
-        } else {
-            personOrdersActive &&
+        let cleanupFunction = false;
+        if (!cleanupFunction) {
+            if (ordersActive && url.split('/')[1] === 'feed') {
                 fetch(
                     ' https://norma.nomoreparties.space/api/orders/' +
-                        personOrdersActive.number
+                        ordersActive.number
                 )
                     .then(checkResponse)
                     .then((result: any) => {
-                        setData(result);
+                        // console.log(result);
+                        result && setData(result);
                     })
                     .catch((e) => console.error(e));
+            } else {
+                personOrdersActive &&
+                    fetch(
+                        ' https://norma.nomoreparties.space/api/orders/' +
+                            personOrdersActive.number
+                    )
+                        .then(checkResponse)
+                        .then((result: any) => {
+                            result && setData(result);
+                        })
+                        .catch((e) => console.error(e));
+            }
+            if (
+                !personOrdersActive &&
+                !ordersActive &&
+                url.split('/')[1] === 'feed'
+            ) {
+                fetch(
+                    ' https://norma.nomoreparties.space/api/orders/' +
+                        url.split('/')[2]
+                )
+                    .then(checkResponse)
+                    .then((result: any) => {
+                        result && setData(result);
+                    })
+                    .catch((e) => console.error(e));
+                // setData(null);
+            }
+            if (
+                !personOrdersActive &&
+                !ordersActive &&
+                url.split('/')[1] === 'profile'
+            ) {
+                fetch(
+                    ' https://norma.nomoreparties.space/api/orders/' +
+                        url.split('/')[2]
+                )
+                    .then(checkResponse)
+                    .then((result: any) => {
+                        result && setData(result);
+                    })
+                    .catch((e) => console.error(e));
+                // setData(null);
+            }
         }
-        if (
-            !personOrdersActive &&
-            !ordersActive &&
-            url.split('/')[1] === 'feed'
-        ) {
-            fetch(
-                ' https://norma.nomoreparties.space/api/orders/' +
-                    url.split('/')[2]
-            )
-                .then(checkResponse)
-                .then((result: any) => {
-                    setData(result);
-                })
-                .catch((e) => console.error(e));
-            // setData(null);
-        }
-        if (
-            !personOrdersActive &&
-            !ordersActive &&
-            url.split('/')[1] === 'profile'
-        ) {
-            fetch(
-                ' https://norma.nomoreparties.space/api/orders/' +
-                    url.split('/')[2]
-            )
-                .then(checkResponse)
-                .then((result: any) => {
-                    setData(result);
-                })
-                .catch((e) => console.error(e));
-            // setData(null);
-        }
+
+        return () => {
+            cleanupFunction = true;
+        };
     }, [ingredients]);
 
     // эффект для составления списка
     useEffect(() => {
-        // if (data === null) {
-        //     console.log(payload);
-        // }
-        data && getInformation();
+        let cleanupFunction = false;
+        !cleanupFunction && data && getInformation();
+        return () => {
+            cleanupFunction = true;
+        };
     }, [data]);
 
     // эффект для установки цены
     useEffect(() => {
-        ordersActive &&
-            setPrice(getOrderPrice(ordersActive.ingredients, ingredients));
-        personOrdersActive &&
-            setPrice(
-                getOrderPrice(personOrdersActive.ingredients, ingredients)
-            );
-        console.log(data);
-        data &&
-            setPrice(getOrderPrice(data.orders[0].ingredients, ingredients));
+        let cleanupFunction = false;
+        if (!cleanupFunction) {
+            ordersActive &&
+                setPrice(getOrderPrice(ordersActive.ingredients, ingredients));
+            personOrdersActive &&
+                setPrice(
+                    getOrderPrice(personOrdersActive.ingredients, ingredients)
+                );
+            // console.log(data);
+            data &&
+                setPrice(
+                    getOrderPrice(data.orders[0].ingredients, ingredients)
+                );
+        }
+        return () => {
+            cleanupFunction = true;
+        };
     }, [ordersActive]);
-
-    useEffect(() => {
-        !ordersActive &&
-            !personOrdersActive &&
-            dispatch({
-                type: WS_CONNECTION_START,
-                payload: '?token=' + getCookie('accessToken'),
-            });
-    }, []);
 
     // функция составления списка заказа и количества ингредиентов
     const getInformation = () => {
@@ -202,7 +206,7 @@ const OrderIngredients: FC = () => {
                                                         )
                                                     ].image_mobile
                                                 }
-                                                alt="Ingredients picture"
+                                                alt="Ingredients"
                                                 height="56px"
                                                 width="56px"
                                             />

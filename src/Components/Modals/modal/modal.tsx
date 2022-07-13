@@ -20,11 +20,10 @@ const Modal: FC<TProps> = (props) => {
                 props.onClose();
             }
         };
-
         document.addEventListener('keydown', closeByEscape);
-
-        return (): void =>
+        return () => {
             document.removeEventListener('keydown', closeByEscape);
+        };
     }, [props.info]);
     // console.log(props.info);
 

@@ -8,8 +8,12 @@ import { getInfo } from '../../../utils/functions/getInfo';
 import { getOrderPrice } from '../../../utils/functions/getPrice';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { shallowEqual } from 'react-redux';
-import { WS_CONNECTION_START } from '../../../Services/actions/socketActions';
+import {
+    WS_CONNECTION_CLOSED,
+    WS_CONNECTION_START,
+} from '../../../Services/actions/socketActions';
 import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
+import { useRouteMatch } from 'react-router-dom';
 
 type TProfileOrders = {
     onActive: (element: TOrderIngredients) => void;
@@ -17,13 +21,26 @@ type TProfileOrders = {
 
 const ProfileOrders: FC<TProfileOrders> = (props) => {
     const dispatch = useDispatch();
+    const match = useRouteMatch({
+        path: '/profile/orders',
+        strict: true,
+        sensitive: true,
+    });
     useEffect(() => {
         // console.log('hello!');
-        dispatch({
-            type: WS_CONNECTION_START,
-            payload: '?token=' + getCookie('accessToken'),
-        });
+        if (match) {
+            dispatch({
+                type: WS_CONNECTION_START,
+                payload: '?token=' + getCookie('accessToken'),
+            });
+        }
+        return () => {
+            if (match) {
+                dispatch({ type: WS_CONNECTION_CLOSED });
+            }
+        };
     }, []);
+
     const { ingredients, payload } = useSelector(
         (store) => ({
             ingredients: store.component.ingredients,
@@ -41,6 +58,7 @@ const ProfileOrders: FC<TProfileOrders> = (props) => {
                         // карточка заказа
                         <div
                             className={profileStyles.orderPosition}
+                            key={uuidv4()}
                             onClick={(): void => {
                                 props.onActive(element);
                             }}>
