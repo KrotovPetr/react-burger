@@ -27,7 +27,7 @@ const ProfileOrders: FC<TProfileOrders> = (props) => {
         sensitive: true,
     });
     useEffect(() => {
-        console.log('hello! orders!');
+        // console.log('hello! orders!');
 
         dispatch({
             type: WS_CONNECTION_START,
@@ -35,7 +35,7 @@ const ProfileOrders: FC<TProfileOrders> = (props) => {
         });
 
         return () => {
-            console.log('goodbye! orders!');
+            // console.log('goodbye! orders!');
             dispatch({ type: WS_CONNECTION_CLOSED });
         };
     }, []);

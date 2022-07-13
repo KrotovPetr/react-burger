@@ -5,7 +5,7 @@ import '../../commonStyles/styles.css';
 import ProfileHeader from '../../Components/profileComponents/profileHeader/profile-header';
 import ProfileMain from '../../Components/profileComponents/profileMain/profile-main';
 import ProfileOrders from '../../Components/profileComponents/profileOrders/profile-orders';
-import { useDispatch, useSelector } from '../../utils/types/store';
+import { useDispatch } from '../../utils/types/store';
 import { Location } from 'history';
 import { setActive } from '../../Services/actions/components';
 import { setPersonOrderInfo } from '../../Services/actions/requestsActions';

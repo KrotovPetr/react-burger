@@ -8,6 +8,7 @@ import {
 } from '../../Services/actions/socketActions';
 const Order: FC = () => {
     const dispatch = useDispatch();
+    // console.log('order')
     useEffect(() => {
         dispatch({ type: WS_CONNECTION_START, payload: '/all' });
         return () => {

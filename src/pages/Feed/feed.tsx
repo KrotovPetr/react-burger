@@ -25,11 +25,11 @@ const Feed: FC = () => {
     }));
 
     useEffect(() => {
-        console.log('hello! feed!');
+        // console.log('hello! feed!');
         dispatch({ type: WS_CONNECTION_START, payload: '/all' });
 
         return () => {
-            console.log('закрываем');
+            // console.log('закрываем');
             dispatch({ type: WS_CONNECTION_CLOSED });
         };
     }, []);
