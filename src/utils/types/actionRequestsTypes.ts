@@ -27,8 +27,27 @@ import {
     UPDATE_URL_ERROR,
     UPDATE_URL_REQUEST,
     UPDATE_URL_SUCCESS,
+    GET_ORDER_INFO_SUCCESS,
+    GET_ORDER_INFO_REQUEST,
+    GET_ORDER_INFO_ERROR,
+    CLEAR_ORDER_INFO,
 } from '../../Services/actions/requestsActions';
-import { TAutorization, TOrderIngredients } from './types';
+import { TAutorization, TOrderIngredients, TOrderResponse } from './types';
+
+export interface IClearOrderInfo {
+    readonly type: typeof CLEAR_ORDER_INFO;
+}
+
+export interface IGetOrderInfoSuccess {
+    readonly type: typeof GET_ORDER_INFO_SUCCESS;
+    readonly data: TOrderResponse;
+}
+export interface IGetOrderInfoError {
+    readonly type: typeof GET_ORDER_INFO_ERROR;
+}
+export interface IGetOrderInfoRequest {
+    readonly type: typeof GET_ORDER_INFO_REQUEST;
+}
 
 export interface ISetPersonOrderInfo {
     readonly type: typeof SET_PERSON_ORDER_INFO;
@@ -154,6 +173,9 @@ export type TRequestActions =
     | IForgotUrlError
     | IForgotUrlSuccess
     | IForgotUrlRequest
-    // | ISaveData
+    | IGetOrderInfoRequest
+    | IGetOrderInfoSuccess
+    | IGetOrderInfoError
     | ISetOrderInfo
-    | ISetPersonOrderInfo;
+    | ISetPersonOrderInfo
+    | IClearOrderInfo;

@@ -3,6 +3,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import { setActive } from '../../../Services/actions/components';
 import Modal from '../modal/modal';
 import {
+    clearOrderInfo,
     setOrderInfo,
     setPersonOrderInfo,
 } from '../../../Services/actions/requestsActions';
@@ -16,6 +17,7 @@ const OrderModal: FC = () => {
 
     const closeWindow = (): void => {
         // стираем все данные о заказе
+        dispatch(clearOrderInfo());
         dispatch(setOrderInfo(undefined));
         dispatch(setPersonOrderInfo(undefined));
         dispatch(setActive(false));

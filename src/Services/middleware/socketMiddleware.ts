@@ -27,6 +27,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: any): Middleware => {
             // const { token } = getState().token;
             // console.log(payload);
             if (type === wsInit) {
+                // console.log(payload);
                 socket = new WebSocket(wsUrl + payload);
             }
 

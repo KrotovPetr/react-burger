@@ -8,11 +8,10 @@ import {
 } from '../../Services/actions/socketActions';
 const Order: FC = () => {
     const dispatch = useDispatch();
-
     useEffect(() => {
         dispatch({ type: WS_CONNECTION_START, payload: '/all' });
-
         return () => {
+            // console.log('закрываем');
             dispatch({ type: WS_CONNECTION_CLOSED });
         };
     }, []);

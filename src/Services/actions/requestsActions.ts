@@ -2,7 +2,11 @@ import { checkResponse } from '../../utils/functions/checkResponse';
 import { getCookie } from '../../utils/functions/cookieFunctions/getCookie';
 import { setCookie } from '../../utils/functions/cookieFunctions/setCookie';
 import { deleteCookie } from '../../utils/functions/cookieFunctions/deleteCookie';
-import { TOrderIngredients } from '../../utils/types/types';
+import {
+    TOrder,
+    TOrderIngredients,
+    TOrderResponse,
+} from '../../utils/types/types';
 import { AppDispatch } from '../../utils/types/store';
 
 export const FORGOT_URL_REQUEST: 'FORGOT_URL_REQUEST' = 'FORGOT_URL_REQUEST';
@@ -35,6 +39,13 @@ export const SAVE_DATA: 'SAVE_DATA' = 'SAVE_DATA';
 export const SET_ORDER_INFO: 'SET_ORDER_INFO' = 'SET_ORDER_INFO';
 export const SET_PERSON_ORDER_INFO: 'SET_PERSON_ORDER_INFO' =
     'SET_PERSON_ORDER_INFO';
+export const GET_ORDER_INFO_SUCCESS: 'GET_ORDER_INFO_SUCCESS' =
+    'GET_ORDER_INFO_SUCCESS';
+export const GET_ORDER_INFO_ERROR: 'GET_ORDER_INFO_ERROR' =
+    'GET_ORDER_INFO_ERROR';
+export const GET_ORDER_INFO_REQUEST: 'GET_ORDER_INFO_REQUEST' =
+    'GET_ORDER_INFO_REQUEST';
+export const CLEAR_ORDER_INFO: 'CLEAR_ORDER_INFO' = 'CLEAR_ORDER_INFO';
 
 //функция на сброс пароля
 export function forgotRequest(baseURL: string, data: string) {
@@ -301,5 +312,27 @@ export function setOrderInfo(data: TOrderIngredients | undefined) {
 export function setPersonOrderInfo(data: TOrderIngredients | undefined) {
     return function (dispatch: AppDispatch) {
         dispatch({ type: SET_PERSON_ORDER_INFO, data: data });
+    };
+}
+
+export function getOrderInfo(url: string) {
+    return function (dispatch: AppDispatch) {
+        // console.log(url);
+        dispatch({ type: GET_ORDER_INFO_REQUEST });
+        fetch(url)
+            .then(checkResponse)
+            .then((result: any) => {
+                dispatch({ type: GET_ORDER_INFO_SUCCESS, data: result });
+            })
+            .catch((e) => {
+                dispatch({ type: GET_ORDER_INFO_ERROR });
+                console.error(e);
+            });
+    };
+}
+
+export function clearOrderInfo() {
+    return function (dispatch: AppDispatch) {
+        dispatch({ type: CLEAR_ORDER_INFO });
     };
 }

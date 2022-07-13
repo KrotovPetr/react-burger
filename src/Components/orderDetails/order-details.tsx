@@ -10,14 +10,13 @@ const OrderDetails: FC = () => {
     // console.log(orderInfo);
     return orderInfo ? (
         <div className={orderStyles.main}>
-            (
             <h2
                 className={
                     orderStyles.headDig + ' text text_type_digits-large'
                 }>
                 {orderInfo.order.number}
             </h2>
-            )
+
             <p className={orderStyles.ident + ' text text_type_main-medium'}>
                 идентификатор заказа
             </p>

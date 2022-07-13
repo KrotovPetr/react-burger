@@ -40,8 +40,7 @@ export type TOrder = {
 
 //ответ от сервера на формирование заказа
 export type TOrderResponse = {
-    name: string;
-    order: TOrder;
+    orders: TOrderIngredients[];
     success: boolean;
 };
 

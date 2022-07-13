@@ -8,14 +8,15 @@
 
 /*общая страница*/
 .page{
-    width: fit-content;
-    max-width: 1280px;
+    /*width: fit-content;*/
+    width: 1280px;
     height: 85vh;
 
 }
 
 /*стиль отступа заглавия*/
 .headerText{
+    align-self: flex-start;
     padding: 40px 0 0 0;
 }
 

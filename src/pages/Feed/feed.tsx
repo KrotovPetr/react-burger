@@ -23,21 +23,14 @@ const Feed: FC = () => {
         ingredients: store.component.ingredients,
         payload: store.sockets.payload,
     }));
-    const match = useRouteMatch({
-        path: '/feed',
-        strict: true,
-        sensitive: true,
-    });
 
     useEffect(() => {
-        if (match) {
-            dispatch({ type: WS_CONNECTION_START, payload: '/all' });
-        }
+        console.log('hello! feed!');
+        dispatch({ type: WS_CONNECTION_START, payload: '/all' });
 
         return () => {
-            if (match) {
-                dispatch({ type: WS_CONNECTION_CLOSED });
-            }
+            console.log('закрываем');
+            dispatch({ type: WS_CONNECTION_CLOSED });
         };
     }, []);
     return (

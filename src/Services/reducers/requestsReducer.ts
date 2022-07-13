@@ -1,10 +1,14 @@
 import {
+    CLEAR_ORDER_INFO,
     ENTER_URL_ERROR,
     ENTER_URL_REQUEST,
     ENTER_URL_SUCCESS,
     FORGOT_URL_ERROR,
     FORGOT_URL_REQUEST,
     FORGOT_URL_SUCCESS,
+    GET_ORDER_INFO_ERROR,
+    GET_ORDER_INFO_REQUEST,
+    GET_ORDER_INFO_SUCCESS,
     IS_AUTH,
     LOGOUT_URL_ERROR,
     LOGOUT_URL_REQUEST,
@@ -22,16 +26,15 @@ import {
     RESET_URL_REQUEST,
     RESET_URL_SUCCESS,
     SET_LOGOUT_DATA,
+    SET_ORDER_INFO,
+    SET_PERSON_ORDER_INFO,
     UPDATE_URL_ERROR,
     UPDATE_URL_REQUEST,
     UPDATE_URL_SUCCESS,
-    // SAVE_DATA,
-    SET_ORDER_INFO,
-    SET_PERSON_ORDER_INFO,
 } from '../actions/requestsActions';
 
 import { TRequestActions } from '../../utils/types/actionRequestsTypes';
-import { TOrderIngredients } from '../../utils/types/types';
+import { TOrderIngredients, TOrderResponse } from '../../utils/types/types';
 
 export type TRequestsReducer = {
     email: string;
@@ -59,12 +62,16 @@ export type TRequestsReducer = {
     updateRequestRequest: boolean;
     updateRequestSuccess: boolean;
     updateRequestError: boolean;
+    getOrderInfoRequestRequest: boolean;
+    getOrderInfoRequestSuccess: boolean;
+    getOrderInfoRequestError: boolean;
     tokenRequestRequest: boolean;
     tokenRequestSuccess: boolean;
     tokenRequestError: boolean;
     baseURL: string;
     ordersActive: undefined | TOrderIngredients;
     personOrdersActive: undefined | TOrderIngredients;
+    orderIngredientInfo: TOrderResponse | undefined;
 };
 
 const initialState: TRequestsReducer = {
@@ -166,6 +173,18 @@ const initialState: TRequestsReducer = {
 
     //состав заказа личного
     personOrdersActive: undefined,
+
+    //запрос о составе заказа отправлен
+    getOrderInfoRequestRequest: false,
+
+    //запрос о составе заказа получен успешно
+    getOrderInfoRequestSuccess: false,
+
+    //запрос о составе заказа - ошибка
+    getOrderInfoRequestError: false,
+
+    //подробная информация о заказе и его номере
+    orderIngredientInfo: undefined,
 };
 
 export const requestsReducer = (
@@ -432,6 +451,44 @@ export const requestsReducer = (
                 tokenRequestRequest: false,
                 tokenRequestError: true,
                 tokenRequestSuccess: false,
+            };
+        }
+
+        //запрос подробного состава заказа
+        case GET_ORDER_INFO_REQUEST: {
+            return {
+                ...state,
+                getOrderInfoRequestError: false,
+                getOrderInfoRequestSuccess: false,
+                getOrderInfoRequestRequest: true,
+            };
+        }
+
+        //успешный запрос подробного получения состава заказа
+        case GET_ORDER_INFO_SUCCESS: {
+            return {
+                ...state,
+                orderIngredientInfo: action.data,
+                getOrderInfoRequestRequest: false,
+                getOrderInfoRequestError: false,
+                getOrderInfoRequestSuccess: true,
+            };
+        }
+
+        //неудачный запрос подробного получения состава заказа
+        case GET_ORDER_INFO_ERROR: {
+            return {
+                ...state,
+                getOrderInfoRequestRequest: false,
+                getOrderInfoRequestError: true,
+                getOrderInfoRequestSuccess: false,
+            };
+        }
+
+        case CLEAR_ORDER_INFO: {
+            return {
+                ...state,
+                orderIngredientInfo: undefined,
             };
         }
 

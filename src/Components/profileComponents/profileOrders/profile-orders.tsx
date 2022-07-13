@@ -27,17 +27,16 @@ const ProfileOrders: FC<TProfileOrders> = (props) => {
         sensitive: true,
     });
     useEffect(() => {
-        // console.log('hello!');
-        if (match) {
-            dispatch({
-                type: WS_CONNECTION_START,
-                payload: '?token=' + getCookie('accessToken'),
-            });
-        }
+        console.log('hello! orders!');
+
+        dispatch({
+            type: WS_CONNECTION_START,
+            payload: '?token=' + getCookie('accessToken'),
+        });
+
         return () => {
-            if (match) {
-                dispatch({ type: WS_CONNECTION_CLOSED });
-            }
+            console.log('goodbye! orders!');
+            dispatch({ type: WS_CONNECTION_CLOSED });
         };
     }, []);
 

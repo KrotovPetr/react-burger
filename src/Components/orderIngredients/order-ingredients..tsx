@@ -4,125 +4,89 @@ import { getColourType } from '../../utils/functions/getColour';
 import { getText } from '../../utils/functions/getText';
 import { v4 as uuidv4 } from 'uuid';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { checkResponse } from '../../utils/functions/checkResponse';
+
 import { useRouteMatch } from 'react-router-dom';
 import { getInfo } from '../../utils/functions/getInfo';
 import { getOrderPrice } from '../../utils/functions/getPrice';
-import { useSelector } from '../../utils/types/store';
-import { TCard, TData } from '../../utils/types/types';
+import { useDispatch, useSelector } from '../../utils/types/store';
+import { TCard, TOrderResponse } from '../../utils/types/types';
 import { getDate } from '../../utils/functions/getDate';
+import { getOrderInfo } from '../../Services/actions/requestsActions';
 
 const OrderIngredients: FC = () => {
     // console.log('orderIngredients');
     // копия данных
     const [copyData, setCopyData] = useState<TCard[]>([]);
+    const dispatch = useDispatch();
     // данные
-    const [data, setData] = useState<undefined | null | TData>(undefined);
+    const [data, setData] = useState<TOrderResponse | undefined>(undefined);
     // цена
     const [price, setPrice] = useState<number>(0);
     const { url } = useRouteMatch();
-    const { ingredients, ordersActive, personOrdersActive } = useSelector(
-        (store) => ({
-            ingredients: store.component.ingredients,
-            ordersActive: store.requests.ordersActive,
-            personOrdersActive: store.requests.personOrdersActive,
-        })
-    );
+    const {
+        ingredients,
+        ordersActive,
+        personOrdersActive,
+        baseURL,
+        orderIngredientInfo,
+    } = useSelector((store) => ({
+        ingredients: store.component.ingredients,
+        ordersActive: store.requests.ordersActive,
+        personOrdersActive: store.requests.personOrdersActive,
+        baseURL: store.requests.baseURL,
+        orderIngredientInfo: store.requests.orderIngredientInfo,
+    }));
 
     // запрос на сервер по заказу
     useEffect(() => {
-        let cleanupFunction = false;
-        if (!cleanupFunction) {
-            if (ordersActive && url.split('/')[1] === 'feed') {
-                fetch(
-                    ' https://norma.nomoreparties.space/api/orders/' +
-                        ordersActive.number
-                )
-                    .then(checkResponse)
-                    .then((result: any) => {
-                        // console.log(result);
-                        result && setData(result);
-                    })
-                    .catch((e) => console.error(e));
-            } else {
-                personOrdersActive &&
-                    fetch(
-                        ' https://norma.nomoreparties.space/api/orders/' +
-                            personOrdersActive.number
-                    )
-                        .then(checkResponse)
-                        .then((result: any) => {
-                            result && setData(result);
-                        })
-                        .catch((e) => console.error(e));
-            }
-            if (
-                !personOrdersActive &&
-                !ordersActive &&
-                url.split('/')[1] === 'feed'
-            ) {
-                fetch(
-                    ' https://norma.nomoreparties.space/api/orders/' +
-                        url.split('/')[2]
-                )
-                    .then(checkResponse)
-                    .then((result: any) => {
-                        result && setData(result);
-                    })
-                    .catch((e) => console.error(e));
-                // setData(null);
-            }
-            if (
-                !personOrdersActive &&
-                !ordersActive &&
-                url.split('/')[1] === 'profile'
-            ) {
-                fetch(
-                    ' https://norma.nomoreparties.space/api/orders/' +
-                        url.split('/')[2]
-                )
-                    .then(checkResponse)
-                    .then((result: any) => {
-                        result && setData(result);
-                    })
-                    .catch((e) => console.error(e));
-                // setData(null);
-            }
+        if (ordersActive && url.split('/')[1] === 'feed') {
+            dispatch(getOrderInfo(baseURL + '/orders/' + ordersActive.number));
+        }
+        if (personOrdersActive) {
+            dispatch(
+                getOrderInfo(baseURL + '/orders/' + personOrdersActive.number)
+            );
+        }
+        if (
+            !personOrdersActive &&
+            !ordersActive &&
+            url.split('/')[1] === 'feed'
+        ) {
+            dispatch(getOrderInfo(baseURL + '/orders/' + url.split('/')[2]));
+        }
+        if (
+            !personOrdersActive &&
+            !ordersActive &&
+            url.split('/')[1] === 'profile'
+        ) {
+            dispatch(getOrderInfo(baseURL + '/orders/' + url.split('/')[3]));
+            // setData(null);
         }
 
-        return () => {
-            cleanupFunction = true;
-        };
+        return () => {};
     }, [ingredients]);
+
+    useEffect(() => {
+        // console.log(orderIngredientInfo);
+        orderIngredientInfo && setData(orderIngredientInfo);
+    }, [orderIngredientInfo]);
 
     // эффект для составления списка
     useEffect(() => {
-        let cleanupFunction = false;
-        !cleanupFunction && data && getInformation();
-        return () => {
-            cleanupFunction = true;
-        };
+        data && getInformation();
     }, [data]);
 
     // эффект для установки цены
     useEffect(() => {
-        let cleanupFunction = false;
-        if (!cleanupFunction) {
-            ordersActive &&
-                setPrice(getOrderPrice(ordersActive.ingredients, ingredients));
-            personOrdersActive &&
-                setPrice(
-                    getOrderPrice(personOrdersActive.ingredients, ingredients)
-                );
-            // console.log(data);
-            data &&
-                setPrice(
-                    getOrderPrice(data.orders[0].ingredients, ingredients)
-                );
-        }
-        return () => {
-            cleanupFunction = true;
-        };
+        ordersActive &&
+            setPrice(getOrderPrice(ordersActive.ingredients, ingredients));
+        personOrdersActive &&
+            setPrice(
+                getOrderPrice(personOrdersActive.ingredients, ingredients)
+            );
+        // console.log(data);
+        data &&
+            setPrice(getOrderPrice(data.orders[0].ingredients, ingredients));
     }, [ordersActive]);
 
     // функция составления списка заказа и количества ингредиентов
