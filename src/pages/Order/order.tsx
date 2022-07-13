@@ -13,17 +13,17 @@ const Order: FC = () => {
         personOrdersActive: store.requests.personOrdersActive,
     }));
     // console.log('order')
-    useEffect(() => {
-        // console.log('order-open');
-        !ordersActive &&
-            !personOrdersActive &&
-            dispatch({ type: WS_CONNECTION_START, payload: '/all' });
-        return () => {
-            // console.log('order closed');
-            // console.log('закрываем');
-            dispatch({ type: WS_CONNECTION_CLOSED });
-        };
-    }, []);
+    // useEffect(() => {
+    //     // console.log('order-open');
+    //     !ordersActive &&
+    //         !personOrdersActive &&
+    //         dispatch({ type: WS_CONNECTION_START, payload: '/all' });
+    //     return () => {
+    //         // console.log('order closed');
+    //         // console.log('закрываем');
+    //         dispatch({ type: WS_CONNECTION_CLOSED });
+    //     };
+    // }, []);
 
     return <div className={orderStyle.page}>{<OrderIngredients />}</div>;
 };
