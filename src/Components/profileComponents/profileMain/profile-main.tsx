@@ -10,10 +10,14 @@ import {
     updateRequest,
 } from '../../../Services/actions/requestsActions';
 import { useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
+import {
+    RootState,
+    useDispatch,
+    useSelector,
+} from '../../../utils/types/store';
 
 const ProfileMain: FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -29,18 +33,15 @@ const ProfileMain: FC = () => {
         logoutRequestSuccess,
         isLogout,
         isLogin,
-    } = useSelector(
-        (store: any) => ({
-            baseURL: store.requests.baseURL,
-            nameV: store.requests.name,
-            emailV: store.requests.email,
-            profileRequestError: store.requests.profileRequestError,
-            logoutRequestSuccess: store.requests.logoutRequestSuccess,
-            isLogout: store.requests.isLogout,
-            isLogin: store.requests.isLogin,
-        }),
-        shallowEqual
-    );
+    } = useSelector((store) => ({
+        baseURL: store.requests.baseURL,
+        nameV: store.requests.name,
+        emailV: store.requests.email,
+        profileRequestError: store.requests.profileRequestError,
+        logoutRequestSuccess: store.requests.logoutRequestSuccess,
+        isLogout: store.requests.isLogout,
+        isLogin: store.requests.isLogin,
+    }));
 
     //useEffect - проверка на авторизованность и выход из профиля
     useEffect(() => {

@@ -1,10 +1,14 @@
 import {
+    CLEAR_ORDER_INFO,
     ENTER_URL_ERROR,
     ENTER_URL_REQUEST,
     ENTER_URL_SUCCESS,
     FORGOT_URL_ERROR,
     FORGOT_URL_REQUEST,
     FORGOT_URL_SUCCESS,
+    GET_ORDER_INFO_ERROR,
+    GET_ORDER_INFO_REQUEST,
+    GET_ORDER_INFO_SUCCESS,
     IS_AUTH,
     LOGOUT_URL_ERROR,
     LOGOUT_URL_REQUEST,
@@ -22,12 +26,55 @@ import {
     RESET_URL_REQUEST,
     RESET_URL_SUCCESS,
     SET_LOGOUT_DATA,
+    SET_ORDER_INFO,
+    SET_PERSON_ORDER_INFO,
     UPDATE_URL_ERROR,
     UPDATE_URL_REQUEST,
     UPDATE_URL_SUCCESS,
 } from '../actions/requestsActions';
 
-const initialState = {
+import { TRequestActions } from '../../utils/types/actionRequestsTypes';
+import { TOrderIngredients, TOrderResponse } from '../../utils/types/types';
+
+export type TRequestsReducer = {
+    email: string;
+    name: string;
+    forgotRequestRequest: boolean;
+    forgotRequestSuccess: boolean;
+    forgotRequestError: boolean;
+    resetRequestRequest: boolean;
+    resetRequestSuccess: boolean;
+    resetRequestError: boolean;
+    profileRequestRequest: boolean;
+    profileRequestSuccess: boolean;
+    profileRequestError: boolean;
+    enterRequestRequest: boolean;
+    enterRequestSuccess: boolean;
+    enterRequestError: boolean;
+    registerRequestRequest: boolean;
+    registerRequestSuccess: boolean;
+    registerRequestError: boolean;
+    logoutRequestRequest: boolean;
+    logoutRequestSuccess: boolean;
+    logoutRequestError: boolean;
+    isLogout: boolean;
+    isLogin: boolean;
+    updateRequestRequest: boolean;
+    updateRequestSuccess: boolean;
+    updateRequestError: boolean;
+    getOrderInfoRequestRequest: boolean;
+    getOrderInfoRequestSuccess: boolean;
+    getOrderInfoRequestError: boolean;
+    tokenRequestRequest: boolean;
+    tokenRequestSuccess: boolean;
+    tokenRequestError: boolean;
+    baseURL: string;
+    ordersActive: undefined | TOrderIngredients;
+    personOrdersActive: undefined | TOrderIngredients;
+    orderIngredientInfo: TOrderResponse | undefined;
+};
+
+const initialState: TRequestsReducer = {
     //логин пользователя
     email: '',
 
@@ -120,9 +167,30 @@ const initialState = {
     //блок эндпоинтов
     //общая часть ссылки
     baseURL: 'https://norma.nomoreparties.space/api',
+
+    //состав заказа, доступный всем
+    ordersActive: undefined,
+
+    //состав заказа личного
+    personOrdersActive: undefined,
+
+    //запрос о составе заказа отправлен
+    getOrderInfoRequestRequest: false,
+
+    //запрос о составе заказа получен успешно
+    getOrderInfoRequestSuccess: false,
+
+    //запрос о составе заказа - ошибка
+    getOrderInfoRequestError: false,
+
+    //подробная информация о заказе и его номере
+    orderIngredientInfo: undefined,
 };
 
-export const requestsReducer = (state = initialState, action) => {
+export const requestsReducer = (
+    state: TRequestsReducer = initialState,
+    action: TRequestActions
+): TRequestsReducer => {
     switch (action.type) {
         //запрос на сброс пароля
         case FORGOT_URL_REQUEST: {
@@ -386,10 +454,69 @@ export const requestsReducer = (state = initialState, action) => {
             };
         }
 
+        //запрос подробного состава заказа
+        case GET_ORDER_INFO_REQUEST: {
+            return {
+                ...state,
+                getOrderInfoRequestError: false,
+                getOrderInfoRequestSuccess: false,
+                getOrderInfoRequestRequest: true,
+            };
+        }
+
+        //успешный запрос подробного получения состава заказа
+        case GET_ORDER_INFO_SUCCESS: {
+            return {
+                ...state,
+                orderIngredientInfo: action.data,
+                getOrderInfoRequestRequest: false,
+                getOrderInfoRequestError: false,
+                getOrderInfoRequestSuccess: true,
+            };
+        }
+
+        //неудачный запрос подробного получения состава заказа
+        case GET_ORDER_INFO_ERROR: {
+            return {
+                ...state,
+                getOrderInfoRequestRequest: false,
+                getOrderInfoRequestError: true,
+                getOrderInfoRequestSuccess: false,
+            };
+        }
+
+        case CLEAR_ORDER_INFO: {
+            return {
+                ...state,
+                orderIngredientInfo: undefined,
+            };
+        }
+
         case IS_AUTH: {
             return {
                 ...state,
                 isLogin: action.data,
+            };
+        }
+
+        // case SAVE_DATA: {
+        //     return {
+        //         ...state,
+        //         ordersInfo: action.data,
+        //     };
+        // }
+
+        case SET_ORDER_INFO: {
+            return {
+                ...state,
+                ordersActive: action.data,
+            };
+        }
+
+        case SET_PERSON_ORDER_INFO: {
+            return {
+                ...state,
+                personOrdersActive: action.data,
             };
         }
         //иное

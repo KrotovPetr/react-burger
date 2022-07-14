@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import registerStyle from './register.module.css';
 import '../../commonStyles/styles.css';
@@ -8,8 +8,8 @@ import {
     PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { registerRequest } from '../../Services/actions/requestsActions';
-import { useDispatch, useSelector } from 'react-redux';
 import { Location } from 'history';
+import { useDispatch, useSelector } from '../../utils/types/store';
 
 type TLocation = {
     url: string;
@@ -25,7 +25,7 @@ const Registration: FC = () => {
     const location = useLocation<TLocation>();
     let fromURL: string = location.state.url;
 
-    const { baseURL, isLogin } = useSelector((store: any) => ({
+    const { baseURL, isLogin } = useSelector((store) => ({
         baseURL: store.requests.baseURL,
         isLogin: store.requests.isLogin,
     }));
@@ -47,7 +47,7 @@ const Registration: FC = () => {
                 </h1>
                 <form
                     className={registerStyle.inputContainer}
-                    onSubmit={(e): void => {
+                    onSubmit={(e: FormEvent<HTMLFormElement>): void => {
                         e.preventDefault();
                         dispatch(
                             registerRequest(email, password, name, baseURL)
@@ -58,7 +58,9 @@ const Registration: FC = () => {
                             <Input
                                 type={'text'}
                                 placeholder={'Имя'}
-                                onChange={(e): void => setName(e.target.value)}
+                                onChange={(
+                                    e: ChangeEvent<HTMLInputElement>
+                                ): void => setName(e.target.value)}
                                 value={name}
                                 name={'name'}
                                 error={false}
@@ -72,7 +74,9 @@ const Registration: FC = () => {
                             <Input
                                 type={'text'}
                                 placeholder={'E-mail'}
-                                onChange={(e): void => setEmail(e.target.value)}
+                                onChange={(
+                                    e: ChangeEvent<HTMLInputElement>
+                                ): void => setEmail(e.target.value)}
                                 value={email}
                                 name={'name'}
                                 error={false}
@@ -83,7 +87,9 @@ const Registration: FC = () => {
                     </label>
                     <label>
                         <PasswordInput
-                            onChange={(e): void => setPassword(e.target.value)}
+                            onChange={(
+                                e: ChangeEvent<HTMLInputElement>
+                            ): void => setPassword(e.target.value)}
                             value={password}
                             name={'password'}
                         />

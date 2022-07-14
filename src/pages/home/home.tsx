@@ -10,7 +10,6 @@ const Home: FC = () => {
                 <div className={appStyles.burgerIngredients}>
                     <BurgerIngredients />
                 </div>
-
                 <BurgerConstructor />
             </main>
         </div>

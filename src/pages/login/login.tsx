@@ -7,12 +7,12 @@ import {
     PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import {
     clearForgotCookie,
     enterRequest,
     // getCookie,
 } from '../../Services/actions/requestsActions';
+import { useDispatch, useSelector } from '../../utils/types/store';
 
 type TLocation = {
     from: { pathname: string };
@@ -24,13 +24,13 @@ const Login: FC = () => {
     const [email, setEmail] = useState<string>('');
     const dispatch = useDispatch();
     const history = useHistory();
-    const { baseURL, isLogin } = useSelector((store: any) => ({
+    const { baseURL, isLogin } = useSelector((store) => ({
         baseURL: store.requests.baseURL,
         isLogin: store.requests.isLogin,
     }));
     const { state } = useLocation<TLocation>();
 
-    useEffect(() => {
+    useEffect((): void => {
         dispatch(clearForgotCookie());
     }, []);
 

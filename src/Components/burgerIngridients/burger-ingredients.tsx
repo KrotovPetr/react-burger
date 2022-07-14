@@ -3,18 +3,9 @@ import ingredientsBurger from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientList from './ingredientList/ingredient-list';
 import appStyles from '../app/app.module.css';
-import { shallowEqual, useSelector } from 'react-redux';
 import { scrollFunction } from '../../utils/functions/scrollFunction';
 
 const BurgerIngredients: FC = () => {
-    // const { isActive, cardData } = useSelector(
-    //     (store: any) => ({
-    //         isActive: store.component.isActiv,
-    //         cardData: store.component.cardData,
-    //     }),
-    //     shallowEqual
-    // );
-
     const [current, setCurrent] = useState<string>('one');
     // console.log(cardData);
 

@@ -3,8 +3,14 @@ import {
     ORDER_URL_SUCCESS,
     ORDER_URL_REQUEST,
 } from '../actions/components';
+import { TComponentsActions } from '../../utils/types/actionComponentsTypes';
 
-const initialState = {
+export type TOrderState = {
+    isOrderSend: boolean;
+    isOrderSuccess: boolean;
+    isOrderError: boolean;
+};
+const initialState: TOrderState = {
     //отправка запроса
     isOrderSend: false,
 
@@ -15,7 +21,10 @@ const initialState = {
     isOrderError: false,
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (
+    state: TOrderState = initialState,
+    action: TComponentsActions
+): TOrderState => {
     switch (action.type) {
         case ORDER_URL_REQUEST: {
             return {

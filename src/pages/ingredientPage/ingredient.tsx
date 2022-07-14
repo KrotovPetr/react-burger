@@ -1,41 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import ingredientStyles from './ingredStyles.module.css';
-import { shallowEqual, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import { TCard } from '../../utils/types/types';
+import { RootState, useSelector } from '../../utils/types/store';
 
 const Ingredient = () => {
-    const [ingred, setIngred] = useState<TCard | null>(null);
-    const { ingredients } = useSelector(
-        (store: any) => ({
-            ingredients: store.component.ingredients,
-        }),
-        shallowEqual
-    );
+    const [ingredientData, setIngredientData] = useState<TCard | null>(null);
+    const { ingredients } = useSelector((store) => ({
+        ingredients: store.component.ingredients,
+    }));
 
     const { url } = useRouteMatch();
-    useEffect(() => {
+    useEffect((): void => {
         let idIngredient = -1;
-        ingredients.map((cards: TCard, index: number): any => {
+        ingredients.map((cards: TCard, index: number): void => {
             if (cards['_id'] === url.split('/')[2]) {
                 idIngredient = index;
             }
-            // console.log(idIngr);
-            setIngred(ingredients[idIngredient]);
+            setIngredientData(ingredients[idIngredient]);
         });
     }, [ingredients]);
 
     return (
         <div className={ingredientStyles.commonContainer}>
-            {ingred && (
+            {ingredientData && (
                 <div className={ingredientStyles.ingredContainer}>
                     <h1 className="text text_type_main-large">
                         Детали ингредиента
                     </h1>
-                    <img src={ingred.image_large} alt={ingred.name} />
+                    <img
+                        src={ingredientData.image_large}
+                        alt={ingredientData.name}
+                    />
 
                     <h2 className="text text_type_main-medium text_color_active">
-                        {ingred.name}
+                        {ingredientData.name}
                     </h2>
                     <div className={ingredientStyles.descriptionDiv}>
                         <div className={ingredientStyles.subDescription}>
@@ -44,7 +43,7 @@ const Ingredient = () => {
                             </p>
                             <p className="text text_type_main-default text_color_inactive">
                                 {/*{cardData.calories}*/}
-                                {ingred.calories}
+                                {ingredientData.calories}
                             </p>
                         </div>
                         <div className={ingredientStyles.subDescription}>
@@ -53,7 +52,7 @@ const Ingredient = () => {
                             </p>
                             <p className="text text_type_main-default text_color_inactive">
                                 {/*{cardData.proteins}*/}
-                                {ingred.proteins}
+                                {ingredientData.proteins}
                             </p>
                         </div>
                         <div className={ingredientStyles.subDescription}>
@@ -62,7 +61,7 @@ const Ingredient = () => {
                             </p>
                             <p className="text text_type_main-default text_color_inactive">
                                 {/*{cardData.fat}*/}
-                                {ingred.fat}
+                                {ingredientData.fat}
                             </p>
                         </div>
                         <div className={ingredientStyles.subDescription}>
@@ -71,7 +70,7 @@ const Ingredient = () => {
                             </p>
                             <p className="text text_type_main-default text_color_inactive">
                                 {/*{cardData.carbohydrates}*/}
-                                {ingred.carbohydrates}
+                                {ingredientData.carbohydrates}
                             </p>
                         </div>
                     </div>

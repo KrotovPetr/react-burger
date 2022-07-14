@@ -5,7 +5,6 @@ import {
     CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cardStyle from './ingredient-list.module.css';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
     setData,
     setActive,
@@ -14,6 +13,7 @@ import {
 import { Redirect, useLocation } from 'react-router-dom';
 import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
 import { TCard } from '../../../utils/types/types';
+import { useDispatch, useSelector } from '../../../utils/types/store';
 
 interface IProps {
     typeOfMeal: string | undefined;
@@ -22,13 +22,10 @@ interface IProps {
 const IngredientList: FC<IProps> = (props) => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const { ingredients, cardData } = useSelector(
-        (store: any) => ({
-            ingredients: store.component.ingredients,
-            cardData: store.component.cardData,
-        }),
-        shallowEqual
-    );
+    const { ingredients, cardData } = useSelector((store) => ({
+        ingredients: store.component.ingredients,
+        cardData: store.component.cardData,
+    }));
     // console.log(cardData);
     useEffect(() => {
         if (getCookie('isActive') !== undefined) {
@@ -51,6 +48,7 @@ const IngredientList: FC<IProps> = (props) => {
             />
         );
     }
+    // console.log(ingredients);
 
     return (
         <div className={cardStyle.cardArea}>

@@ -1,0 +1,104 @@
+
+.dataContainer{
+    width:640px;
+    height:620px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center ;
+
+}
+
+.page{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center ;
+    height: 90vh;
+}
+
+.orderNumber{
+    width:100%;
+    height: 24px;
+    margin: 0 0 40px 0;
+    text-align: center;
+}
+
+.orderName{
+    margin: 0 0 12px 0;
+    align-self: flex-start;
+}
+.orderStatus{
+    margin: 0 0 60px 0;
+    align-self: flex-start;
+}
+.orderIngredients{
+    margin: 0 0 24px 0;
+    align-self: flex-start;
+}
+.ingredientsContainer{
+    width:100%;
+    height:310px;
+    overflow-y:auto;
+    margin: 0 0 40px 0;
+
+}
+
+.otherInfo{
+    width:100%;
+    height: fit-content;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center ;
+}
+
+.price{
+    width:fit-content;
+    height: fit-content;
+    display: flex;
+    flex-flow: row nowrap;
+    column-gap: 8px;
+}
+
+.ingredientCard{
+    width:604px;
+    height:64px;
+    margin: 0 0 16px 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.photoContainer{
+    border: 1px solid #6534d9;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    margin: 0 12px 0 0;
+}
+
+.photoContainer > img {
+    height: 56px;
+    width: 56px;
+
+}
+
+.ingredientCard > p{
+    width:390px;
+    justify-self: flex-start;
+    margin: 0 10px 0 0;
+
+}
+
+.ingredientPriceContainer{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    width:150px;
+
+}
+

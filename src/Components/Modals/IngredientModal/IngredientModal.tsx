@@ -1,24 +1,21 @@
 import React, { FC } from 'react';
-import IngredientDetails from '../ingredientDetails/ingredient-details';
+import IngredientDetails from '../../ingredientDetails/ingredient-details';
 import Modal from '../modal/modal';
 import {
     clearInfo,
     setActive,
     setData,
-} from '../../Services/actions/components';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+} from '../../../Services/actions/components';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from '../../../utils/types/store';
 
 const IngredientModal: FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const { orderInfo, ingredients } = useSelector(
-        (store: any) => ({
-            orderInfo: store.component.orderInfo,
-            ingredients: store.component.ingredients,
-        }),
-        shallowEqual
-    );
+    const { orderInfo, ingredients } = useSelector((store) => ({
+        orderInfo: store.component.orderInfo,
+        ingredients: store.component.ingredients,
+    }));
     const closeWindow = (): void => {
         orderInfo ? dispatch(clearInfo(ingredients)) : dispatch(setData(null));
         dispatch(setActive(false));

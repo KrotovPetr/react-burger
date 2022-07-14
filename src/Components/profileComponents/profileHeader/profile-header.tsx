@@ -1,20 +1,17 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import profileHStyles from './profile-header.module.css';
 import { logoutRequest } from '../../../Services/actions/requestsActions';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useDispatch, useSelector } from '../../../utils/types/store';
 
 const ProfileHeader: FC = () => {
+    // console.log('profileHeader');
     const { url } = useRouteMatch<string | undefined>();
     const dispatch = useDispatch();
-    const [active, setActive] = useState<number>(1);
     const history = useHistory();
-    const { baseURL } = useSelector(
-        (store: any) => ({
-            baseURL: store.requests.baseURL,
-        }),
-        shallowEqual
-    );
+    const { baseURL } = useSelector((store) => ({
+        baseURL: store.requests.baseURL,
+    }));
 
     return (
         <div className={profileHStyles.headContainer}>
@@ -22,13 +19,12 @@ const ProfileHeader: FC = () => {
                 {/*/profile*/}
                 <p
                     className={
-                        active === 1
-                            ? 'text text_type_main-medium'
+                        url.split('/')[2] === undefined
+                            ? 'text text_type_main-medium text_color_active'
                             : 'text text_type_main-medium text_color_inactive'
                     }
                     onClick={(): void => {
-                        setActive(1);
-                        history.replace({ pathname: url });
+                        history.replace({ pathname: '/profile' });
                     }}>
                     Профиль
                 </p>
@@ -37,13 +33,13 @@ const ProfileHeader: FC = () => {
                 {/*/profile orders*/}
                 <p
                     className={
-                        active === 2
-                            ? 'text text_type_main-medium'
+                        url.split('/')[2] === 'orders'
+                            ? 'text text_type_main-medium text_color_active'
                             : 'text text_type_main-medium text_color_inactive'
                     }
                     onClick={(): void => {
-                        setActive(2);
-                        history.replace({ pathname: url + '/orders' });
+                        url.split('/')[2] !== 'orders' &&
+                            history.replace({ pathname: url + '/orders' });
                     }}>
                     История заказов
                 </p>
@@ -66,7 +62,6 @@ const ProfileHeader: FC = () => {
         </div>
     );
 };
-
 //propTypes - нету
 
 export default ProfileHeader;
