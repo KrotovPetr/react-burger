@@ -7,7 +7,7 @@ import {
     Input,
     PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { registerRequest } from '../../Services/actions/requestsActions';
+import { registerRequest } from '../../Services/actions/requestAction/requestsActions';
 import { Location } from 'history';
 import { useDispatch, useSelector } from '../../utils/types/store';
 

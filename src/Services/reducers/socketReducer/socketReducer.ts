@@ -1,4 +1,4 @@
-import { TSocketActions } from '../../utils/types/actionSocketTypes';
+import { TSocketActions } from '../../../utils/types/actionSocketTypes';
 import {
     WS_CONNECTION_CLOSED,
     WS_CONNECTION_ERROR,
@@ -6,8 +6,8 @@ import {
     WS_CONNECTION_SEND_MESSAGE,
     WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
-} from '../actions/socketActions';
-import { TListOfOrders } from '../../utils/types/types';
+} from '../../actions/socketAction/socketActions';
+import { TListOfOrders } from '../../../utils/types/types';
 
 export type TSocketReducer = {
     data: Event | undefined;

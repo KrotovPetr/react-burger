@@ -1,7 +1,7 @@
-import { checkResponse } from '../../utils/functions/checkResponse';
-import { getCookie } from '../../utils/functions/cookieFunctions/getCookie';
-import { TCard, TOrder } from '../../utils/types/types';
-import { AppDispatch } from '../../utils/types/store';
+import { checkResponse } from '../../../utils/functions/checkResponse';
+import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
+import { TCard, TOrder } from '../../../utils/types/types';
+import { AppDispatch } from '../../../utils/types/store';
 export const SET_STATE: 'SET_STATE' = 'SET_STATE';
 export const ADD_BUN: 'ADD_BUN' = 'ADD_BUN';
 export const ADD_COMPONENT: 'ADD_COMPONENT' = 'ADD_COMPONENT';

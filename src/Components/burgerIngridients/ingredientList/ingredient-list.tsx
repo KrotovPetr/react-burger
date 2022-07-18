@@ -9,7 +9,7 @@ import {
     setData,
     setActive,
     dragElement,
-} from '../../../Services/actions/components';
+} from '../../../Services/actions/componentAction/components';
 import { Redirect, useLocation } from 'react-router-dom';
 import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
 import { TCard } from '../../../utils/types/types';

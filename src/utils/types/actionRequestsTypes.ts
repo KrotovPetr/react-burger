@@ -31,7 +31,7 @@ import {
     GET_ORDER_INFO_REQUEST,
     GET_ORDER_INFO_ERROR,
     CLEAR_ORDER_INFO,
-} from '../../Services/actions/requestsActions';
+} from '../../Services/actions/requestAction/requestsActions';
 import { TAutorization, TOrderIngredients, TOrderResponse } from './types';
 
 export interface IClearOrderInfo {

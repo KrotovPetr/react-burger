@@ -8,7 +8,7 @@ import {
     profileRequest,
     setLogoutData,
     updateRequest,
-} from '../../../Services/actions/requestsActions';
+} from '../../../Services/actions/requestAction/requestsActions';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';

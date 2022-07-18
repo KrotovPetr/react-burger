@@ -11,7 +11,7 @@ import { shallowEqual } from 'react-redux';
 import {
     WS_CONNECTION_CLOSED,
     WS_CONNECTION_START,
-} from '../../../Services/actions/socketActions';
+} from '../../../Services/actions/socketAction/socketActions';
 import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
 import { useRouteMatch } from 'react-router-dom';
 

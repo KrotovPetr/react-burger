@@ -5,7 +5,7 @@ import {
     clearInfo,
     setActive,
     setData,
-} from '../../../Services/actions/components';
+} from '../../../Services/actions/componentAction/components';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../../utils/types/store';
 

@@ -5,7 +5,7 @@ import {
     WS_CONNECTION_SEND_MESSAGE,
     WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
-} from '../../Services/actions/socketActions';
+} from '../../Services/actions/socketAction/socketActions';
 import { TListOfOrders } from './types';
 
 export interface IWSConnectionSuccess {

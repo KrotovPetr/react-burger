@@ -23,8 +23,8 @@ import {
     replaceElement,
     setActive,
     setDragOver,
-} from '../../Services/actions/components';
-import { profileRequest } from '../../Services/actions/requestsActions';
+} from '../../Services/actions/componentAction/components';
+import { profileRequest } from '../../Services/actions/requestAction/requestsActions';
 import { useHistory } from 'react-router-dom';
 import { TCard } from '../../utils/types/types';
 import Modal from '../Modals/modal/modal';

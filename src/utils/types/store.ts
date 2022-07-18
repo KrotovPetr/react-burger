@@ -5,7 +5,7 @@ import {
     compose,
     createStore,
 } from 'redux';
-import { rootReducer } from '../../Services/reducers/components';
+import { rootReducer } from '../../Services/reducers/componentsReducer/components';
 
 import { TComponentsActions } from './actionComponentsTypes';
 import { TRequestActions } from './actionRequestsTypes';
@@ -24,7 +24,7 @@ import {
     WS_CONNECTION_SEND_MESSAGE,
     WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
-} from '../../Services/actions/socketActions';
+} from '../../Services/actions/socketAction/socketActions';
 
 const wsUrl = 'wss://norma.nomoreparties.space/orders';
 

@@ -1,10 +1,10 @@
 import React, { FC, useEffect } from 'react';
 import feedStyles from './feed.module.css';
 import { v4 as uuidv4 } from 'uuid';
-import { setOrderInfo } from '../../Services/actions/requestsActions';
+import { setOrderInfo } from '../../Services/actions/requestAction/requestsActions';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
-import { setActive } from '../../Services/actions/components';
+import { setActive } from '../../Services/actions/componentAction/components';
 import { getInfo } from '../../utils/functions/getInfo';
 import { getOrderPrice } from '../../utils/functions/getPrice';
 import { useDispatch, useSelector } from '../../utils/types/store';
@@ -12,7 +12,7 @@ import { getDate } from '../../utils/functions/getDate';
 import {
     WS_CONNECTION_CLOSED,
     WS_CONNECTION_START,
-} from '../../Services/actions/socketActions';
+} from '../../Services/actions/socketAction/socketActions';
 import { TOrderIngredients } from '../../utils/types/types';
 
 const Feed: FC = () => {

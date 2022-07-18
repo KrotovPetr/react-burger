@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
-import { setActive } from '../../../Services/actions/components';
+import { setActive } from '../../../Services/actions/componentAction/components';
 import Modal from '../modal/modal';
 import {
     clearOrderInfo,
     setOrderInfo,
     setPersonOrderInfo,
-} from '../../../Services/actions/requestsActions';
+} from '../../../Services/actions/requestAction/requestsActions';
 import OrderIngredients from '../../orderIngredients/order-ingredients.';
 import { useDispatch } from '../../../utils/types/store';
 // модалка для заказов

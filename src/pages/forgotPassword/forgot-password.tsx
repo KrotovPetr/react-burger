@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import '../../commonStyles/styles.css';
 import { Redirect, useHistory } from 'react-router-dom';
-import { forgotRequest } from '../../Services/actions/requestsActions';
+import { forgotRequest } from '../../Services/actions/requestAction/requestsActions';
 import { useDispatch, useSelector } from '../../utils/types/store';
 
 const ForgotPassword: FC = () => {

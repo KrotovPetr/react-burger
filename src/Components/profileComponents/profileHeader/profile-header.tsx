@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import profileHStyles from './profile-header.module.css';
-import { logoutRequest } from '../../../Services/actions/requestsActions';
+import { logoutRequest } from '../../../Services/actions/requestAction/requestsActions';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../../utils/types/store';
 
