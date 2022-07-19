@@ -16,12 +16,12 @@ describe('drag element tests', function () {
         cy.get('input[type*="email"]').click().type('ppr123@mail.ru');
         cy.get('input[type*="password"]').click().type('123456789');
         cy.get('Button').contains('Войти').click();
-        cy.wait(1000);
+        // cy.wait(1000);
         cy.get('Button')
             .contains('Оформить заказ')
             .click()
             .contains('Формируем номер');
-        cy.wait(16000);
+        // cy.wait(16000);
         it('Close order modal', function () {
             cy.get("[class^='modal-styles_logoDiv']").trigger('click');
         });
