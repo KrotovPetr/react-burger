@@ -8,6 +8,9 @@ describe('service navigation tests', function () {
     it('should open forgot-password page on http://localhost:3000/forgot-password', function () {
         cy.visit('http://localhost:3000/forgot-password');
     });
+    it('should open feed page with all orders on http://localhost:3000/feed', function () {
+        cy.visit('http://localhost:3000/feed');
+    });
     it('should open reset-password page on http://localhost:3000/reset-password', function () {
         cy.visit('http://localhost:3000/reset-password');
     });
@@ -19,8 +22,5 @@ describe('service navigation tests', function () {
     });
     it('should open profile-orders page on http://localhost:3000/profile/orders', function () {
         cy.visit('http://localhost:3000/profile-orders');
-    });
-    it('should open feed page with all orders on http://localhost:3000/feed', function () {
-        cy.visit('http://localhost:3000/feed');
     });
 });
