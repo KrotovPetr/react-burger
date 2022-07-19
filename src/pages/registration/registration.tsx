@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import registerStyle from './register.module.css';
 import '../../commonStyles/styles.css';
@@ -23,7 +23,12 @@ const Registration: FC = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const location = useLocation<TLocation>();
-    let fromURL: string = location.state.url;
+    let fromURL: string = '';
+    useEffect(() => {
+        if (location.state) {
+            fromURL = location.state.url;
+        }
+    }, [location]);
 
     const { baseURL, isLogin } = useSelector((store) => ({
         baseURL: store.requests.baseURL,

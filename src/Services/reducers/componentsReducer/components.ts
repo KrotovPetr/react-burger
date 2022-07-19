@@ -209,7 +209,6 @@ export const componentReducer = (
             return {
                 ...state,
                 order: {
-                    ...state,
                     buns: state.order.buns,
                     components: action.data,
                 },
@@ -222,7 +221,6 @@ export const componentReducer = (
             return {
                 ...state,
                 order: {
-                    ...state,
                     buns: state.order.buns,
                     components: [
                         ...state.order.components.slice(0, action.index),
@@ -233,7 +231,6 @@ export const componentReducer = (
                     ],
                 },
                 totalPrice: state.totalPrice - action.element.price,
-
                 underDraggedElement: null,
             };
         }

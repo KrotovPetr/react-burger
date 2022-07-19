@@ -33,6 +33,7 @@ const App: FC = () => {
     useEffect(() => {
         dispatch(fetchData(baseURL + '/ingredients'));
     }, []);
+
     const {
         isActive,
         cardData,
@@ -48,9 +49,11 @@ const App: FC = () => {
             baseURL: store.requests.baseURL,
             ordersActive: store.requests.ordersActive,
             personOrdersActive: store.requests.personOrdersActive,
+            ingredients: store.component.ingredients,
         }),
         shallowEqual
     );
+
     // console.log(personOrdersActive);
     //задаём состояние подложки для модалки
     let background: Location | undefined =

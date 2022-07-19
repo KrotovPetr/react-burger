@@ -23,7 +23,4 @@ describe('service navigation tests', function () {
     it('should open feed page with all orders on http://localhost:3000/feed', function () {
         cy.visit('http://localhost:3000/feed');
     });
-    // it('should open feed page with a list of orders on http://localhost:3000/login', function () {
-    //     cy.visit('http://localhost:3000/login');
-    // });
 });

@@ -639,30 +639,29 @@ describe('request reducer', () => {
             personOrdersActive: 'random string',
         });
     });
-    // it('should return update URL success', () => {
-    //     const user = { email: 'random email', name: 'random name' };
-    //     expect(
-    //         requestsReducer(
-    //             {
-    //                 email: '',
-    //                 name: '',
-    //                 updateRequestRequest: true,
-    //                 updateRequestError: false,
-    //                 updateRequestSuccess: false,
-    //             },
-    //             {
-    //                 type: types.UPDATE_URL_SUCCESS,
-    //                 data: user,
-    //             }
-    //         )
-    //     ).toEqual({
-    //         email: 'random email',
-    //         name: 'random name',
-    //         updateRequestRequest: false,
-    //         updateRequestError: false,
-    //         updateRequestSuccess: true,
-    //     });
-    // });
+    it('should return update URL success', () => {
+        const user = { email: 'random email', name: 'random name' };
+        const data = { success: true, user: user };
+        expect(
+            requestsReducer(
+                {
+                    email: '',
+                    name: '',
+                    updateRequestRequest: true,
+                    updateRequestError: false,
+                    updateRequestSuccess: false,
+                },
+                {
+                    type: types.UPDATE_URL_SUCCESS,
+                    data: data,
+                }
+            )
+        ).toEqual({
+            email: 'random email',
+            name: 'random name',
+            updateRequestRequest: false,
+            updateRequestError: false,
+            updateRequestSuccess: true,
+        });
+    });
 });
-
-//     SET_PERSON_ORDER_INFO,

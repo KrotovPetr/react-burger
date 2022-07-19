@@ -192,6 +192,7 @@ export function replaceElement(
                         components.indexOf(underDraggedElement);
                     components.splice(dropIndex, 0, dragElement);
                 }
+                console.log(components);
                 dispatch({
                     type: SWAP_COMPONENTS,
                     data: components,

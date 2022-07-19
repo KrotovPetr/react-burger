@@ -23,7 +23,7 @@ const Feed: FC = () => {
         ingredients: store.component.ingredients,
         payload: store.sockets.payload,
     }));
-
+    console.log(ingredients);
     useEffect(() => {
         // console.log('hello! feed!');
         dispatch({ type: WS_CONNECTION_START, payload: '/all' });
@@ -33,6 +33,7 @@ const Feed: FC = () => {
             dispatch({ type: WS_CONNECTION_CLOSED });
         };
     }, []);
+
     return (
         // общий контейнер по странице
         <div className={feedStyles.page}>

@@ -58,8 +58,9 @@ const IngredientList: FC<IProps> = (props) => {
                         props.typeOfMeal === cards.type && (
                             <div
                                 key={cards['_id']}
+                                data-cy="ing"
                                 draggable
-                                // className={cardStyle.cardContainer}
+                                className={cardStyle.cardBox}
                                 onDrag={(
                                     e: React.DragEvent<HTMLDivElement>
                                 ): void => {

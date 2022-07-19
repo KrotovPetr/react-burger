@@ -29,6 +29,12 @@
     margin: 0 16px 0 16px;
 }
 
+.cardBox{
+    width: fit-content;
+    height: fit-content;
+
+}
+
 @media screen and (max-width: 1400px) and (min-width:1000px){
     .cardContainer{
         height: fit-content;

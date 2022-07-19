@@ -663,87 +663,87 @@ describe('component reducer', () => {
             isReady: false,
         });
     });
-    // it('should change components in order', () => {
-    //     expect(
-    //         componentReducer(
-    //             {
-    //                 order: {
-    //                     components: [
-    //                         {
-    //                             _id: '60666c42cc7b410027a1a9b2',
-    //                             name: 'Флюоресцентная булка R2-D3',
-    //                             type: 'bun',
-    //                             proteins: 44,
-    //                             fat: 26,
-    //                             carbohydrates: 85,
-    //                             calories: 643,
-    //                             price: 988,
-    //                             image: 'https://code.s3.yandex.net/react/code/bun-01.png',
-    //                             image_mobile:
-    //                                 'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
-    //                             image_large:
-    //                                 'https://code.s3.yandex.net/react/code/bun-01-large.png',
-    //                             __v: 0,
-    //                         },
-    //                     ],
-    //                     buns: null,
-    //                 },
-    //                 totalPrice: 988,
-    //             },
-    //             {
-    //                 type: types.CHANGE_COMPONENTS,
-    //                 element: {
-    //                     _id: '60666c42cc7b410027a1a9b2',
-    //                     name: 'Флюоресцентная булка R2-D3',
-    //                     type: 'bun',
-    //                     proteins: 44,
-    //                     fat: 26,
-    //                     carbohydrates: 85,
-    //                     calories: 643,
-    //                     price: 988,
-    //                     image: 'https://code.s3.yandex.net/react/code/bun-01.png',
-    //                     image_mobile:
-    //                         'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
-    //                     image_large:
-    //                         'https://code.s3.yandex.net/react/code/bun-01-large.png',
-    //                     __v: 0,
-    //                 },
-    //                 index: 0,
-    //                 length: 1,
-    //             }
-    //         )
-    //     ).toEqual({
-    //         order: {
-    //             components: [],
-    //             buns: null,
-    //         },
-    //         totalPrice: 0,
-    //     });
-    // });
-    // it('should swap components in order', () => {
-    //     expect(
-    //         componentReducer(
-    //             {
-    //                 order: {
-    //                     buns: 'buns',
-    //                     components: 'sauces',
-    //                 },
-    //                 isReady: 'is order ready',
-    //             },
-    //             {
-    //                 type: types.SWAP_COMPONENTS,
-    //                 isReady: true,
-    //                 data: 'another order of components',
-    //             }
-    //         )
-    //     ).toEqual({
-    //         order: {
-    //             buns: 'buns',
-    //             components: 'another order of components',
-    //         },
-    //         isReady: true,
-    //     });
-    // });
+    it('should change components in order', () => {
+        expect(
+            componentReducer(
+                {
+                    order: {
+                        components: [
+                            {
+                                _id: '60666c42cc7b410027a1a9b2',
+                                name: 'Флюоресцентная булка R2-D3',
+                                type: 'bun',
+                                proteins: 44,
+                                fat: 26,
+                                carbohydrates: 85,
+                                calories: 643,
+                                price: 988,
+                                image: 'https://code.s3.yandex.net/react/code/bun-01.png',
+                                image_mobile:
+                                    'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
+                                image_large:
+                                    'https://code.s3.yandex.net/react/code/bun-01-large.png',
+                                __v: 0,
+                            },
+                        ],
+                        buns: null,
+                    },
+                    totalPrice: 988,
+                    underDraggedElement: null,
+                },
+                {
+                    type: types.CHANGE_COMPONENTS,
+                    element: {
+                        _id: '60666c42cc7b410027a1a9b2',
+                        name: 'Флюоресцентная булка R2-D3',
+                        type: 'bun',
+                        proteins: 44,
+                        fat: 26,
+                        carbohydrates: 85,
+                        calories: 643,
+                        price: 988,
+                        image: 'https://code.s3.yandex.net/react/code/bun-01.png',
+                        image_mobile:
+                            'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
+                        image_large:
+                            'https://code.s3.yandex.net/react/code/bun-01-large.png',
+                        __v: 0,
+                    },
+                    index: 0,
+                    length: 1,
+                }
+            )
+        ).toEqual({
+            order: {
+                components: [],
+                buns: null,
+            },
+            underDraggedElement: null,
+            totalPrice: 0,
+        });
+    });
+    it('should swap components in order', () => {
+        expect(
+            componentReducer(
+                {
+                    order: {
+                        buns: 'buns',
+                        components: 'sauces',
+                    },
+                    isReady: 'is order ready',
+                },
+                {
+                    type: types.SWAP_COMPONENTS,
+                    isReady: true,
+                    data: [],
+                }
+            )
+        ).toEqual({
+            order: {
+                buns: 'buns',
+                components: [],
+            },
+            isReady: true,
+        });
+    });
 });
-
-//  DRAG_ELEMENT,
