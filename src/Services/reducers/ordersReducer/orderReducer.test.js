@@ -44,7 +44,7 @@ describe('order reducer', () => {
         ).toEqual({
             isOrderSend: true,
             isOrderSuccess: false,
-            isOrderError: true,
+            isOrderError: false,
         });
     });
 

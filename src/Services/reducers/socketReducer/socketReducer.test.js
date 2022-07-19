@@ -91,7 +91,7 @@ describe('socket reducer', () => {
                     payload: undefined,
                 },
                 {
-                    type: types.WS_CONNECTION_SEND_MESSAGE,
+                    type: types.WS_CONNECTION_GET_MESSAGE,
                     payload: {
                         _id: '62c6c87542d34a001c274c7a',
                         ingredients: [

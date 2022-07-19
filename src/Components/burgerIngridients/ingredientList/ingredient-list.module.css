@@ -11,7 +11,7 @@
     column-gap: 24px;
     row-gap: 32px;
 }
-.card{
+.cardContainer{
     display: flex;
     flex-flow: column nowrap;
     position:relative;
@@ -30,7 +30,7 @@
 }
 
 @media screen and (max-width: 1400px) and (min-width:1000px){
-    .card{
+    .cardContainer{
         height: fit-content;
         width:fit-content;
         max-width: 15vw;
@@ -44,7 +44,7 @@
 }
 
 @media screen and (max-width: 1000px) and (min-width:600px){
-    .card{
+    .cardContainer{
         height: fit-content;
         width:fit-content;
         max-width: 25vw;
@@ -58,7 +58,7 @@
 }
 
 @media screen and (max-width:600px ){
-    .card{
+    .cardContainer{
         height: fit-content;
         width:fit-content;
         max-width: 35vw;

@@ -78,7 +78,7 @@ const BurgerConstructor: FC = () => {
         <div className={constStyles.area}>
             <div className={constStyles.orderArea}>
                 <div
-                    className={constStyles.order}
+                    className={constStyles.orderDropnDrag}
                     onDrop={(e: React.DragEvent<HTMLDivElement>): void => {
                         e.preventDefault();
                         if (cart === 'ingredients') {

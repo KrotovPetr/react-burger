@@ -59,6 +59,7 @@ const IngredientList: FC<IProps> = (props) => {
                             <div
                                 key={cards['_id']}
                                 draggable
+                                // className={cardStyle.cardContainer}
                                 onDrag={(
                                     e: React.DragEvent<HTMLDivElement>
                                 ): void => {
@@ -68,7 +69,7 @@ const IngredientList: FC<IProps> = (props) => {
                                     );
                                 }}>
                                 <div
-                                    className={cardStyle.card}
+                                    className={cardStyle.cardContainer}
                                     onClick={(): void => {
                                         dispatch(setData(cards));
                                         dispatch(setActive(true));

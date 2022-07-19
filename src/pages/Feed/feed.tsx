@@ -47,110 +47,123 @@ const Feed: FC = () => {
                 <div className={feedStyles.section}>
                     {/*блок с лентой заказов*/}
                     <div className={feedStyles.orders}>
-                        {payload.orders.map((element: TOrderIngredients) => (
-                            // карточки/позиции заказа
-                            <div
-                                key={uuidv4()}
-                                className={feedStyles.orderPosition}
-                                onClick={(): void => {
-                                    // console.log(element);
-                                    dispatch(setOrderInfo(element));
-                                    dispatch(setActive(true));
-                                    history.push({
-                                        pathname: `/feed/${element._id}`,
-                                        state: { orderBackground: location },
-                                    });
+                        {payload &&
+                            payload.orders.map((element: TOrderIngredients) => (
+                                // карточки/позиции заказа
+                                <div
+                                    key={uuidv4()}
+                                    className={feedStyles.orderPosition}
+                                    onClick={(): void => {
+                                        // console.log(element);
+                                        dispatch(setOrderInfo(element));
+                                        dispatch(setActive(true));
+                                        history.push({
+                                            pathname: `/feed/${element._id}`,
+                                            state: {
+                                                orderBackground: location,
+                                            },
+                                        });
 
-                                    // history.push(`/feed/${element['_id']}`);
-                                }}>
-                                {/*верхний уровень описания заказа*/}
-                                <div className={feedStyles.positionInfo}>
-                                    <p className="text text_type_digits-default">
-                                        #{element.number}
-                                    </p>
-                                    <p className="text text_type_main-default text_color_inactive">
-                                        {getDate(element.createdAt)}
-                                    </p>
-                                </div>
-                                {/*название блюда*/}
-                                <h2
-                                    className={
-                                        feedStyles.h2Header +
-                                        ' text text_type_main-default'
-                                    }>
-                                    {element.name}
-                                </h2>
-                                {/*уровень иконок ингредиентов и цены заказа*/}
-                                <div className={feedStyles.priceLevel}>
-                                    <div
-                                        className={feedStyles.orderIngredients}>
-                                        {element.ingredients.map(
-                                            (elem: string, index: number) =>
-                                                index < 5 ? (
-                                                    <div
-                                                        className={
-                                                            feedStyles.pageContainer
-                                                        }
-                                                        key={uuidv4()}>
-                                                        <img
-                                                            src={
-                                                                ingredients[
-                                                                    getInfo(
-                                                                        elem,
-                                                                        ingredients
-                                                                    )
-                                                                ].image_mobile
-                                                            }
-                                                            width="56px"
-                                                            height="56px"
-                                                            alt="Ingredient icon"
-                                                        />
-                                                    </div>
-                                                ) : index === 5 ? (
-                                                    <div
-                                                        className={
-                                                            feedStyles.pageContainer
-                                                        }
-                                                        key={uuidv4()}>
-                                                        <p className="text text_type_digits-default">
-                                                            +
-                                                            {element.ingredients
-                                                                .length - index}
-                                                        </p>
-                                                        <img
-                                                            src={
-                                                                ingredients[
-                                                                    getInfo(
-                                                                        elem,
-                                                                        ingredients
-                                                                    )
-                                                                ].image_mobile
-                                                            }
-                                                            width="56px"
-                                                            height="56px"
-                                                            className={
-                                                                feedStyles.img
-                                                            }
-                                                            alt="Ingredient icon"
-                                                        />
-                                                    </div>
-                                                ) : null
-                                        )}
-                                    </div>
-                                    {/*блок цены*/}
-                                    <div className={feedStyles.priceBlock}>
+                                        // history.push(`/feed/${element['_id']}`);
+                                    }}>
+                                    {/*верхний уровень описания заказа*/}
+                                    <div className={feedStyles.positionInfo}>
                                         <p className="text text_type_digits-default">
-                                            {getOrderPrice(
-                                                element.ingredients,
-                                                ingredients
-                                            )}
+                                            #{element.number}
                                         </p>
-                                        <CurrencyIcon type="primary" />
+                                        <p className="text text_type_main-default text_color_inactive">
+                                            {getDate(element.createdAt)}
+                                        </p>
+                                    </div>
+                                    {/*название блюда*/}
+                                    <h2
+                                        className={
+                                            feedStyles.h2Header +
+                                            ' text text_type_main-default'
+                                        }>
+                                        {element.name}
+                                    </h2>
+                                    {/*уровень иконок ингредиентов и цены заказа*/}
+                                    <div className={feedStyles.priceLevel}>
+                                        <div
+                                            className={
+                                                feedStyles.orderIngredients
+                                            }>
+                                            {element &&
+                                                element.ingredients.map(
+                                                    (
+                                                        elem: string,
+                                                        index: number
+                                                    ) =>
+                                                        index < 5 ? (
+                                                            <div
+                                                                className={
+                                                                    feedStyles.pageContainer
+                                                                }
+                                                                key={uuidv4()}>
+                                                                <img
+                                                                    src={
+                                                                        ingredients[
+                                                                            getInfo(
+                                                                                elem,
+                                                                                ingredients
+                                                                            )
+                                                                        ]
+                                                                            .image_mobile
+                                                                    }
+                                                                    width="56px"
+                                                                    height="56px"
+                                                                    alt="Ingredient icon"
+                                                                />
+                                                            </div>
+                                                        ) : index === 5 ? (
+                                                            <div
+                                                                className={
+                                                                    feedStyles.pageContainer
+                                                                }
+                                                                key={uuidv4()}>
+                                                                <p className="text text_type_digits-default">
+                                                                    +
+                                                                    {element
+                                                                        .ingredients
+                                                                        .length -
+                                                                        index}
+                                                                </p>
+                                                                <img
+                                                                    src={
+                                                                        ingredients[
+                                                                            getInfo(
+                                                                                elem,
+                                                                                ingredients
+                                                                            )
+                                                                        ]
+                                                                            .image_mobile
+                                                                    }
+                                                                    width="56px"
+                                                                    height="56px"
+                                                                    className={
+                                                                        feedStyles.img
+                                                                    }
+                                                                    alt="Ingredient icon"
+                                                                />
+                                                            </div>
+                                                        ) : null
+                                                )}
+                                        </div>
+                                        {/*блок цены*/}
+                                        <div className={feedStyles.priceBlock}>
+                                            <p className="text text_type_digits-default">
+                                                {getOrderPrice(
+                                                    element.ingredients,
+                                                    ingredients
+                                                )}
+                                            </p>
+                                            <CurrencyIcon type="primary" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            // </Link>
-                        ))}
+                                // </Link>
+                            ))}
                     </div>
                     {/*блок готовности заказов и ко*/}
                     <div className={feedStyles.orderInfo}>
