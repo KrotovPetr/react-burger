@@ -23,6 +23,7 @@ const Feed: FC = () => {
         ingredients: store.component.ingredients,
         payload: store.sockets.payload,
     }));
+    console.log(payload);
     // console.log(ingredients);
     useEffect(() => {
         // console.log('hello! feed!');
@@ -64,8 +65,6 @@ const Feed: FC = () => {
                                                 orderBackground: location,
                                             },
                                         });
-
-                                        // history.push(`/feed/${element['_id']}`);
                                     }}>
                                     {/*верхний уровень описания заказа*/}
                                     <div className={feedStyles.positionInfo}>
@@ -102,22 +101,23 @@ const Feed: FC = () => {
                                                                     feedStyles.pageContainer
                                                                 }
                                                                 key={uuidv4()}>
-                                                                {ingredients && (
-                                                                    <img
-                                                                        src={
-                                                                            ingredients[
-                                                                                getInfo(
-                                                                                    elem,
-                                                                                    ingredients
-                                                                                )
-                                                                            ]
-                                                                                .image_mobile
-                                                                        }
-                                                                        width="56px"
-                                                                        height="56px"
-                                                                        alt="Ingredient icon"
-                                                                    />
-                                                                )}
+                                                                {ingredients &&
+                                                                    elem && (
+                                                                        <img
+                                                                            src={
+                                                                                ingredients[
+                                                                                    getInfo(
+                                                                                        elem,
+                                                                                        ingredients
+                                                                                    )
+                                                                                ]
+                                                                                    .image_mobile
+                                                                            }
+                                                                            width="56px"
+                                                                            height="56px"
+                                                                            alt="Ingredient icon"
+                                                                        />
+                                                                    )}
                                                             </div>
                                                         ) : index === 5 ? (
                                                             <div
@@ -132,25 +132,26 @@ const Feed: FC = () => {
                                                                         .length -
                                                                         index}
                                                                 </p>
-                                                                {ingredients && (
-                                                                    <img
-                                                                        src={
-                                                                            ingredients[
-                                                                                getInfo(
-                                                                                    elem,
-                                                                                    ingredients
-                                                                                )
-                                                                            ]
-                                                                                .image_mobile
-                                                                        }
-                                                                        width="56px"
-                                                                        height="56px"
-                                                                        className={
-                                                                            feedStyles.img
-                                                                        }
-                                                                        alt="Ingredient icon"
-                                                                    />
-                                                                )}
+                                                                {ingredients &&
+                                                                    elem && (
+                                                                        <img
+                                                                            src={
+                                                                                ingredients[
+                                                                                    getInfo(
+                                                                                        elem,
+                                                                                        ingredients
+                                                                                    )
+                                                                                ]
+                                                                                    .image_mobile
+                                                                            }
+                                                                            width="56px"
+                                                                            height="56px"
+                                                                            className={
+                                                                                feedStyles.img
+                                                                            }
+                                                                            alt="Ingredient icon"
+                                                                        />
+                                                                    )}
                                                             </div>
                                                         ) : null
                                                 )}

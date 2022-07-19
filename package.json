@@ -27,8 +27,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
+  "homepage": "./",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -65,6 +68,7 @@
     "eslint": "^7.19.0",
     "eslint-plugin-cypress": "^2.12.1",
     "fetch-mock": "^9.11.0",
+    "gh-pages": "^4.0.0",
     "prettier": "^2.2.1",
     "react-error-overlay": "^6.0.9",
     "react-test-renderer": "^18.2.0",
