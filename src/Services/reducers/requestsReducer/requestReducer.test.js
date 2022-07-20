@@ -371,29 +371,32 @@ describe('request reducer', () => {
         });
     });
 
-    // it('should return profile URL success', () => {
-    //     expect(
-    //         requestsReducer(
-    //             {
-    //                 email: '',
-    //                 name: '',
-    //                 profileRequestRequest: true,
-    //                 profileRequestError: false,
-    //                 profileRequestSuccess: false,
-    //             },
-    //             {
-    //                 type: types.PROFILE_URL_SUCCESS,
-    //             }
-    //         )
-    //     ).toEqual({
-    //         email: 'random email',
-    //         name: 'random name',
-    //
-    //         profileRequestRequest: false,
-    //         profileRequestError: false,
-    //         profileRequestSuccess: true,
-    //     });
-    // });
+    it('should return profile URL success', () => {
+        const user = { email: 'random email', name: 'random name' };
+        const data = { success: true, user: user };
+        expect(
+            requestsReducer(
+                {
+                    email: '',
+                    name: '',
+                    profileRequestRequest: true,
+                    profileRequestError: false,
+                    profileRequestSuccess: false,
+                },
+                {
+                    type: types.PROFILE_URL_SUCCESS,
+                    data: data,
+                }
+            )
+        ).toEqual({
+            email: 'random email',
+            name: 'random name',
+
+            profileRequestRequest: false,
+            profileRequestError: false,
+            profileRequestSuccess: true,
+        });
+    });
 
     it('should return reset URL error', () => {
         expect(

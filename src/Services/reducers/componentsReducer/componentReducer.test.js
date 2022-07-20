@@ -1,6 +1,6 @@
 import { componentReducer } from './components';
 import * as types from '../../actions/componentAction/components';
-import { requestsReducer } from '../requestsReducer/requestsReducer';
+import { ingrArr } from '../../../utils/data';
 
 describe('component reducer', () => {
     it('should return the initial state', () => {
@@ -58,41 +58,11 @@ describe('component reducer', () => {
                 { ingredients: [] },
                 {
                     type: types.SET_STATE,
-                    data: {
-                        _id: '60666c42cc7b410027a1a9b1',
-                        name: 'Краторная булка N-200i',
-                        type: 'bun',
-                        proteins: 80,
-                        fat: 24,
-                        carbohydrates: 53,
-                        calories: 420,
-                        price: 1255,
-                        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                        __v: 0,
-                    },
+                    data: ingrArr.cards[0],
                 }
             )
         ).toEqual({
-            ingredients: {
-                _id: '60666c42cc7b410027a1a9b1',
-                name: 'Краторная булка N-200i',
-                type: 'bun',
-                proteins: 80,
-                fat: 24,
-                carbohydrates: 53,
-                calories: 420,
-                price: 1255,
-                image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                image_mobile:
-                    'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                image_large:
-                    'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                __v: 0,
-            },
+            ingredients: ingrArr.cards[0],
         });
     });
 
@@ -107,41 +77,11 @@ describe('component reducer', () => {
                 },
                 {
                     type: types.GET_INGREDIENTS_URL_SUCCESS,
-                    data: {
-                        _id: '60666c42cc7b410027a1a9b1',
-                        name: 'Краторная булка N-200i',
-                        type: 'bun',
-                        proteins: 80,
-                        fat: 24,
-                        carbohydrates: 53,
-                        calories: 420,
-                        price: 1255,
-                        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                        __v: 0,
-                    },
+                    data: ingrArr.cards[0],
                 }
             )
         ).toEqual({
-            ingredients: {
-                _id: '60666c42cc7b410027a1a9b1',
-                name: 'Краторная булка N-200i',
-                type: 'bun',
-                proteins: 80,
-                fat: 24,
-                carbohydrates: 53,
-                calories: 420,
-                price: 1255,
-                image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                image_mobile:
-                    'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                image_large:
-                    'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                __v: 0,
-            },
+            ingredients: ingrArr.cards[0],
             isIngredientSend: false,
             isIngredientError: false,
             isIngredientSuccess: true,
@@ -190,41 +130,11 @@ describe('component reducer', () => {
                 },
                 {
                     type: types.SET_ON_DRAG,
-                    data: {
-                        _id: '60666c42cc7b410027a1a9b1',
-                        name: 'Краторная булка N-200i',
-                        type: 'bun',
-                        proteins: 80,
-                        fat: 24,
-                        carbohydrates: 53,
-                        calories: 420,
-                        price: 1255,
-                        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                        __v: 0,
-                    },
+                    data: ingrArr.cards[0],
                 }
             )
         ).toEqual({
-            underDraggedElement: {
-                _id: '60666c42cc7b410027a1a9b1',
-                name: 'Краторная булка N-200i',
-                type: 'bun',
-                proteins: 80,
-                fat: 24,
-                carbohydrates: 53,
-                calories: 420,
-                price: 1255,
-                image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                image_mobile:
-                    'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                image_large:
-                    'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                __v: 0,
-            },
+            underDraggedElement: ingrArr.cards[0],
         });
     });
 
@@ -236,41 +146,11 @@ describe('component reducer', () => {
                 },
                 {
                     type: types.SET_ORDER_INFO,
-                    data: {
-                        _id: '60666c42cc7b410027a1a9b1',
-                        name: 'Краторная булка N-200i',
-                        type: 'bun',
-                        proteins: 80,
-                        fat: 24,
-                        carbohydrates: 53,
-                        calories: 420,
-                        price: 1255,
-                        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                        __v: 0,
-                    },
+                    data: ingrArr.cards[0],
                 }
             )
         ).toEqual({
-            orderInfo: {
-                _id: '60666c42cc7b410027a1a9b1',
-                name: 'Краторная булка N-200i',
-                type: 'bun',
-                proteins: 80,
-                fat: 24,
-                carbohydrates: 53,
-                calories: 420,
-                price: 1255,
-                image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                image_mobile:
-                    'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                image_large:
-                    'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                __v: 0,
-            },
+            orderInfo: ingrArr.cards[0],
         });
     });
     it('should clear all info about order', () => {
@@ -278,115 +158,23 @@ describe('component reducer', () => {
             componentReducer(
                 {
                     order: {
-                        buns: {
-                            _id: '60666c42cc7b410027a1a9b1',
-                            name: 'Краторная булка N-200i',
-                            type: 'bun',
-                            proteins: 80,
-                            fat: 24,
-                            carbohydrates: 53,
-                            calories: 420,
-                            price: 1255,
-                            image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                            image_mobile:
-                                'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                            image_large:
-                                'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                            __v: 0,
-                        },
-                        components: [
-                            {
-                                _id: '60666c42cc7b410027a1a9b1',
-                                name: 'Краторная булка N-200i',
-                                type: 'bun',
-                                proteins: 80,
-                                fat: 24,
-                                carbohydrates: 53,
-                                calories: 420,
-                                price: 1255,
-                                image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                                image_mobile:
-                                    'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                                image_large:
-                                    'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                                __v: 0,
-                            },
-                        ],
+                        buns: ingrArr.cards[0],
+                        components: ingrArr.cards[0],
                     },
-                    ingredients: {
-                        _id: '60666c42cc7b410027a1a9b1',
-                        name: 'Краторная булка N-200i',
-                        type: 'bun',
-                        proteins: 80,
-                        fat: 24,
-                        carbohydrates: 53,
-                        calories: 420,
-                        price: 1255,
-                        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                        __v: 1,
-                    },
+                    ingredients: ingrArr.cards[0],
                     totalPrice: 1110,
-                    orderInfo: {
-                        _id: '60666c42cc7b410027a1a9b1',
-                        name: 'Краторная булка N-200i',
-                        type: 'bun',
-                        proteins: 80,
-                        fat: 24,
-                        carbohydrates: 53,
-                        calories: 420,
-                        price: 1255,
-                        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                        __v: 0,
-                    },
+                    orderInfo: ingrArr.cards[0],
                 },
                 {
                     type: types.CLEAR_INFO,
-                    data: {
-                        _id: '60666c42cc7b410027a1a9b1',
-                        name: 'Краторная булка N-200i',
-                        type: 'bun',
-                        proteins: 80,
-                        fat: 24,
-                        carbohydrates: 53,
-                        calories: 420,
-                        price: 1255,
-                        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                        __v: 0,
-                    },
+                    data: ingrArr.cards[0],
                 }
             )
         ).toEqual({
             orderInfo: null,
             order: { buns: null, components: [] },
             totalPrice: 0,
-            ingredients: {
-                _id: '60666c42cc7b410027a1a9b1',
-                name: 'Краторная булка N-200i',
-                type: 'bun',
-                proteins: 80,
-                fat: 24,
-                carbohydrates: 53,
-                calories: 420,
-                price: 1255,
-                image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                image_mobile:
-                    'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                image_large:
-                    'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                __v: 0,
-            },
+            ingredients: ingrArr.cards[0],
         });
     });
     it('should set info about ingredient', () => {
@@ -397,41 +185,11 @@ describe('component reducer', () => {
                 },
                 {
                     type: types.SET_DATA,
-                    data: {
-                        _id: '60666c42cc7b410027a1a9b1',
-                        name: 'Краторная булка N-200i',
-                        type: 'bun',
-                        proteins: 80,
-                        fat: 24,
-                        carbohydrates: 53,
-                        calories: 420,
-                        price: 1255,
-                        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                        __v: 0,
-                    },
+                    data: ingrArr.cards[0],
                 }
             )
         ).toEqual({
-            cardData: {
-                _id: '60666c42cc7b410027a1a9b1',
-                name: 'Краторная булка N-200i',
-                type: 'bun',
-                proteins: 80,
-                fat: 24,
-                carbohydrates: 53,
-                calories: 420,
-                price: 1255,
-                image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                image_mobile:
-                    'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                image_large:
-                    'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                __v: 0,
-            },
+            cardData: ingrArr.cards[0],
         });
     });
     it('should set element card activity', () => {
@@ -523,64 +281,19 @@ describe('component reducer', () => {
                 {
                     order: {
                         components: [],
-                        buns: {
-                            _id: '60666c42cc7b410027a1a9b1',
-                            name: 'Краторная булка N-200i',
-                            type: 'bun',
-                            proteins: 80,
-                            fat: 24,
-                            carbohydrates: 53,
-                            calories: 420,
-                            price: 1255,
-                            image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-                            image_mobile:
-                                'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-                            image_large:
-                                'https://code.s3.yandex.net/react/code/bun-02-large.png',
-                            __v: 0,
-                        },
+                        buns: ingrArr.cards[0],
                     },
                     totalPrice: 2510,
                 },
                 {
                     type: types.CHANGE_BUN,
-                    data: {
-                        _id: '60666c42cc7b410027a1a9b2',
-                        name: 'Флюоресцентная булка R2-D3',
-                        type: 'bun',
-                        proteins: 44,
-                        fat: 26,
-                        carbohydrates: 85,
-                        calories: 643,
-                        price: 988,
-                        image: 'https://code.s3.yandex.net/react/code/bun-01.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-01-large.png',
-                        __v: 0,
-                    },
+                    data: ingrArr.cards[14],
                 }
             )
         ).toEqual({
             order: {
                 components: [],
-                buns: {
-                    _id: '60666c42cc7b410027a1a9b2',
-                    name: 'Флюоресцентная булка R2-D3',
-                    type: 'bun',
-                    proteins: 44,
-                    fat: 26,
-                    carbohydrates: 85,
-                    calories: 643,
-                    price: 988,
-                    image: 'https://code.s3.yandex.net/react/code/bun-01.png',
-                    image_mobile:
-                        'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
-                    image_large:
-                        'https://code.s3.yandex.net/react/code/bun-01-large.png',
-                    __v: 0,
-                },
+                buns: ingrArr.cards[14],
             },
             totalPrice: 1976,
         });
@@ -598,44 +311,12 @@ describe('component reducer', () => {
                 },
                 {
                     type: types.ADD_COMPONENT,
-                    data: {
-                        _id: '60666c42cc7b410027a1a9b2',
-                        name: 'Флюоресцентная булка R2-D3',
-                        type: 'bun',
-                        proteins: 44,
-                        fat: 26,
-                        carbohydrates: 85,
-                        calories: 643,
-                        price: 988,
-                        image: 'https://code.s3.yandex.net/react/code/bun-01.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-01-large.png',
-                        __v: 0,
-                    },
+                    data: ingrArr.cards[14],
                 }
             )
         ).toEqual({
             order: {
-                components: [
-                    {
-                        _id: '60666c42cc7b410027a1a9b2',
-                        name: 'Флюоресцентная булка R2-D3',
-                        type: 'bun',
-                        proteins: 44,
-                        fat: 26,
-                        carbohydrates: 85,
-                        calories: 643,
-                        price: 988,
-                        image: 'https://code.s3.yandex.net/react/code/bun-01.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-01-large.png',
-                        __v: 0,
-                    },
-                ],
+                components: [ingrArr.cards[14]],
                 buns: null,
             },
             totalPrice: 988,
@@ -668,24 +349,7 @@ describe('component reducer', () => {
             componentReducer(
                 {
                     order: {
-                        components: [
-                            {
-                                _id: '60666c42cc7b410027a1a9b2',
-                                name: 'Флюоресцентная булка R2-D3',
-                                type: 'bun',
-                                proteins: 44,
-                                fat: 26,
-                                carbohydrates: 85,
-                                calories: 643,
-                                price: 988,
-                                image: 'https://code.s3.yandex.net/react/code/bun-01.png',
-                                image_mobile:
-                                    'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
-                                image_large:
-                                    'https://code.s3.yandex.net/react/code/bun-01-large.png',
-                                __v: 0,
-                            },
-                        ],
+                        components: [ingrArr.cards[14]],
                         buns: null,
                     },
                     totalPrice: 988,
@@ -693,22 +357,7 @@ describe('component reducer', () => {
                 },
                 {
                     type: types.CHANGE_COMPONENTS,
-                    element: {
-                        _id: '60666c42cc7b410027a1a9b2',
-                        name: 'Флюоресцентная булка R2-D3',
-                        type: 'bun',
-                        proteins: 44,
-                        fat: 26,
-                        carbohydrates: 85,
-                        calories: 643,
-                        price: 988,
-                        image: 'https://code.s3.yandex.net/react/code/bun-01.png',
-                        image_mobile:
-                            'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
-                        image_large:
-                            'https://code.s3.yandex.net/react/code/bun-01-large.png',
-                        __v: 0,
-                    },
+                    element: ingrArr.cards[14],
                     index: 0,
                     length: 1,
                 }

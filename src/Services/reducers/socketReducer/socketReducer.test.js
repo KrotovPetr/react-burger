@@ -1,11 +1,13 @@
 import { socketReducer } from './socketReducer';
 import * as types from '../../actions/socketAction/socketActions';
 
+//базовая ссылка на подключение к сокетам
+const baseURL = 'wss://norma.nomoreparties.space/orders';
 describe('socket reducer', () => {
     it('should return the initial state', () => {
         expect(socketReducer(undefined, {})).toEqual({
             data: undefined,
-            WSUrl: 'wss://norma.nomoreparties.space/orders',
+            WSUrl: baseURL,
             payload: undefined,
         });
     });
@@ -14,14 +16,14 @@ describe('socket reducer', () => {
             socketReducer(
                 {
                     data: undefined,
-                    WSUrl: 'wss://norma.nomoreparties.space/orders',
+                    WSUrl: baseURL,
                     payload: undefined,
                 },
                 { type: types.WS_CONNECTION_CLOSED }
             )
         ).toEqual({
             data: undefined,
-            WSUrl: 'wss://norma.nomoreparties.space/orders',
+            WSUrl: baseURL,
             payload: undefined,
         });
     });
@@ -30,7 +32,7 @@ describe('socket reducer', () => {
             socketReducer(
                 {
                     data: undefined,
-                    WSUrl: 'wss://norma.nomoreparties.space/orders',
+                    WSUrl: baseURL,
                     payload: undefined,
                 },
                 {
@@ -40,7 +42,7 @@ describe('socket reducer', () => {
             )
         ).toEqual({
             data: 'error object message',
-            WSUrl: 'wss://norma.nomoreparties.space/orders',
+            WSUrl: baseURL,
             payload: undefined,
         });
     });
@@ -49,17 +51,17 @@ describe('socket reducer', () => {
             socketReducer(
                 {
                     data: undefined,
-                    WSUrl: 'wss://norma.nomoreparties.space/orders',
+                    WSUrl: baseURL,
                     payload: undefined,
                 },
                 {
                     type: types.WS_CONNECTION_START,
-                    wsUrl: 'wss://norma.nomoreparties.space/orders',
+                    wsUrl: baseURL,
                 }
             )
         ).toEqual({
             data: undefined,
-            WSUrl: 'wss://norma.nomoreparties.space/orders',
+            WSUrl: baseURL,
             payload: undefined,
         });
     });
@@ -68,7 +70,7 @@ describe('socket reducer', () => {
             socketReducer(
                 {
                     data: undefined,
-                    WSUrl: 'wss://norma.nomoreparties.space/orders',
+                    WSUrl: baseURL,
                     payload: undefined,
                 },
                 {
@@ -78,7 +80,7 @@ describe('socket reducer', () => {
             )
         ).toEqual({
             data: 'success event data object',
-            WSUrl: 'wss://norma.nomoreparties.space/orders',
+            WSUrl: baseURL,
             payload: undefined,
         });
     });
@@ -87,7 +89,7 @@ describe('socket reducer', () => {
             socketReducer(
                 {
                     data: undefined,
-                    WSUrl: 'wss://norma.nomoreparties.space/orders',
+                    WSUrl: baseURL,
                     payload: undefined,
                 },
                 {
@@ -108,7 +110,7 @@ describe('socket reducer', () => {
             )
         ).toEqual({
             data: undefined,
-            WSUrl: 'wss://norma.nomoreparties.space/orders',
+            WSUrl: baseURL,
             payload: {
                 _id: '62c6c87542d34a001c274c7a',
                 ingredients: [

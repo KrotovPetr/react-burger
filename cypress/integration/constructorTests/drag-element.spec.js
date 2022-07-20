@@ -11,10 +11,10 @@ describe('drag element tests', function () {
         cy.get('Input').last().click().type('123456789');
         cy.get('Button').click();
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(10000);
+        cy.wait(5000);
         cy.get('Button').contains('Оформить заказ').click();
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(17000);
+        cy.wait(20000);
         cy.get("[class^='modal-styles_logoDiv']").trigger('click');
     });
 });
