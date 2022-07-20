@@ -15,7 +15,7 @@ declare global {
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
+        <BrowserRouter basename="/react-burger">
             <Provider store={store}>
                 <App />
             </Provider>
