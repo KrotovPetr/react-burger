@@ -23,8 +23,8 @@ import {
     replaceElement,
     setActive,
     setDragOver,
-} from '../../Services/actions/components';
-import { profileRequest } from '../../Services/actions/requestsActions';
+} from '../../Services/actions/componentAction/components';
+import { profileRequest } from '../../Services/actions/requestAction/requestsActions';
 import { useHistory } from 'react-router-dom';
 import { TCard } from '../../utils/types/types';
 import Modal from '../Modals/modal/modal';
@@ -78,7 +78,8 @@ const BurgerConstructor: FC = () => {
         <div className={constStyles.area}>
             <div className={constStyles.orderArea}>
                 <div
-                    className={constStyles.order}
+                    className={constStyles.orderDropnDrag}
+                    data-cy="drop"
                     onDrop={(e: React.DragEvent<HTMLDivElement>): void => {
                         e.preventDefault();
                         if (cart === 'ingredients') {

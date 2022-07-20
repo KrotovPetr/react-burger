@@ -1,5 +1,5 @@
-import { TListOfOrders } from '../../utils/types/types';
-import { checkResponse } from '../../utils/functions/checkResponse';
+import { TListOfOrders } from '../../../utils/types/types';
+import { checkResponse } from '../../../utils/functions/checkResponse';
 
 export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';
 export const WS_CONNECTION_SUCCESS: 'WS_CONNECTION_SUCCESS' =
@@ -51,15 +51,9 @@ export const wsConnectionStart = (wsUrl: string): IWSConnectionStart => {
         wsUrl: wsUrl,
     };
 };
-//
-// export const wsClose = (): IWSConnectionClosed => {
-//     return {
-//         type: WS_CONNECTION_END,
-//     };
-// };
 
 export const wsConnectionSuccess = (payload: Event): IWSConnectionSuccess => {
-    console.log(payload);
+    // console.log(payload);
     return {
         type: WS_CONNECTION_SUCCESS,
         payload: payload,

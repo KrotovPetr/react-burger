@@ -31,10 +31,10 @@ import {
     UPDATE_URL_ERROR,
     UPDATE_URL_REQUEST,
     UPDATE_URL_SUCCESS,
-} from '../actions/requestsActions';
+} from '../../actions/requestAction/requestsActions';
 
-import { TRequestActions } from '../../utils/types/actionRequestsTypes';
-import { TOrderIngredients, TOrderResponse } from '../../utils/types/types';
+import { TRequestActions } from '../../../utils/types/actionRequestsTypes';
+import { TOrderIngredients, TOrderResponse } from '../../../utils/types/types';
 
 export type TRequestsReducer = {
     email: string;
@@ -222,6 +222,12 @@ export const requestsReducer = (
             };
         }
 
+        case IS_AUTH: {
+            return {
+                ...state,
+                isLogin: action.data,
+            };
+        }
         //запрос на восстановление пароля на регистрацию
         case REGIST_URL_REQUEST: {
             return {
@@ -491,20 +497,6 @@ export const requestsReducer = (
                 orderIngredientInfo: undefined,
             };
         }
-
-        case IS_AUTH: {
-            return {
-                ...state,
-                isLogin: action.data,
-            };
-        }
-
-        // case SAVE_DATA: {
-        //     return {
-        //         ...state,
-        //         ordersInfo: action.data,
-        //     };
-        // }
 
         case SET_ORDER_INFO: {
             return {

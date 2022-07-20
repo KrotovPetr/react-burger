@@ -15,14 +15,14 @@ import {
     GET_INGREDIENTS_URL_SUCCESS,
     GET_INGREDIENTS_URL_ERROR,
     SET_ORDER_ACTIVE,
-} from '../actions/components';
+} from '../../actions/componentAction/components';
 
 import { combineReducers } from 'redux';
-import { orderReducer } from './orders';
-import { requestsReducer } from './requestsReducer';
-import { TCard } from '../../utils/types/types';
-import { TComponentsActions } from '../../utils/types/actionComponentsTypes';
-import { socketReducer } from './socketReducer';
+import { orderReducer } from '../ordersReducer/orders';
+import { requestsReducer } from '../requestsReducer/requestsReducer';
+import { TCard } from '../../../utils/types/types';
+import { TComponentsActions } from '../../../utils/types/actionComponentsTypes';
+import { socketReducer } from '../socketReducer/socketReducer';
 
 export type TinitialState = {
     ingredients: TCard[];
@@ -209,7 +209,6 @@ export const componentReducer = (
             return {
                 ...state,
                 order: {
-                    ...state,
                     buns: state.order.buns,
                     components: action.data,
                 },
@@ -222,7 +221,6 @@ export const componentReducer = (
             return {
                 ...state,
                 order: {
-                    ...state,
                     buns: state.order.buns,
                     components: [
                         ...state.order.components.slice(0, action.index),
@@ -233,7 +231,6 @@ export const componentReducer = (
                     ],
                 },
                 totalPrice: state.totalPrice - action.element.price,
-
                 underDraggedElement: null,
             };
         }

@@ -20,7 +20,7 @@ import {
     SET_ORDER_INFO,
     SET_STATE,
     SWAP_COMPONENTS,
-} from '../../Services/actions/components';
+} from '../../Services/actions/componentAction/components';
 
 export interface ISetState {
     readonly type: typeof SET_STATE;

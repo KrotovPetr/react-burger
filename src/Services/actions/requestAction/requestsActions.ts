@@ -1,13 +1,13 @@
-import { checkResponse } from '../../utils/functions/checkResponse';
-import { getCookie } from '../../utils/functions/cookieFunctions/getCookie';
-import { setCookie } from '../../utils/functions/cookieFunctions/setCookie';
-import { deleteCookie } from '../../utils/functions/cookieFunctions/deleteCookie';
+import { checkResponse } from '../../../utils/functions/checkResponse';
+import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
+import { setCookie } from '../../../utils/functions/cookieFunctions/setCookie';
+import { deleteCookie } from '../../../utils/functions/cookieFunctions/deleteCookie';
 import {
     TOrder,
     TOrderIngredients,
     TOrderResponse,
-} from '../../utils/types/types';
-import { AppDispatch } from '../../utils/types/store';
+} from '../../../utils/types/types';
+import { AppDispatch } from '../../../utils/types/store';
 
 export const FORGOT_URL_REQUEST: 'FORGOT_URL_REQUEST' = 'FORGOT_URL_REQUEST';
 export const FORGOT_URL_ERROR: 'FORGOT_URL_ERROR' = 'FORGOT_URL_ERROR';
@@ -35,7 +35,6 @@ export const REFRESH_URL_ERROR: 'REFRESH_URL_ERROR' = 'REFRESH_URL_ERROR';
 export const REFRESH_URL_SUCCESS: 'REFRESH_URL_SUCCESS' = 'REFRESH_URL_SUCCESS';
 export const SET_LOGOUT_DATA: 'SET_LOGOUT_DATA' = 'SET_LOGOUT_DATA';
 export const IS_AUTH: 'IS_AUTH' = 'IS_AUTH';
-export const SAVE_DATA: 'SAVE_DATA' = 'SAVE_DATA';
 export const SET_ORDER_INFO: 'SET_ORDER_INFO' = 'SET_ORDER_INFO';
 export const SET_PERSON_ORDER_INFO: 'SET_PERSON_ORDER_INFO' =
     'SET_PERSON_ORDER_INFO';

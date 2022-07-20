@@ -7,7 +7,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import '../../commonStyles/styles.css';
 import { Redirect, useHistory } from 'react-router-dom';
-import { resetRequest } from '../../Services/actions/requestsActions';
+import { resetRequest } from '../../Services/actions/requestAction/requestsActions';
 import { isForgot } from '../../utils/functions/isForgot';
 import { useDispatch, useSelector } from '../../utils/types/store';
 

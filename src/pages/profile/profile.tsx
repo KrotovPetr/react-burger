@@ -7,8 +7,8 @@ import ProfileMain from '../../Components/profileComponents/profileMain/profile-
 import ProfileOrders from '../../Components/profileComponents/profileOrders/profile-orders';
 import { useDispatch } from '../../utils/types/store';
 import { Location } from 'history';
-import { setActive } from '../../Services/actions/components';
-import { setPersonOrderInfo } from '../../Services/actions/requestsActions';
+import { setActive } from '../../Services/actions/componentAction/components';
+import { setPersonOrderInfo } from '../../Services/actions/requestAction/requestsActions';
 import { TOrderIngredients } from '../../utils/types/types';
 
 const Profile: FC = () => {

@@ -5,14 +5,14 @@ import { useDispatch, useSelector } from '../../utils/types/store';
 import {
     WS_CONNECTION_CLOSED,
     WS_CONNECTION_START,
-} from '../../Services/actions/socketActions';
+} from '../../Services/actions/socketAction/socketActions';
 const Order: FC = () => {
     const dispatch = useDispatch();
     const { ordersActive, personOrdersActive } = useSelector((store) => ({
         ordersActive: store.requests.ordersActive,
         personOrdersActive: store.requests.personOrdersActive,
     }));
-    // console.log('order')
+    // console.log('order');
     // useEffect(() => {
     //     // console.log('order-open');
     //     !ordersActive &&

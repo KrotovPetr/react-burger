@@ -11,7 +11,7 @@ import { getOrderPrice } from '../../utils/functions/getPrice';
 import { useDispatch, useSelector } from '../../utils/types/store';
 import { TCard, TOrderResponse } from '../../utils/types/types';
 import { getDate } from '../../utils/functions/getDate';
-import { getOrderInfo } from '../../Services/actions/requestsActions';
+import { getOrderInfo } from '../../Services/actions/requestAction/requestsActions';
 
 const OrderIngredients: FC = () => {
     // console.log('orderIngredients');

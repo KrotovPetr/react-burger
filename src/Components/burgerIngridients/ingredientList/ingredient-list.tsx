@@ -9,7 +9,7 @@ import {
     setData,
     setActive,
     dragElement,
-} from '../../../Services/actions/components';
+} from '../../../Services/actions/componentAction/components';
 import { Redirect, useLocation } from 'react-router-dom';
 import { getCookie } from '../../../utils/functions/cookieFunctions/getCookie';
 import { TCard } from '../../../utils/types/types';
@@ -58,7 +58,9 @@ const IngredientList: FC<IProps> = (props) => {
                         props.typeOfMeal === cards.type && (
                             <div
                                 key={cards['_id']}
+                                data-cy="ing"
                                 draggable
+                                className={cardStyle.cardBox}
                                 onDrag={(
                                     e: React.DragEvent<HTMLDivElement>
                                 ): void => {
@@ -68,7 +70,7 @@ const IngredientList: FC<IProps> = (props) => {
                                     );
                                 }}>
                                 <div
-                                    className={cardStyle.card}
+                                    className={cardStyle.cardContainer}
                                     onClick={(): void => {
                                         dispatch(setData(cards));
                                         dispatch(setActive(true));

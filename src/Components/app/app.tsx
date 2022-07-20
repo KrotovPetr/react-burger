@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 import Header from '../header/header';
 import appStyles from './app.module.css';
 import { shallowEqual } from 'react-redux';
-import { fetchData } from '../../Services/actions/components';
+import { fetchData } from '../../Services/actions/componentAction/components';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import Login from '../../pages/login/login';
 import Registration from '../../pages/registration/registration';
@@ -14,7 +14,7 @@ import Ingredient from '../../pages/ingredientPage/ingredient';
 import ProtectedRoute from '../protectedRoute/protected-route';
 import NotFoundPage from '../../pages/404Page/not-found-page';
 import { isAuth } from '../../utils/functions/isAuth';
-import { IS_AUTH } from '../../Services/actions/requestsActions';
+import { IS_AUTH } from '../../Services/actions/requestAction/requestsActions';
 import IngredientModal from '../Modals/IngredientModal/IngredientModal';
 import { Location } from 'history';
 import FeedPage from '../../pages/Feed/feed';
@@ -33,6 +33,7 @@ const App: FC = () => {
     useEffect(() => {
         dispatch(fetchData(baseURL + '/ingredients'));
     }, []);
+
     const {
         isActive,
         cardData,
@@ -48,9 +49,11 @@ const App: FC = () => {
             baseURL: store.requests.baseURL,
             ordersActive: store.requests.ordersActive,
             personOrdersActive: store.requests.personOrdersActive,
+            ingredients: store.component.ingredients,
         }),
         shallowEqual
     );
+
     // console.log(personOrdersActive);
     //задаём состояние подложки для модалки
     let background: Location | undefined =

@@ -7,7 +7,7 @@ import {
     ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
-import { setOrderInfo } from '../../Services/actions/requestsActions';
+import { setOrderInfo } from '../../Services/actions/requestAction/requestsActions';
 import { useDispatch } from '../../utils/types/store';
 
 const Header: FC = () => {

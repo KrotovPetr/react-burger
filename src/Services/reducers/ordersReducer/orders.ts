@@ -2,8 +2,8 @@ import {
     ORDER_URL_ERROR,
     ORDER_URL_SUCCESS,
     ORDER_URL_REQUEST,
-} from '../actions/components';
-import { TComponentsActions } from '../../utils/types/actionComponentsTypes';
+} from '../../actions/componentAction/components';
+import { TComponentsActions } from '../../../utils/types/actionComponentsTypes';
 
 export type TOrderState = {
     isOrderSend: boolean;
