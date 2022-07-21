@@ -4,7 +4,7 @@ import App from './Components/app/app';
 import { compose } from 'redux';
 
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { store } from './utils/types/store';
 
 declare global {
@@ -15,11 +15,11 @@ declare global {
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter basename="/react-burger">
+        <HashRouter basename="/react-burger">
             <Provider store={store}>
                 <App />
             </Provider>
-        </BrowserRouter>
+        </HashRouter>
     </React.StrictMode>,
     document.getElementById('root')
 );
